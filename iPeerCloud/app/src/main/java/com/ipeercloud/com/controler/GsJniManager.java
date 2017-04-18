@@ -2,7 +2,7 @@ package com.ipeercloud.com.controler;
 
 import android.os.Handler;
 
-import com.ipeercloud.com.model.FileModule;
+import com.ipeercloud.com.model.GsFileModule;
 import com.ipeercloud.com.model.GsCallBack;
 import com.ipeercloud.com.model.GsSimpleResponse;
 import com.ipeercloud.com.utils.GsLog;
@@ -96,7 +96,7 @@ public class GsJniManager {
                 final String result = GsSocketManager.getInstance().gsGetPathFile(path);
                 if (callback == null) return;
                 GsLog.d("文件json数据： "+result);
-                new FileModule(result);
+                new GsFileModule(result);
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {

@@ -1,43 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f0f0f0"
-    tools:context="com.ui.goonzs.com.ipeercloud.com.MainActivity">
+    android:orientation="vertical">
 
-    <com.zhy.android.percent.support.PercentRelativeLayout
-        android:id="@+id/top_bar"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_file"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        app:layout_heightPercent="5%h"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/files"
-            android:textColor="#111111"
-            />
-    </com.zhy.android.percent.support.PercentRelativeLayout>
-
-    <View
-        android:id="@+id/line_top"
-        android:layout_below="@+id/top_bar"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#e1e1e1"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/logo"
-        android:text="fragment_files"
-        android:layout_centerInParent="true"
-        />
-
-</com.zhy.android.percent.support.PercentRelativeLayout>
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+</LinearLayout>

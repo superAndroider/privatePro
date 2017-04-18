@@ -227,12 +227,12 @@ public class MainActivity extends BaseAcitivity {
                 GsLog.d("是否已经连接 "+response.result);
             }
         });
-        GsJniManager.getInstance().getPathFile("\\",new GsCallBack<GsSimpleResponse>() {
+        /*GsJniManager.getInstance().getPathFile("\\",new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
                 GsLog.d("是否已经连接 "+response.result);
             }
-        });
+        });*/
         GsJniManager.getInstance().getPathFile("/Medias",new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
