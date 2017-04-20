@@ -145,7 +145,7 @@ public class GsSocketManager {
     //函数名：gsFreePathFile
     //功能：释放gsGetPathFile占用的资源
     //输入参数：无
-    //返回数据：返回 无
+    //返回数据：返回 无s
     //
     public native void gsFreePathFile();
 

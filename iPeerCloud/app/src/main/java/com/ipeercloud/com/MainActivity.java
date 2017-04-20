@@ -38,19 +38,30 @@ public class MainActivity extends BaseAcitivity {
     private static ImageView[] mTabs;                                     // 切换按钮数组
     private static TextView[] mTexts;                                     // 切换按钮数组
 
-    @ViewInject(R.id.btn_home)ImageView btn_home;               // 主页   - 切换按钮
-    @ViewInject(R.id.btn_photos)ImageView btn_photos;             // 广场   - 切换按钮
-    @ViewInject(R.id.btn_medias)ImageView btn_medias;                   // 通讯录 - 切换按钮
-    @ViewInject(R.id.btn_files)ImageView btn_files;                   // 通讯录 - 切换按钮
-    @ViewInject(R.id.btn_settings)ImageView btn_settings;                   // 通讯录 - 切换按钮
+    @ViewInject(R.id.btn_home)
+    ImageView btn_home;               // 主页   - 切换按钮
+    @ViewInject(R.id.btn_photos)
+    ImageView btn_photos;             // 广场   - 切换按钮
+    @ViewInject(R.id.btn_medias)
+    ImageView btn_medias;                   // 通讯录 - 切换按钮
+    @ViewInject(R.id.btn_files)
+    ImageView btn_files;                   // 通讯录 - 切换按钮
+    @ViewInject(R.id.btn_settings)
+    ImageView btn_settings;                   // 通讯录 - 切换按钮
 
-    @ViewInject(R.id.tv_home)TextView tv_home;                  // 主页   - 切换按钮
-    @ViewInject(R.id.tv_photos)TextView tv_photos;            // 幼儿园 - 切换按钮
-    @ViewInject(R.id.tv_medias)TextView tv_medias;                // 广场   - 切换按钮
-    @ViewInject(R.id.tv_files)TextView tv_files;                      // 通讯录 - 切换按钮
-    @ViewInject(R.id.tv_settings)TextView tv_settings;          // 我     - 切换按钮
+    @ViewInject(R.id.tv_home)
+    TextView tv_home;                  // 主页   - 切换按钮
+    @ViewInject(R.id.tv_photos)
+    TextView tv_photos;            // 幼儿园 - 切换按钮
+    @ViewInject(R.id.tv_medias)
+    TextView tv_medias;                // 广场   - 切换按钮
+    @ViewInject(R.id.tv_files)
+    TextView tv_files;                      // 通讯录 - 切换按钮
+    @ViewInject(R.id.tv_settings)
+    TextView tv_settings;          // 我     - 切换按钮
 
-    @ViewInject(R.id.btn_main)TextView btn_main;                // 操作
+    @ViewInject(R.id.btn_main)
+    TextView btn_main;                // 操作
 
     private int index = 0;                                      // 切换标示位
     private int currentTabIndex = 0;                            // 当前位
@@ -81,7 +92,7 @@ public class MainActivity extends BaseAcitivity {
         filesFragment = new FilesFragment();
         settingsFragment = new SettingsFragment();
 
-        fragments = new BaseFragment[] {homeFragment, photosFragment, mediasFragment, filesFragment, settingsFragment};
+        fragments = new BaseFragment[]{homeFragment, photosFragment, mediasFragment, filesFragment, settingsFragment};
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, homeFragment)
@@ -93,8 +104,8 @@ public class MainActivity extends BaseAcitivity {
     }
 
     private void initView() {
-        mTabs = new ImageView[] {btn_home, btn_photos, btn_medias, btn_files, btn_settings};
-        mTexts = new TextView[] {tv_home, tv_photos, tv_medias, tv_files, tv_settings};
+        mTabs = new ImageView[]{btn_home, btn_photos, btn_medias, btn_files, btn_settings};
+        mTexts = new TextView[]{tv_home, tv_photos, tv_medias, tv_files, tv_settings};
         mTabs[0].setSelected(true);
         UI.setTextColor(mTexts[0], "#0079FF");
         btn_main.setOnClickListener(new View.OnClickListener() {
@@ -111,22 +122,26 @@ public class MainActivity extends BaseAcitivity {
         super.onStart();
     }
 
-    /** button点击事件 **/
+    /**
+     * button点击事件
+     **/
     public void onTabSelect(View view) {
         switch (view.getId()) {
             case R.id.rl_home:
                 index = 0;
-                goToOnClick();
+                getRecentFiles();
                 break;
             case R.id.rl_photos:
                 isOnLine();
                 index = 1;
                 break;
             case R.id.rl_medias:
+                getMedias();
                 index = 2;
                 break;
             case R.id.rl_files:
                 index = 3;
+                getAllFiles();
                 break;
             case R.id.rl_settings:
                 index = 4;
@@ -179,6 +194,7 @@ public class MainActivity extends BaseAcitivity {
 
     Toast toast;
     private boolean isExit = false;                             // 后退键退出标示位
+
     private void ToQuitTheApp() {
         if (isExit) {
             // ACTION_MAIN with category CATEGORY_HOME 启动主屏幕
@@ -186,7 +202,7 @@ public class MainActivity extends BaseAcitivity {
             intent.addCategory(Intent.CATEGORY_HOME);
             isExit = false;
             startActivity(intent);
-            if (toast!=null) {
+            if (toast != null) {
                 toast.cancel();
             }
         } else {
@@ -214,31 +230,63 @@ public class MainActivity extends BaseAcitivity {
         });
     }
 
-    private void isOnLine(){
+    private void getAllFiles() {
+        GsJniManager.getInstance().getPathFile(GsJniManager.FILE_PARAM, new GsCallBack<GsSimpleResponse>() {
+            @Override
+            public void onResult(GsSimpleResponse response) {
+                if (response.result) {
+                    filesFragment.notifyData();
+                }
+            }
+        });
+    }
+    private void getRecentFiles() {
+        GsJniManager.getInstance().getPathFile(GsJniManager.SHARE_PARAM, new GsCallBack<GsSimpleResponse>() {
+            @Override
+            public void onResult(GsSimpleResponse response) {
+                if (response.result) {
+                    homeFragment.notifyData();
+                }
+            }
+        });
+    }
+    private void getMedias() {
+        GsJniManager.getInstance().getPathFile(GsJniManager.MEDIA_PARAM, new GsCallBack<GsSimpleResponse>() {
+            @Override
+            public void onResult(GsSimpleResponse response) {
+                if (response.result) {
+                    mediasFragment.notifyData();
+                }
+            }
+        });
+    }
+
+    private void isOnLine() {
         GsJniManager.getInstance().isOnline(new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
-                GsLog.d("是否在线 "+response.result);
+                GsLog.d("是否在线 " + response.result);
             }
         });
         GsJniManager.getInstance().isLink(new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
-                GsLog.d("是否已经连接 "+response.result);
+                GsLog.d("是否链接 " + response.result);
             }
         });
-        /*GsJniManager.getInstance().getPathFile("\\",new GsCallBack<GsSimpleResponse>() {
+       /* GsJniManager.getInstance().getPathFile(GsJniManager.MEDIA_PARAM, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
-                GsLog.d("是否已经连接 "+response.result);
+
+            }
+        });
+        GsJniManager.getInstance().getPathFile(GsJniManager.SHARE_PARAM, new GsCallBack<GsSimpleResponse>() {
+            @Override
+            public void onResult(GsSimpleResponse response) {
+
             }
         });*/
-        GsJniManager.getInstance().getPathFile("/Medias",new GsCallBack<GsSimpleResponse>() {
-            @Override
-            public void onResult(GsSimpleResponse response) {
-                GsLog.d("是否已经连接 "+response.result);
-            }
-        });
+
 
     }
 }

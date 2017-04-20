@@ -27,17 +27,18 @@ public class GsFileModule {
         public long LastModifyTime;
 
     }
-    public GsFileModule(String json){
-        if(TextUtils.isEmpty(json)){
+
+    public GsFileModule(String json) {
+        if (TextUtils.isEmpty(json)) {
             return;
         }
         try {
             JSONArray ja = new JSONArray(json);
             int size = ja.length();
             fileList = new ArrayList<>();
-            for(int i= 0;i<size;i++){
+            for (int i = 0; i < size; i++) {
                 JSONObject jb = (JSONObject) ja.get(i);
-                FileEntity entity =new FileEntity();
+                FileEntity entity = new FileEntity();
                 entity.FileName = jb.optString("FileName");
                 entity.FileSize = jb.optLong("FileSize");
                 entity.FileType = jb.optInt("FileType");
@@ -48,7 +49,7 @@ public class GsFileModule {
             e.printStackTrace();
         }
 
-        GsLog.d("大小是 "+fileList.size());
-        GsLog.d(""+fileList.get(0).FileName);
+        GsLog.d("大小是 " + fileList.size());
+        GsLog.d("" + fileList.get(0).FileName);
     }
 }
