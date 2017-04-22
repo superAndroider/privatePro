@@ -18,6 +18,7 @@
             android:src="@drawable/back" />
 
         <TextView
+
             android:id="@+id/main_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,8 +29,23 @@
             android:text="@string/recents"
             android:textSize="@dimen/tv_size_max" />
     </RelativeLayout>
+
+    <EditText
+        android:textColor="@color/text_color_gray"
+        android:cursorVisible="false"
+        android:maxLength="15"
+        android:id="@+id/et_search"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_search"
+        android:gravity="center"
+        android:hint="@string/search"
+        android:textSize="@dimen/tv_size_middle" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_recent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </LinearLayout>
