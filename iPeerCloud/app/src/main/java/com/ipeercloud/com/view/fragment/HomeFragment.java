@@ -1,5 +1,6 @@
 package com.ipeercloud.com.view.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,10 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.ipeercloud.com.R;
 import com.ipeercloud.com.model.GsFileAdapter;
 import com.ipeercloud.com.store.GsDataManager;
+import com.ipeercloud.com.widget.GsDividerDecoration;
 
 /**
  * Created by longhengdong on 2016/11/16.
@@ -21,6 +24,7 @@ public class HomeFragment extends BaseFragment{
     private static final String TAG = "HomeFragment";
     private RecyclerView mRecyclerView;
     private GsFileAdapter mAdapter;
+    private ImageView mBtnBack;
 
     @Nullable
     @Override
@@ -41,8 +45,13 @@ public class HomeFragment extends BaseFragment{
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
-        mAdapter = new GsFileAdapter(GsDataManager.getInstance().recentFile.fileList,getContext());
+        GsDividerDecoration divider = new GsDividerDecoration(getContext());
+        divider.setDividerColor(Color.BLUE);
+        divider.isLastItemShowDivider(true);
+        mRecyclerView.addItemDecoration(divider);
+        mAdapter = new GsFileAdapter(GsDataManager.getInstance().recentFile.fileList, getContext());
         mRecyclerView.setAdapter(mAdapter);
+
     }
 
     public void notifyData() {
