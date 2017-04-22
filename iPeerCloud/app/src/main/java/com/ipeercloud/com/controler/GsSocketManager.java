@@ -1,5 +1,7 @@
 package com.ipeercloud.com.controler;
 
+import com.ipeercloud.com.utils.GsLog;
+
 /**
  * @author 673391138@qq.com
  * @since 17/4/18
@@ -21,6 +23,25 @@ public class GsSocketManager {
         return instance;
     }
 
+    /**
+     * 下载文件时jni对java的回调
+     * @param finishLength 已经完成的长度
+     * @param totalLength 总共的长度
+     * @param remotePath  文件的远端路径
+     */
+    public static void gsGetFileCallback(long finishLength,long totalLength,String remotePath){
+
+        GsLog.d("下载回调 "+finishLength+"   "+totalLength+"    "+remotePath);
+    }
+    /**
+     * 上传文件时jni对java的回调
+     * @param finishLength 已经完成的长度
+     * @param totalLength 总共的长度
+     * @param remotePath  文件的远端路径
+     */
+    public static void gsPutFileCallback(long finishLength,long totalLength,String remotePath){
+
+    }
     //
     //函数名：helloGoonas
     //功能：返回当前jni库的版本，确定java调用goonas jni库已经成功

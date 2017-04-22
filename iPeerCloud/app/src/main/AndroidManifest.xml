@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -41,25 +41,55 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.ipeercloud.com.view.activity.AccountAcitivity" android:screenOrientation="portrait" />
-        <activity android:name="com.ipeercloud.com.MainActivity" android:screenOrientation="portrait" />
-        <activity android:name="com.ipeercloud.com.view.activity.SignUpAcitivity" android:screenOrientation="portrait" />
-        <activity android:name="com.ipeercloud.com.view.activity.LoginAcitivity" android:screenOrientation="portrait" />
-        <activity android:name="com.ipeercloud.com.view.activity.ChangePasswordAcitivity" android:screenOrientation="portrait" />
-        <activity android:name="com.ipeercloud.com.view.activity.LinkGoonasAcitivity" android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ipeercloud.com.view.activity.AccountAcitivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ipeercloud.com.MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <data android:mimeType="application/vnd.ms-excel" />
+                <data android:mimeType="application/msword" />
+                <data android:mimeType="application/x-chm" />
+                <data android:mimeType="video/*" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="text/html" />
+                <data android:mimeType="application/vnd.android.package-archive" />
+                <data android:mimeType="*/*" />
+                <data android:mimeType="application/vnd.ms-powerpoint" />
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.ipeercloud.com.view.activity.SignUpAcitivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ipeercloud.com.view.activity.LoginAcitivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ipeercloud.com.view.activity.ChangePasswordAcitivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ipeercloud.com.view.activity.LinkGoonasAcitivity"
+            android:screenOrientation="portrait" />
 
 
-        <activity android:name="com.ipeercloud.com.zxing.ToolbarCaptureActivity"
+        <activity
+            android:name="com.ipeercloud.com.zxing.ToolbarCaptureActivity"
             android:clearTaskOnLaunch="true"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             android:theme="@style/AppCompatCaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden">
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
     </application>
 
 </manifest>

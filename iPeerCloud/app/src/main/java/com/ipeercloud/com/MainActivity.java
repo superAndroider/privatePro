@@ -1,19 +1,24 @@
 package com.ipeercloud.com;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ipeercloud.com.controler.GsFileHelper;
 import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.controler.GsSocketManager;
 import com.ipeercloud.com.model.GsCallBack;
+import com.ipeercloud.com.model.GsFileModule;
 import com.ipeercloud.com.model.GsSimpleResponse;
+import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.utils.UI;
 import com.ipeercloud.com.view.activity.BaseAcitivity;
@@ -116,6 +121,49 @@ public class MainActivity extends BaseAcitivity {
         });
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        GsLog.d("onNewIntent");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        parseIntent();
+
+
+    }
+    private void parseIntent(){
+        Intent intent = getIntent();
+        if (intent.getAction() == null) {
+            return;
+        }
+        //处理其他app的调用
+        //获取其他app传过来的文件路径
+        ClipData data = intent.getClipData();
+        String localPath= null;
+        if (data == null) {
+            return;
+        } else {
+            int size = data.getItemCount();
+            if (size > 0) {
+                ClipData.Item item = data.getItemAt(0);
+                if (item != null && item.getUri() != null) {
+                    localPath = item.getUri().getEncodedPath();
+                    GsLog.d("uriString" + localPath);
+                }
+            }
+
+        }
+       if(TextUtils.isEmpty(localPath)){
+            return;
+        }
+       String fileName = GsFileHelper.getFileNameFromPath(localPath);
+        String type  = GsFileHelper.getFileNameType(fileName);
+        GsLog.d("名字： "+fileName+"   type  "+type);
+        GsDataManager.getInstance().recentFile.addEntity(new GsFileModule.FileEntity());
+    }
 
     @Override
     protected void onStart() {
@@ -232,7 +280,7 @@ public class MainActivity extends BaseAcitivity {
     }
 
     private void getAllFiles() {
-        GsJniManager.getInstance().getPathFile(GsJniManager.FILE_PARAM,true, new GsCallBack<GsSimpleResponse>() {
+        GsJniManager.getInstance().getPathFile(GsJniManager.FILE_PARAM, true, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
                 if (response.result) {
@@ -241,11 +289,13 @@ public class MainActivity extends BaseAcitivity {
             }
         });
     }
+
     private void getRecentFiles() {
 
     }
+
     private void getMedias() {
-        GsJniManager.getInstance().getPathFile(GsJniManager.MEDIA_PARAM,true, new GsCallBack<GsSimpleResponse>() {
+        GsJniManager.getInstance().getPathFile(GsJniManager.MEDIA_PARAM, true, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
                 if (response.result) {

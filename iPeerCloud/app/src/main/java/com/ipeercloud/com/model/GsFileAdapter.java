@@ -11,8 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipeercloud.com.R;
+import com.ipeercloud.com.controler.GsFileHelper;
 import com.ipeercloud.com.controler.GsJniManager;
-import com.ipeercloud.com.controler.GsOpenFileHelper;
 import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsFile;
 import com.ipeercloud.com.utils.GsLog;
@@ -62,7 +62,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         gsholder.tvSize.setText(getStringSize(mList.get(position).FileSize));
         gsholder.ivType.setImageResource(getFileIconId(mList.get(position).FileName));
         // 是一个目录
-        if (GsFileType.TYPE_DIRECTORY.equals(GsOpenFileHelper.getFileNameType(mList.get(position).FileName))) {
+        if (GsFileType.TYPE_DIRECTORY.equals(GsFileHelper.getFileNameType(mList.get(position).FileName))) {
             gsholder.BtnPop.setVisibility(View.INVISIBLE);
             gsholder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,7 +98,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     //点击条目，但是条目并没有下载
                 } else {
                     GsLog.d("文件已经存在，直接打开");
-                    GsOpenFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
+                    GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
                 }
                 GsDataManager.getInstance().recentFile.addEntity(mList.get(position));
             }
@@ -136,7 +136,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     public void onResult(GsSimpleResponse response) {
                         GsLog.d("下载的结果  " + response.result);
                         if (response.result) {
-//                            GsOpenFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
+//                            GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
                             Toast.makeText(context, "文件" + fileName + "下载成功", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(context, "文件" + fileName + "下载失败", Toast.LENGTH_LONG).show();
@@ -147,7 +147,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private int getFileIconId(String fileName) {
         int id = 0;
-        switch (GsOpenFileHelper.getFileNameType(fileName)) {
+        switch (GsFileHelper.getFileNameType(fileName)) {
             case GsFileType.TYPE_BMP:
             case GsFileType.TYPE_JPG:
             case GsFileType.TYPE_PNG:
