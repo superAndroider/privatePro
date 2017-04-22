@@ -41,7 +41,7 @@ public class MediasFragment extends BaseFragment{
 
     private void initView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_file);
-        mBtnBack = (ImageView) view.findViewById(R.id.btn_back);
+        mBtnBack = (ImageView) view.findViewById(R.id.btn_back_iv);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
