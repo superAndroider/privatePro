@@ -23,4 +23,16 @@
         <item name="colorPrimaryDark">#ffb341</item>
         <item name="colorAccent">#ffb341</item>
     </style>
+    <style name="GsFullMenuAnim">
+        <item name="android:windowEnterAnimation">@anim/gs_full_menu_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/gs_full_menu_exit_anim</item>
+    </style>
+    <style name="GsBtn">
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/gs_btn_selector</item>
+        <item name="android:textSize">@dimen/tv_size_middle</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

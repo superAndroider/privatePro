@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/huangkuncan/android_pro/yun/private/iPeerCloud/zxing-android-embedded/build/intermediates/res/merged/debug/layout/zxing_barcode_scanner.xml",
+        "source": "/huangkuncan/android_pro/yun/private/iPeerCloud/zxing-android-embedded/res/layout/zxing_barcode_scanner.xml"
+    },
+    {
+        "merged": "/huangkuncan/android_pro/yun/private/iPeerCloud/zxing-android-embedded/build/intermediates/res/merged/debug/layout/zxing_capture.xml",
+        "source": "/huangkuncan/android_pro/yun/private/iPeerCloud/zxing-android-embedded/res/layout/zxing_capture.xml"
+    }
+]

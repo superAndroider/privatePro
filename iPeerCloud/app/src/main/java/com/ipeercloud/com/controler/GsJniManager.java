@@ -59,12 +59,32 @@ public class GsJniManager {
         });
     }
 
-    public void registerAgain(final Runnable runnable) {
+    public void login(final String server, final String user, final String password, final GsCallBack callback) {
+        this.server = server;
+        this.user = user;
+        this.password = password;
         GsThreadPool.getInstance().execute(new Runnable() {
             @Override
             public void run() {
-                GsLog.d("重连入参 "+server+"   "+user+"   "+password);
-                final boolean result = GsSocketManager.getInstance().gsUserRegister(server, user, password);
+                final boolean result = GsSocketManager.getInstance().gsLogin(server, user, password);
+                if (callback == null) return;
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onResult(new GsSimpleResponse(result));
+                    }
+                });
+
+            }
+        });
+    }
+
+    public void loginAgain(final Runnable runnable) {
+        GsThreadPool.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                GsLog.d("重连入参 " + server + "   " + user + "   " + password);
+                final boolean result = GsSocketManager.getInstance().gsLogin(server, user, password);
                 if (result) {
                     GsLog.d("重连后继续工作");
                     GsThreadPool.getInstance().execute(runnable);
@@ -126,12 +146,12 @@ public class GsJniManager {
                 final int result = GsSocketManager.getInstance().gsGetFile(remotePath, localPath);
                 if (result == -1) {
                     GsLog.d("请求失败，需要重连");
-                   registerAgain(new Runnable() {
-                       @Override
-                       public void run() {
-                           downFile(localPath,remotePath,callback);
-                       }
-                   });
+                    loginAgain(new Runnable() {
+                        @Override
+                        public void run() {
+                            downFile(localPath, remotePath, callback);
+                        }
+                    });
                     return;
                 }
                 GsLog.d("返回结果 " + result);
@@ -149,8 +169,11 @@ public class GsJniManager {
 
     /**
      * 获得指定目录下的文件
+     *
+     * @param path
+     * @param isTabClick 是不是点击一个tab发起的请求
      */
-    public void getPathFile(final String path, final GsCallBack callback) {
+    public void getPathFile(final String path, final boolean isTabClick, final GsCallBack callback) {
         GsThreadPool.getInstance().execute(new Runnable() {
             @Override
             public void run() {
@@ -162,16 +185,20 @@ public class GsJniManager {
                 }
                 if (result == null)
                     return;
-                switch (path) {
-                    case FILE_PARAM:
-                        GsDataManager.getInstance().files = new GsFileModule(result);
-                        break;
-                    case SHARE_PARAM:
-                        GsDataManager.getInstance().recentFile = new GsFileModule(result);
-                        break;
-                    case MEDIA_PARAM:
-                        GsDataManager.getInstance().medias = new GsFileModule(result);
-                        break;
+                GsLog.d("json数据： " + result);
+                if (isTabClick) {
+                    switch (path) {
+                        case FILE_PARAM:
+                            GsDataManager.getInstance().files = new GsFileModule(result);
+                            break;
+                        case MEDIA_PARAM:
+                            GsDataManager.getInstance().medias = new GsFileModule(result);
+                            break;
+                        default:
+                            GsDataManager.getInstance().subFiles = new GsFileModule(result);
+                    }
+                } else {
+                    GsDataManager.getInstance().subFiles = new GsFileModule(result);
                 }
                 if (callback == null) return;
                 final boolean success = !TextUtils.isEmpty(result);

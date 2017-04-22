@@ -2,8 +2,6 @@ package com.ipeercloud.com.model;
 
 import android.text.TextUtils;
 
-import com.ipeercloud.com.utils.GsLog;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +23,22 @@ public class GsFileModule {
         public long FileSize;
         public int FileType;
         public long LastModifyTime;
+        public boolean isDownloaded;
 
+        @Override
+        public boolean equals(Object o) {
+            if (FileName == null || o == null) {
+                return false;
+            }
+            if (o instanceof FileEntity && FileName.equals(((FileEntity) o).FileName)) {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public GsFileModule() {
+        fileList = new ArrayList<>();
     }
 
     public GsFileModule(String json) {
@@ -48,8 +61,14 @@ public class GsFileModule {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
-        GsLog.d("大小是 " + fileList.size());
-        GsLog.d("" + fileList.get(0).FileName);
+    public void addEntity(FileEntity entity) {
+        if (entity == null)
+            return;
+        if (fileList.contains(entity)) {
+            return;
+        }
+        fileList.add(entity);
     }
 }

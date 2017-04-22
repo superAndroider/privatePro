@@ -182,7 +182,7 @@ public class GsOpenFileHelper {
             return "";
         }
         int index = fileName.lastIndexOf('.');
-        if (index >= fileName.length()) {
+        if (index >= fileName.length() || index == -1) {
             return "";
         }
         String type = fileName.subSequence(index + 1, fileName.length()).toString();

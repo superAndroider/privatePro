@@ -161,6 +161,7 @@ public class MainActivity extends BaseAcitivity {
         mTabs[index].setSelected(true);
         UI.setTextColor(mTexts[index], "#0079FF");
         currentTabIndex = index;
+        fragments[index].resetData();
     }
 
     @Override
@@ -231,7 +232,7 @@ public class MainActivity extends BaseAcitivity {
     }
 
     private void getAllFiles() {
-        GsJniManager.getInstance().getPathFile(GsJniManager.FILE_PARAM, new GsCallBack<GsSimpleResponse>() {
+        GsJniManager.getInstance().getPathFile(GsJniManager.FILE_PARAM,true, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
                 if (response.result) {
@@ -241,17 +242,10 @@ public class MainActivity extends BaseAcitivity {
         });
     }
     private void getRecentFiles() {
-        GsJniManager.getInstance().getPathFile(GsJniManager.SHARE_PARAM, new GsCallBack<GsSimpleResponse>() {
-            @Override
-            public void onResult(GsSimpleResponse response) {
-                if (response.result) {
-                    homeFragment.notifyData();
-                }
-            }
-        });
+
     }
     private void getMedias() {
-        GsJniManager.getInstance().getPathFile(GsJniManager.MEDIA_PARAM, new GsCallBack<GsSimpleResponse>() {
+        GsJniManager.getInstance().getPathFile(GsJniManager.MEDIA_PARAM,true, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
                 if (response.result) {

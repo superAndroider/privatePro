@@ -41,11 +41,11 @@ public class HomeFragment extends BaseFragment{
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
-        mAdapter = new GsFileAdapter(GsDataManager.getInstance().recentFile != null ? GsDataManager.getInstance().recentFile.fileList : null, getContext());
+        mAdapter = new GsFileAdapter(GsDataManager.getInstance().recentFile.fileList,getContext());
         mRecyclerView.setAdapter(mAdapter);
     }
 
     public void notifyData() {
-        mAdapter.setData(GsDataManager.getInstance().recentFile != null ? GsDataManager.getInstance().recentFile.fileList : null);
+        mAdapter.setData( GsDataManager.getInstance().recentFile.fileList );
     }
 }

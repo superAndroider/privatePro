@@ -30,7 +30,6 @@ public class GsFile {
     }
 
     public static String getPath(String fileName) {
-//        File f = new File("")
         File root = Environment.getExternalStorageDirectory();
         if (!root.exists()) {
             root.mkdir();
@@ -43,13 +42,6 @@ public class GsFile {
             dir.mkdir();
         }
         File file = new File(dir, fileName);
-        /*if(!file.exists()){
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
         return file.getPath();
     }
 

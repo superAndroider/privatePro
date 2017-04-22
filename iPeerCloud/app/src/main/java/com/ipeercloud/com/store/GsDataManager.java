@@ -16,9 +16,16 @@ public class GsDataManager {
     // 最新
     public GsFileModule recentFile;
 
+    //子文件夹的数据
+    public GsFileModule subFiles;
+
     private static GsDataManager instance;
 
     private GsDataManager() {
+        files = new GsFileModule();
+        medias = new GsFileModule();
+        recentFile = new GsFileModule();
+        subFiles = new GsFileModule();
     }
 
     public static GsDataManager getInstance() {

@@ -1,5 +1,6 @@
 package com.ipeercloud.com.view.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,10 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.ipeercloud.com.R;
 import com.ipeercloud.com.model.GsFileAdapter;
 import com.ipeercloud.com.store.GsDataManager;
+import com.ipeercloud.com.utils.GsLog;
+import com.ipeercloud.com.widget.GsDividerDecoration;
 
 
 /**
@@ -21,6 +25,7 @@ import com.ipeercloud.com.store.GsDataManager;
 public class FilesFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private GsFileAdapter mAdapter;
+    private ImageView mBtnBack;
 
     @Nullable
     @Override
@@ -31,21 +36,55 @@ public class FilesFragment extends BaseFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        GsLog.d("onStart");
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        GsLog.d("onResume");
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        GsLog.d("onStop");
     }
 
     private void initView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_file);
+        mBtnBack = (ImageView) view.findViewById(R.id.btn_back);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
-        mAdapter = new GsFileAdapter(GsDataManager.getInstance().files != null ? GsDataManager.getInstance().files.fileList : null, getContext());
+        GsDividerDecoration divider = new GsDividerDecoration(getContext());
+        divider.setDividerColor(Color.BLUE);
+        divider.isLastItemShowDivider(true);
+        mRecyclerView.addItemDecoration(divider);
+        mAdapter = new GsFileAdapter(GsDataManager.getInstance().files.fileList, getContext());
         mRecyclerView.setAdapter(mAdapter);
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     public void notifyData() {
-        mAdapter.setData(GsDataManager.getInstance().files != null ? GsDataManager.getInstance().files.fileList : null);
+        mAdapter.setData(GsDataManager.getInstance().files.fileList);
+    }
+
+    public void onBackPressed() {
+        mAdapter.onBackPressed();
+    }
+
+    @Override
+    public void resetData() {
+        if (mAdapter != null) {
+            mAdapter.resetData();
+        }
     }
 }
