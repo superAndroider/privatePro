@@ -163,6 +163,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 id = R.drawable.media_no_down;
                 break;
             case GsFileType.TYPE_TEXT:
+            case GsFileType.TYPE_TXT:
             case GsFileType.TYPE_DOC:
                 id = R.drawable.text;
                 break;

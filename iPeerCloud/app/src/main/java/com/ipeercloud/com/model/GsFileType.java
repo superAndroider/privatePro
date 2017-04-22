@@ -15,6 +15,7 @@ public class GsFileType {
     public static final String TYPE_MP3 = "mp3";
     public static final String TYPE_MP4 = "mp4";
     public static final String TYPE_TEXT = "text";
+    public static final String TYPE_TXT = "txt";
     public static final String TYPE_DOC = "doc";
     public static final String TYPE_PPT = "ppt";
     public static final String TYPE_XLS = "xls";

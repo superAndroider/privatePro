@@ -2,6 +2,7 @@ package com.ipeercloud.com;
 
 import android.content.ClipData;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
@@ -134,7 +135,8 @@ public class MainActivity extends BaseAcitivity {
 
 
     }
-    private void parseIntent(){
+
+    private void parseIntent() {
         Intent intent = getIntent();
         if (intent.getAction() == null) {
             return;
@@ -142,7 +144,7 @@ public class MainActivity extends BaseAcitivity {
         //处理其他app的调用
         //获取其他app传过来的文件路径
         ClipData data = intent.getClipData();
-        String localPath= null;
+        String localPath = null;
         if (data == null) {
             return;
         } else {
@@ -156,13 +158,18 @@ public class MainActivity extends BaseAcitivity {
             }
 
         }
-       if(TextUtils.isEmpty(localPath)){
+        if (TextUtils.isEmpty(localPath)) {
             return;
         }
-       String fileName = GsFileHelper.getFileNameFromPath(localPath);
-        String type  = GsFileHelper.getFileNameType(fileName);
-        GsLog.d("名字： "+fileName+"   type  "+type);
-        GsDataManager.getInstance().recentFile.addEntity(new GsFileModule.FileEntity());
+        // 解码，中文必须解码
+        localPath = Uri.decode(localPath);
+        String fileName = GsFileHelper.getFileNameFromPath(localPath);
+        String type = GsFileHelper.getFileNameType(fileName);
+        GsLog.d("名字： " + fileName + "   type  " + type);
+        GsFileModule.FileEntity entity = new GsFileModule.FileEntity();
+        entity.FileName = fileName;
+        GsDataManager.getInstance().recentFile.addEntity(entity);
+        homeFragment.notifyData();
     }
 
     @Override
