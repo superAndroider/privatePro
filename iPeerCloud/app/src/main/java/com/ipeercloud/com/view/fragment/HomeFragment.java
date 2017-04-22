@@ -109,8 +109,8 @@ public class HomeFragment extends BaseFragment {
         List<GsFileModule.FileEntity> matchedList = new ArrayList<>();
         int size = list.size();
         for (int i = 0; i < size; i++) {
-            if (inputString.equals(list.get(i).fileName) ||
-                    (list.get(i).fileName != null && list.get(i).fileName.contains(inputString))) {
+            if (inputString.equals(list.get(i).FileName) ||
+                    (list.get(i).FileName != null && list.get(i).FileName.contains(inputString))) {
                 matchedList.add(list.get(i));
             }
         }

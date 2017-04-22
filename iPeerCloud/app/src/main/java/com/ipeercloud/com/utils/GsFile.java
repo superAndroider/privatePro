@@ -51,7 +51,7 @@ public class GsFile {
      */
     public static boolean isContainsFile(String fileName) {
         if (TextUtils.isEmpty(fileName)) {
-            GsLog.e("isContainsFile fileName is null !");
+            GsLog.e("isContainsFile FileName is null !");
             return false;
         }
         File dir = getDir();

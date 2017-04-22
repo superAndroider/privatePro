@@ -61,6 +61,10 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (mList == null)
             return;
         final GsViewHolder gsholder = (GsViewHolder) holder;
+        //
+        if (GsFile.isContainsFile(mList.get(position).FileName)) {
+            mList.get(position).loadingProgress = 100;
+        }
         //控制进度与下载是否完成图标的显示
         if (mList.get(position).loadingProgress == -1) {
             gsholder.progressBar.setVisibility(View.INVISIBLE);
@@ -73,11 +77,11 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             gsholder.mHasDownIv.setVisibility(View.INVISIBLE);
         }
 
-        gsholder.tvName.setText(mList.get(position).fileName);
-        gsholder.tvSize.setText(getStringSize(mList.get(position).fileSize));
-        gsholder.ivType.setImageResource(getFileIconId(mList.get(position).fileName));
+        gsholder.tvName.setText(mList.get(position).FileName);
+        gsholder.tvSize.setText(getStringSize(mList.get(position).FileSize));
+        gsholder.ivType.setImageResource(getFileIconId(mList.get(position).FileName));
         // 是一个目录
-        if (GsFileType.TYPE_DIRECTORY.equals(GsFileHelper.getFileNameType(mList.get(position).fileName))) {
+        if (GsFileType.TYPE_DIRECTORY.equals(GsFileHelper.getFileNameType(mList.get(position).FileName))) {
             gsholder.BtnPop.setVisibility(View.INVISIBLE);
             gsholder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -86,7 +90,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (!mCurrentPath.equals("\\")) {
                         mNewPath = mNewPath.append("\\");
                     }
-                    mNewPath = mNewPath.append(mList.get(position).fileName);
+                    mNewPath = mNewPath.append(mList.get(position).FileName);
                     GsJniManager.getInstance().getPathFile(mNewPath.toString(), false, new GsCallBack<GsSimpleResponse>() {
                         @Override
                         public void onResult(GsSimpleResponse response) {
@@ -105,7 +109,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         // 是文件
         gsholder.BtnPop.setVisibility(View.VISIBLE);
-        final String fileName = mList.get(position).fileName;
+        final String fileName = mList.get(position).FileName;
         gsholder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +132,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     @Override
                     public void onClick(View v) {
                         pop.dismiss();
-//                        downLoadFile(fileName);
+//                        downLoadFile(FileName);
                         gsholder.progressBar.setVisibility(View.VISIBLE);
                         mList.get(position).loadingProgress = 0;
                     }
@@ -154,7 +158,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     public void onResult(GsSimpleResponse response) {
                         GsLog.d("下载的结果  " + response.result);
                         if (response.result) {
-//                            GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
+//                            GsFileHelper.startActivity(FileName, GsFile.getPath(FileName), context);
                             Toast.makeText(context, "文件" + fileName + "下载成功", Toast.LENGTH_LONG).show();
                             downSuccess(fileName);
                         } else {
@@ -176,7 +180,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         int size = mList.size();
         for (int i = 0; i < size; i++) {
-            if (name.equals(mList.get(i).fileName)) {
+            if (name.equals(mList.get(i).FileName)) {
                 mList.get(i).loadingProgress = 100;
                 break;
             }
