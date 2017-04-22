@@ -9,6 +9,8 @@ import com.ipeercloud.com.model.GsSimpleResponse;
 import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsLog;
 
+import java.util.List;
+
 
 /**
  * @author 673391138@qq.com
@@ -189,16 +191,22 @@ public class GsJniManager {
                 if (isTabClick) {
                     switch (path) {
                         case FILE_PARAM:
-                            GsDataManager.getInstance().files = new GsFileModule(result);
+                            updateList(GsDataManager.getInstance().files.fileList, new GsFileModule(result).fileList);
                             break;
                         case MEDIA_PARAM:
-                            GsDataManager.getInstance().medias = new GsFileModule(result);
+                            updateList(GsDataManager.getInstance().medias.fileList, new GsFileModule(result).fileList);
                             break;
                         default:
                             GsDataManager.getInstance().subFiles = new GsFileModule(result);
                     }
                 } else {
-                    GsDataManager.getInstance().subFiles = new GsFileModule(result);
+                    GsFileModule fileModule = GsDataManager.getInstance().fileMaps.get(path);
+                    if (fileModule == null) {
+                        GsDataManager.getInstance().fileMaps.put(path, new GsFileModule(result));
+                    } else {
+                        updateList(fileModule.fileList, new GsFileModule(result).fileList);
+                    }
+//                    GsDataManager.getInstance().subFiles = new GsFileModule(result);
                 }
                 if (callback == null) return;
                 final boolean success = !TextUtils.isEmpty(result);
@@ -211,6 +219,32 @@ public class GsJniManager {
 
             }
         });
+    }
+
+    /**
+     * 从远端获取某个文件夹下面的文件后需要将本地没有的补上，本地有的不再变化，防止本地文件下载状态丢失
+     */
+    private void updateList(List<GsFileModule.FileEntity> localList, List<GsFileModule.FileEntity> remoteList) {
+        if (localList == null || localList.size() == 0) {
+            localList = remoteList;
+            return;
+        }
+        if (remoteList == null || remoteList.size() == 0) {
+            return;
+        }
+        int localSize = localList.size();
+        int remoteSize = remoteList.size();
+        for (int i = 0; i < remoteSize; i++) {
+            boolean find = false;
+            for (int j = 0; j < localSize; j++) {
+                if (localList.get(j).equals(remoteList.get(i))) {
+                    find = true;
+                }
+            }
+            if (!find) {
+                localList.add(remoteList.get(i));
+            }
+        }
     }
 
     public void upLoadFile(final String localPath, final String remotePath, final GsCallBack<GsSimpleResponse> callBack) {

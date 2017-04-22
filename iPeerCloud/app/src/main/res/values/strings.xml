@@ -54,4 +54,5 @@
     <string name="scan_code">扫描二维码</string>
     <string name="enter_uuid">手动输入UUID</string>
     <string name="cancel">取消</string>
+    <string name="net_wrong">网络异常</string>
 </resources>

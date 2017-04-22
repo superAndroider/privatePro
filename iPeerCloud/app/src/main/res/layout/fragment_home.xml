@@ -31,7 +31,7 @@
     </RelativeLayout>
 
     <EditText
-        android:textColor="@color/text_color_gray"
+        android:textColor="@color/text_color_black"
         android:cursorVisible="false"
         android:maxLength="15"
         android:id="@+id/et_search"

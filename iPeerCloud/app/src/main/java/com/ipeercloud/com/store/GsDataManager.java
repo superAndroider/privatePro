@@ -7,6 +7,9 @@ import com.ipeercloud.com.model.GsFileModule;
 import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.utils.GsSp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author 673391138@qq.com
  * @since 17/4/19
@@ -23,6 +26,8 @@ public class GsDataManager {
 
     //子文件夹的数据
     public GsFileModule subFiles;
+    //存储临时目录的数据结构，以当前的远端的绝对路径为key
+    public Map<String, GsFileModule> fileMaps = new HashMap<>();
 
     private static GsDataManager instance;
 
@@ -48,7 +53,7 @@ public class GsDataManager {
         Gson gson = new Gson();
         String gsonString = gson.toJson(files, GsFileModule.class);
         GsSp.getInstance().putString("files", gsonString);
-        GsLog.d("保存数据file 数据 "+gsonString);
+        GsLog.d("保存数据file 数据 " + gsonString);
         gsonString = gson.toJson(recentFile, GsFileModule.class);
         GsSp.getInstance().putString("recentFile", gsonString);
         gsonString = gson.toJson(medias, GsFileModule.class);
@@ -65,7 +70,7 @@ public class GsDataManager {
         if (!TextUtils.isEmpty(jsonString)) {
             files = gson.fromJson(jsonString, GsFileModule.class);
         }
-        GsLog.d("恢复数据file 数据 "+jsonString);
+        GsLog.d("恢复数据file 数据 " + jsonString);
         jsonString = GsSp.getInstance().getString("recentFile");
         if (!TextUtils.isEmpty(jsonString)) {
             recentFile = gson.fromJson(jsonString, GsFileModule.class);

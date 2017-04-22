@@ -1,6 +1,5 @@
 package com.ipeercloud.com.view.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -60,9 +59,8 @@ public class FilesFragment extends BaseFragment {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
         GsDividerDecoration divider = new GsDividerDecoration(getContext());
-        divider.setDividerColor(Color.BLUE);
         divider.isLastItemShowDivider(true);
-        mRecyclerView.addItemDecoration(divider);
+        divider.setDividerColor(getResources().getColor(R.color.color_devider_line));
         mAdapter = new GsFileAdapter(GsDataManager.getInstance().files.fileList, getContext());
         mRecyclerView.setAdapter(mAdapter);
         mBtnBack.setOnClickListener(new View.OnClickListener() {

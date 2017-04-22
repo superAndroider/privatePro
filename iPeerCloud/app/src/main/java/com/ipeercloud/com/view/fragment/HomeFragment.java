@@ -1,7 +1,6 @@
 package com.ipeercloud.com.view.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,7 +57,7 @@ public class HomeFragment extends BaseFragment {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
         GsDividerDecoration divider = new GsDividerDecoration(getContext());
-        divider.setDividerColor(Color.BLUE);
+        divider.setDividerColor(getResources().getColor(R.color.color_devider_line));
         divider.isLastItemShowDivider(true);
         mRecyclerView.addItemDecoration(divider);
         mAdapter = new GsFileAdapter(GsDataManager.getInstance().recentFile.fileList, getContext());

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,8 @@ import com.ipeercloud.com.widget.GsFullPop;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import static android.R.attr.path;
+
 /**
  * @author 673391138@qq.com
  * @since 17/4/18
@@ -33,6 +36,8 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final String DERECTORY_TYPE = "files";
     private StringBuilder mCurrentPath = new StringBuilder("\\");
     private StringBuilder mNewPath = new StringBuilder();
+    //0 表示最近 1 表示视频 2表示文件
+    private int mType;
 
     public GsFileAdapter(List<GsFileModule.FileEntity> list, Context context) {
         this.mList = list;
@@ -55,6 +60,11 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (mList == null)
             return;
         final GsViewHolder gsholder = (GsViewHolder) holder;
+        if (mList.get(position).loadingProgress != -1) {
+            gsholder.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            gsholder.progressBar.setVisibility(View.INVISIBLE);
+        }
         gsholder.tvName.setText(mList.get(position).FileName);
         gsholder.tvSize.setText(getStringSize(mList.get(position).FileSize));
         gsholder.ivType.setImageResource(getFileIconId(mList.get(position).FileName));
@@ -69,15 +79,15 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         mNewPath = mNewPath.append("\\");
                     }
                     mNewPath = mNewPath.append(mList.get(position).FileName);
-                    GsLog.d("子目录 " + mNewPath);
                     GsJniManager.getInstance().getPathFile(mNewPath.toString(), false, new GsCallBack<GsSimpleResponse>() {
                         @Override
                         public void onResult(GsSimpleResponse response) {
                             if (response.result) {
-                                GsLog.d("拿到子目录数据了");
                                 mCurrentPath = new StringBuilder(mNewPath);
-                                mList = GsDataManager.getInstance().subFiles.fileList;
+                                updateData(mCurrentPath.toString());
                                 notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(context, context.getResources().getString(R.string.net_wrong), Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -101,7 +111,6 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
 
         });
-
         gsholder.BtnPop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,14 +120,18 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     @Override
                     public void onClick(View v) {
                         pop.dismiss();
-                        downLoadFile(fileName);
+//                        downLoadFile(fileName);
+                        gsholder.progressBar.setVisibility(View.VISIBLE);
+                        mList.get(position).loadingProgress = 0;
                     }
                 });
                 pop.show();
             }
         });
 
+
     }
+
 
     private void downLoadFile(final String fileName) {
         String remotePath;
@@ -221,6 +234,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //按钮图标
         ImageView BtnPop;
         View itemView;
+        ProgressBar progressBar;
 
         public GsViewHolder(View itemView) {
             super(itemView);
@@ -229,6 +243,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             BtnPop = (ImageView) itemView.findViewById(R.id.iv_file_btn);
             tvName = (TextView) itemView.findViewById(R.id.tv_file_name);
             tvSize = (TextView) itemView.findViewById(R.id.tv_file_size);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar);
         }
     }
 
@@ -242,23 +257,42 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return;
         }
 
-        final StringBuilder newPath = new StringBuilder(mCurrentPath);
-        newPath.delete(index, newPath.length());
-        GsLog.d("返回后的新目录 " + newPath);
-        GsJniManager.getInstance().getPathFile(newPath.toString(), false, new GsCallBack<GsSimpleResponse>() {
-            @Override
-            public void onResult(GsSimpleResponse response) {
-                if (response.result) {
-                    GsLog.d("拿到父目录数据了");
-                    mCurrentPath = newPath;
-                    mList = GsDataManager.getInstance().subFiles.fileList;
-                    notifyDataSetChanged();
-                }
-            }
-        });
+        mCurrentPath.delete(index, mCurrentPath.length());
+        updateData(mCurrentPath.toString());
+
     }
 
     public void resetData() {
         mCurrentPath = new StringBuilder("\\");
+    }
+
+    /**
+     * 更新数据
+     */
+    private void updateData(String path) {
+        if ("\\".equals(path)) {
+            mList = GsDataManager.getInstance().files.fileList;
+            notifyDataSetChanged();
+            return;
+        }
+        if (GsDataManager.getInstance().fileMaps.get(path) != null) {
+            mList = GsDataManager.getInstance().fileMaps.get(path).fileList;
+            notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * 更新数据
+     */
+    private void updateData() {
+        if ("\\".equals(path)) {
+            mList = GsDataManager.getInstance().files.fileList;
+            notifyDataSetChanged();
+            return;
+        }
+        if (GsDataManager.getInstance().fileMaps.get(mCurrentPath.toString()) != null) {
+            mList = GsDataManager.getInstance().fileMaps.get(mCurrentPath.toString()).fileList;
+            notifyDataSetChanged();
+        }
     }
 }

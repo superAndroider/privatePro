@@ -23,8 +23,10 @@ public class GsFileModule {
         public long FileSize;
         public int FileType;
         public long LastModifyTime;
+        //是否已经下载完成
         public boolean isDownloaded;
-
+        //下载进度，-1 表示未下载，0-99表示下载中，100表示下载完成
+        public int loadingProgress = -1;
         @Override
         public boolean equals(Object o) {
             if (FileName == null || o == null) {

@@ -137,6 +137,10 @@ public abstract class BaseFragment extends Fragment {
     public void onPause() {
         super.onPause();
     }
+
+    /**
+     * 切换tab后重设数据
+     */
     public void resetData(){
     }
 }
