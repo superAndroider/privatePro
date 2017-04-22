@@ -116,22 +116,22 @@ public class GsSocketManager {
     /*
 	[
         {
-                "FileName": "$360Section",      // 名称
-                "FileSize": 0,                  // 文件大小
-                "FileType": 0,                  // 类型：对应PATHFILE_TYPE
-				"LastModifyTime": 1464752412    // 最后修改时间
+                "fileName": "$360Section",      // 名称
+                "fileSize": 0,                  // 文件大小
+                "fileType": 0,                  // 类型：对应PATHFILE_TYPE
+				"lastModifyTime": 1464752412    // 最后修改时间
         },
         {
-                "FileName": "$Recycle.Bin",
-                "FileSize": 0,
-                "FileType": 0,
-				"LastModifyTime": 1464752412
+                "fileName": "$Recycle.Bin",
+                "fileSize": 0,
+                "fileType": 0,
+				"lastModifyTime": 1464752412
         },
         {
-                "FileName": "转账单.xlsx",
-                "FileSize": 11842,
-                "FileType": 1,
-				"LastModifyTime": 1464752412
+                "fileName": "转账单.xlsx",
+                "fileSize": 11842,
+                "fileType": 1,
+				"lastModifyTime": 1464752412
         }
 	]
 	*/

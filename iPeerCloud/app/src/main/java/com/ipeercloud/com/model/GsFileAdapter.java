@@ -3,6 +3,7 @@ package com.ipeercloud.com.model;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,16 +61,23 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (mList == null)
             return;
         final GsViewHolder gsholder = (GsViewHolder) holder;
-        if (mList.get(position).loadingProgress != -1) {
-            gsholder.progressBar.setVisibility(View.VISIBLE);
-        } else {
+        //控制进度与下载是否完成图标的显示
+        if (mList.get(position).loadingProgress == -1) {
             gsholder.progressBar.setVisibility(View.INVISIBLE);
+            gsholder.mHasDownIv.setVisibility(View.INVISIBLE);
+        } else if (mList.get(position).loadingProgress == 100) {
+            gsholder.progressBar.setVisibility(View.INVISIBLE);
+            gsholder.mHasDownIv.setVisibility(View.VISIBLE);
+        } else {
+            gsholder.progressBar.setVisibility(View.VISIBLE);
+            gsholder.mHasDownIv.setVisibility(View.INVISIBLE);
         }
-        gsholder.tvName.setText(mList.get(position).FileName);
-        gsholder.tvSize.setText(getStringSize(mList.get(position).FileSize));
-        gsholder.ivType.setImageResource(getFileIconId(mList.get(position).FileName));
+
+        gsholder.tvName.setText(mList.get(position).fileName);
+        gsholder.tvSize.setText(getStringSize(mList.get(position).fileSize));
+        gsholder.ivType.setImageResource(getFileIconId(mList.get(position).fileName));
         // 是一个目录
-        if (GsFileType.TYPE_DIRECTORY.equals(GsFileHelper.getFileNameType(mList.get(position).FileName))) {
+        if (GsFileType.TYPE_DIRECTORY.equals(GsFileHelper.getFileNameType(mList.get(position).fileName))) {
             gsholder.BtnPop.setVisibility(View.INVISIBLE);
             gsholder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,7 +86,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (!mCurrentPath.equals("\\")) {
                         mNewPath = mNewPath.append("\\");
                     }
-                    mNewPath = mNewPath.append(mList.get(position).FileName);
+                    mNewPath = mNewPath.append(mList.get(position).fileName);
                     GsJniManager.getInstance().getPathFile(mNewPath.toString(), false, new GsCallBack<GsSimpleResponse>() {
                         @Override
                         public void onResult(GsSimpleResponse response) {
@@ -97,7 +105,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         // 是文件
         gsholder.BtnPop.setVisibility(View.VISIBLE);
-        final String fileName = mList.get(position).FileName;
+        final String fileName = mList.get(position).fileName;
         gsholder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,11 +156,32 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         if (response.result) {
 //                            GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
                             Toast.makeText(context, "文件" + fileName + "下载成功", Toast.LENGTH_LONG).show();
+                            downSuccess(fileName);
                         } else {
                             Toast.makeText(context, "文件" + fileName + "下载失败", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
+    }
+
+    /**
+     * @param name
+     */
+    private void downSuccess(String name) {
+        if (TextUtils.isEmpty(name)) {
+            return;
+        }
+        if (mList == null || mList.size() == 0) {
+            return;
+        }
+        int size = mList.size();
+        for (int i = 0; i < size; i++) {
+            if (name.equals(mList.get(i).fileName)) {
+                mList.get(i).loadingProgress = 100;
+                break;
+            }
+        }
+        notifyDataSetChanged();
     }
 
     private int getFileIconId(String fileName) {
@@ -224,28 +253,6 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return 0;
     }
 
-    private class GsViewHolder extends RecyclerView.ViewHolder {
-        //类型图标
-        ImageView ivType;
-        //文件的名字
-        TextView tvName;
-        //文件大小
-        TextView tvSize;
-        //按钮图标
-        ImageView BtnPop;
-        View itemView;
-        ProgressBar progressBar;
-
-        public GsViewHolder(View itemView) {
-            super(itemView);
-            this.itemView = itemView;
-            ivType = (ImageView) itemView.findViewById(R.id.iv_type_icon);
-            BtnPop = (ImageView) itemView.findViewById(R.id.iv_file_btn);
-            tvName = (TextView) itemView.findViewById(R.id.tv_file_name);
-            tvSize = (TextView) itemView.findViewById(R.id.tv_file_size);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar);
-        }
-    }
 
     public void onBackPressed() {
         if (mCurrentPath.equals("\\")) {
@@ -293,6 +300,32 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (GsDataManager.getInstance().fileMaps.get(mCurrentPath.toString()) != null) {
             mList = GsDataManager.getInstance().fileMaps.get(mCurrentPath.toString()).fileList;
             notifyDataSetChanged();
+        }
+    }
+
+    private class GsViewHolder extends RecyclerView.ViewHolder {
+        //类型图标
+        ImageView ivType;
+        //文件的名字
+        TextView tvName;
+        //文件大小
+        TextView tvSize;
+        //按钮图标
+        ImageView BtnPop;
+        //标志是否已经下载的图标
+        ImageView mHasDownIv;
+        View itemView;
+        ProgressBar progressBar;
+
+        public GsViewHolder(View itemView) {
+            super(itemView);
+            this.itemView = itemView;
+            ivType = (ImageView) itemView.findViewById(R.id.iv_type_icon);
+            BtnPop = (ImageView) itemView.findViewById(R.id.iv_file_btn);
+            tvName = (TextView) itemView.findViewById(R.id.tv_file_name);
+            tvSize = (TextView) itemView.findViewById(R.id.tv_file_size);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar);
+            mHasDownIv = (ImageView) itemView.findViewById(R.id.iv_has_down);
         }
     }
 }

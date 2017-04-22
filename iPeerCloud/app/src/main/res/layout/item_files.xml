@@ -8,20 +8,36 @@
     android:paddingBottom="@dimen/item_pading"
     android:paddingTop="@dimen/item_pading">
 
-    <ImageView
-        android:id="@+id/iv_type_icon"
+    <FrameLayout
+        android:id="@+id/icon_layout"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignParentLeft="true"
-        android:layout_gravity="center"
-        tools:src="@mipmap/pdf_icon" />
+        android:layout_alignParentLeft="true">
+
+        <ImageView
+            android:id="@+id/iv_type_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            tools:src="@mipmap/pdf_icon" />
+
+        <ImageView
+            android:visibility="invisible"
+            android:id="@+id/iv_has_down"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="14dp"
+            android:src="@drawable/icon_has_down" />
+    </FrameLayout>
+
 
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/item_inner_margin"
-        android:layout_toRightOf="@id/iv_type_icon"
+        android:layout_toRightOf="@id/icon_layout"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -55,7 +71,6 @@
         android:src="@drawable/btn_pop" />
 
     <ProgressBar
-        android:visibility="invisible"
         android:id="@+id/progressBar"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="match_parent"
@@ -65,5 +80,6 @@
         android:layout_marginTop="3dp"
         android:background="@color/gray"
         android:max="100"
-        android:progress="20" />
+        android:progress="20"
+        android:visibility="invisible" />
 </RelativeLayout>

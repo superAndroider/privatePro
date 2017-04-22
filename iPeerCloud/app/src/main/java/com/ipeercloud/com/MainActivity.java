@@ -168,7 +168,7 @@ public class MainActivity extends BaseAcitivity {
         String type = GsFileHelper.getFileNameType(fileName);
         GsLog.d("名字： " + fileName + "   type  " + type);
         GsFileModule.FileEntity entity = new GsFileModule.FileEntity();
-        entity.FileName = fileName;
+        entity.fileName = fileName;
         GsDataManager.getInstance().recentFile.addEntity(entity);
         homeFragment.notifyData();
         upLoadFile(localPath, fileName);

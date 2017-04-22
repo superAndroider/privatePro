@@ -19,20 +19,20 @@ public class GsFileModule {
     public List<FileEntity> fileList;
 
     public static class FileEntity {
-        public String FileName;
-        public long FileSize;
-        public int FileType;
-        public long LastModifyTime;
+        public String fileName;
+        public long fileSize;
+        public int fileType;
+        public long lastModifyTime;
         //是否已经下载完成
         public boolean isDownloaded;
         //下载进度，-1 表示未下载，0-99表示下载中，100表示下载完成
         public int loadingProgress = -1;
         @Override
         public boolean equals(Object o) {
-            if (FileName == null || o == null) {
+            if (fileName == null || o == null) {
                 return false;
             }
-            if (o instanceof FileEntity && FileName.equals(((FileEntity) o).FileName)) {
+            if (o instanceof FileEntity && fileName.equals(((FileEntity) o).fileName)) {
                 return true;
             }
             return false;
@@ -54,10 +54,10 @@ public class GsFileModule {
             for (int i = 0; i < size; i++) {
                 JSONObject jb = (JSONObject) ja.get(i);
                 FileEntity entity = new FileEntity();
-                entity.FileName = jb.optString("FileName");
-                entity.FileSize = jb.optLong("FileSize");
-                entity.FileType = jb.optInt("FileType");
-                entity.LastModifyTime = jb.optLong("LastModifyTime");
+                entity.fileName = jb.optString("fileName");
+                entity.fileSize = jb.optLong("fileSize");
+                entity.fileType = jb.optInt("fileType");
+                entity.lastModifyTime = jb.optLong("lastModifyTime");
                 fileList.add(entity);
             }
         } catch (JSONException e) {
