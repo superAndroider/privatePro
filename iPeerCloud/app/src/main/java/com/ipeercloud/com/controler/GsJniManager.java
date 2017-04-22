@@ -213,4 +213,22 @@ public class GsJniManager {
         });
     }
 
+    public void upLoadFile(final String localPath, final String remotePath, final GsCallBack<GsSimpleResponse> callBack) {
+        GsThreadPool.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                final boolean result = GsSocketManager.getInstance().gsPutFile(localPath, remotePath);
+                if (callBack == null)
+                    return;
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.onResult(new GsSimpleResponse(result));
+                    }
+                });
+            }
+        });
+
+    }
+
 }

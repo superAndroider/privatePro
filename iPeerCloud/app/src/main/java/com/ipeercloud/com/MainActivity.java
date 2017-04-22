@@ -170,6 +170,23 @@ public class MainActivity extends BaseAcitivity {
         entity.FileName = fileName;
         GsDataManager.getInstance().recentFile.addEntity(entity);
         homeFragment.notifyData();
+        upLoadFile(localPath, fileName);
+    }
+
+    /**
+     * 将其他app发送过来的文件上传到远端
+     */
+    private void upLoadFile(String localpath, final String fileName) {
+        GsJniManager.getInstance().upLoadFile(localpath, "\\" + fileName, new GsCallBack<GsSimpleResponse>() {
+            @Override
+            public void onResult(GsSimpleResponse response) {
+                if (response.result) {
+                    Toast.makeText(MainActivity.this, fileName + "上传成功", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.this, fileName + "上传失败", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -325,19 +342,6 @@ public class MainActivity extends BaseAcitivity {
                 GsLog.d("是否链接 " + response.result);
             }
         });
-       /* GsJniManager.getInstance().getPathFile(GsJniManager.MEDIA_PARAM, new GsCallBack<GsSimpleResponse>() {
-            @Override
-            public void onResult(GsSimpleResponse response) {
-
-            }
-        });
-        GsJniManager.getInstance().getPathFile(GsJniManager.SHARE_PARAM, new GsCallBack<GsSimpleResponse>() {
-            @Override
-            public void onResult(GsSimpleResponse response) {
-
-            }
-        });*/
-
 
     }
 }
