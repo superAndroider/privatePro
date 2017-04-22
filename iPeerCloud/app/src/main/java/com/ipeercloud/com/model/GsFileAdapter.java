@@ -147,6 +147,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch (GsFileHelper.getFileNameType(fileName)) {
             case GsFileType.TYPE_BMP:
             case GsFileType.TYPE_JPG:
+            case GsFileType.TYPE_JPG_S:
             case GsFileType.TYPE_PNG:
                 id = R.drawable.photo_no_down;
                 break;
@@ -162,11 +163,19 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case GsFileType.TYPE_TEXT:
             case GsFileType.TYPE_TXT:
             case GsFileType.TYPE_DOC:
-                id = R.drawable.text;
+            case GsFileType.TYPE_DOCX:
+                id = R.drawable.word_no_down;
                 break;
             case GsFileType.TYPE_DIRECTORY:
                 id = R.drawable.file_dir;
                 break;
+            case GsFileType.TYPE_XLS:
+                id = R.drawable.excel_no_down;
+                break;
+            case GsFileType.TYPE_PPT:
+                id = R.drawable.ppt;
+                break;
+
         }
         if (id == 0) {
             id = R.drawable.unkown_type;
