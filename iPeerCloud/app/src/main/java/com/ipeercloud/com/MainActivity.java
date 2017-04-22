@@ -85,6 +85,7 @@ public class MainActivity extends BaseAcitivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ViewUtils.inject(this);
+        GsDataManager.getInstance().recoverData();
         initView();
         initFragment();
         String callString = GsSocketManager.getInstance().helloGoonas();
@@ -192,6 +193,23 @@ public class MainActivity extends BaseAcitivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GsDataManager.getInstance().saveDataLocal();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     /**

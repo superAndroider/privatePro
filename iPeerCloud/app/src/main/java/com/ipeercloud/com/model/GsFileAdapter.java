@@ -40,9 +40,6 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public void setData(List<GsFileModule.FileEntity> list) {
-        if (list == null || list.size() == 0) {
-            return;
-        }
         this.mList = list;
         notifyDataSetChanged();
     }

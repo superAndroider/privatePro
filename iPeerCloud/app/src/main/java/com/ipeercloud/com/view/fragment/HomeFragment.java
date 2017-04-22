@@ -48,4 +48,9 @@ public class HomeFragment extends BaseFragment{
     public void notifyData() {
         mAdapter.setData( GsDataManager.getInstance().recentFile.fileList );
     }
+
+    @Override
+    public void resetData() {
+        mAdapter.setData( GsDataManager.getInstance().recentFile.fileList );
+    }
 }
