@@ -15,10 +15,15 @@ import android.widget.Toast;
 import com.ipeercloud.com.R;
 import com.ipeercloud.com.controler.GsFileHelper;
 import com.ipeercloud.com.controler.GsJniManager;
+import com.ipeercloud.com.controler.GsLifeCycle;
+import com.ipeercloud.com.model.EventBusEnvent.GsPeogressEvent;
 import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsFile;
 import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.widget.GsFullPop;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -31,7 +36,7 @@ import static android.R.attr.path;
  * 主要功能:
  */
 
-public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements GsLifeCycle{
     private List<GsFileModule.FileEntity> mList;
     private Context context;
     private static final String DERECTORY_TYPE = "files";
@@ -305,6 +310,22 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             mList = GsDataManager.getInstance().fileMaps.get(mCurrentPath.toString()).fileList;
             notifyDataSetChanged();
         }
+    }
+     @Subscribe
+    public void upDateDownLoadProgress(GsPeogressEvent event){
+        if(event==null){
+            return;
+        }
+    }
+
+    @Override
+    public void onCreate() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestory() {
+        EventBus.getDefault().unregister(this);
     }
 
     private class GsViewHolder extends RecyclerView.ViewHolder {

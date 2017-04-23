@@ -69,6 +69,7 @@ public class HomeFragment extends BaseFragment {
                 notifyData();
             }
         });
+        mAdapter.onCreate();
     }
 
     public void notifyData() {
@@ -78,6 +79,12 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void resetData() {
         mAdapter.setData(GsDataManager.getInstance().recentFile.fileList);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAdapter.onDestory();
     }
 
     private View.OnKeyListener mOnKeyListener = new View.OnKeyListener() {

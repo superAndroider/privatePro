@@ -56,6 +56,7 @@ public class MediasFragment extends BaseFragment{
                 onBackPressed();
             }
         });
+        mAdapter.onCreate();
     }
 
     public void notifyData() {
@@ -65,4 +66,9 @@ public class MediasFragment extends BaseFragment{
         mAdapter.onBackPressed();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAdapter.onDestory();
+    }
 }

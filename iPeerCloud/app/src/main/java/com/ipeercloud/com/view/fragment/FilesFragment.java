@@ -63,6 +63,7 @@ public class FilesFragment extends BaseFragment {
         divider.setDividerColor(getResources().getColor(R.color.color_devider_line));
         mAdapter = new GsFileAdapter(GsDataManager.getInstance().files.fileList, getContext());
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.onCreate();
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,5 +85,11 @@ public class FilesFragment extends BaseFragment {
         if (mAdapter != null) {
             mAdapter.resetData();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAdapter.onDestory();
     }
 }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.ipeercloud.com.controler.GsFileHelper;
 import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.controler.GsSocketManager;
+import com.ipeercloud.com.model.EventBusEnvent.GsPeogressEvent;
 import com.ipeercloud.com.model.GsCallBack;
 import com.ipeercloud.com.model.GsFileModule;
 import com.ipeercloud.com.model.GsSimpleResponse;
@@ -31,6 +32,8 @@ import com.ipeercloud.com.view.fragment.PhotosFragment;
 import com.ipeercloud.com.view.fragment.SettingsFragment;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class MainActivity extends BaseAcitivity {
 
@@ -89,7 +92,6 @@ public class MainActivity extends BaseAcitivity {
         initView();
         initFragment();
         String callString = GsSocketManager.getInstance().helloGoonas();
-        GsLog.d("返回了返回的字串：" + callString);
     }
 
     private void initFragment() {
@@ -235,6 +237,7 @@ public class MainActivity extends BaseAcitivity {
                 break;
             case R.id.rl_settings:
                 index = 4;
+                EventBus.getDefault().post(new GsPeogressEvent(2,3,"2332"));
                 break;
         }
         if (currentTabIndex != index) {
