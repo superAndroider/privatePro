@@ -16,7 +16,7 @@ import com.ipeercloud.com.R;
 import com.ipeercloud.com.controler.GsFileHelper;
 import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.controler.GsLifeCycle;
-import com.ipeercloud.com.model.EventBusEnvent.GsPeogressEvent;
+import com.ipeercloud.com.model.EventBusEvent.GsProgressEvent;
 import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsFile;
 import com.ipeercloud.com.utils.GsLog;
@@ -36,7 +36,7 @@ import static android.R.attr.path;
  * 主要功能:
  */
 
-public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements GsLifeCycle{
+public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements GsLifeCycle {
     private List<GsFileModule.FileEntity> mList;
     private Context context;
     private static final String DERECTORY_TYPE = "files";
@@ -311,10 +311,34 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             notifyDataSetChanged();
         }
     }
-     @Subscribe
-    public void upDateDownLoadProgress(GsPeogressEvent event){
-        if(event==null){
+
+    /**
+     * @param event 通过eventBus更新下载进度
+     */
+    @Subscribe
+    public void updateDownLoadProgress(GsProgressEvent event) {
+        if (event == null || TextUtils.isEmpty(event.remotePath)) {
             return;
+        }
+        if (mList == null || mList.size() == 0) {
+            return;
+        }
+        String remotePath = event.remotePath;
+        if (!remotePath.contains(mCurrentPath)) {
+            // 要更新下载进度的文件不在本adapter中
+            return;
+        }
+        String fileName = GsFileHelper.getFileNameFromPath(remotePath);
+        if (TextUtils.isEmpty(fileName)) {
+            return;
+        }
+        int size = mList.size();
+        for (int i = 0; i < size; i++) {
+            if (fileName.equals(mList.get(i).FileName)) {
+                mList.get(i).loadingProgress = (int) ((event.currentLength / (float) event.totalLength) * 100);
+                notifyDataSetChanged();
+                return;
+            }
         }
     }
 
