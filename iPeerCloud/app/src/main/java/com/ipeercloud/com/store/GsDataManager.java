@@ -4,7 +4,6 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.ipeercloud.com.model.GsFileModule;
-import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.utils.GsSp;
 
 import java.util.HashMap;
@@ -49,11 +48,9 @@ public class GsDataManager {
      * 将数据本地化
      */
     public void saveDataLocal() {
-        GsLog.d("保存数据");
         Gson gson = new Gson();
         String gsonString = gson.toJson(files, GsFileModule.class);
         GsSp.getInstance().putString("files", gsonString);
-        GsLog.d("保存数据file 数据 " + gsonString);
         gsonString = gson.toJson(recentFile, GsFileModule.class);
         GsSp.getInstance().putString("recentFile", gsonString);
         gsonString = gson.toJson(medias, GsFileModule.class);
@@ -64,13 +61,11 @@ public class GsDataManager {
      * 恢复本地数据
      */
     public void recoverData() {
-        GsLog.d("恢复数据");
         Gson gson = new Gson();
         String jsonString = GsSp.getInstance().getString("files");
         if (!TextUtils.isEmpty(jsonString)) {
             files = gson.fromJson(jsonString, GsFileModule.class);
         }
-        GsLog.d("恢复数据file 数据 " + jsonString);
         jsonString = GsSp.getInstance().getString("recentFile");
         if (!TextUtils.isEmpty(jsonString)) {
             recentFile = gson.fromJson(jsonString, GsFileModule.class);
