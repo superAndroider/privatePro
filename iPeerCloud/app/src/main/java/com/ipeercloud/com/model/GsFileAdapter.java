@@ -335,7 +335,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         int size = mList.size();
         for (int i = 0; i < size; i++) {
             if (fileName.equals(mList.get(i).FileName)) {
-                mList.get(i).loadingProgress = (int) ((event.currentLength / (float) event.totalLength) * 100);
+                mList.get(i).loadingProgress = event.progress;
                 notifyDataSetChanged();
                 return;
             }

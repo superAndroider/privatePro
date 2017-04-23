@@ -191,18 +191,36 @@ public class GsFileHelper {
 
     /**
      * 根据路径获取文件名
+     *
      * @return
      */
     public static String getFileNameFromPath(String path) {
         if (TextUtils.isEmpty(path)) {
             return "";
         }
-        String fileName =null;
-        int index  = path.lastIndexOf('/');
-        if(index ==-1)
+        String fileName = null;
+        int index = path.lastIndexOf('/');
+        if (index == -1)
             return fileName;
-        fileName = path.substring(index+1,path.length());
-        GsLog.d("获取到的文件名   "+fileName);
+        fileName = path.substring(index + 1, path.length());
         return fileName;
+    }
+
+    /**
+     * 根据路径获取文件所在的文件夹路径
+     *
+     * @return
+     */
+    public static String getFolderNameFromPath(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return "";
+        }
+        String folderName = null;
+        int index = path.lastIndexOf('/');
+        if (index == -1)
+            return folderName;
+        folderName = path.substring(0, index - 1);
+        GsLog.d("文件夹是 " + folderName);
+        return folderName;
     }
 }
