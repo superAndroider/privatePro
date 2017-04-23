@@ -7,13 +7,11 @@ package com.ipeercloud.com.model.EventBusEvent;
  */
 
 public class GsProgressEvent {
-    public long currentLength;
-    public long totalLength;
+    public int progress;
     public String remotePath;
 
-    public GsProgressEvent(long currentLength, long totalLength, String remotePath) {
-        this.currentLength = currentLength;
-        this.totalLength = totalLength;
+    public GsProgressEvent(int progress, String remotePath) {
+        this.progress = progress;
         this.remotePath = remotePath;
     }
 }

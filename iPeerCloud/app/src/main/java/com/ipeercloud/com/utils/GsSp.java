@@ -23,7 +23,25 @@ public class GsSp {
 
     public void putString(String key, String value) {
         mEditor.putString(key, value);
-        mEditor.apply();
+        mEditor.commit();
+    }
+
+    /**
+     * @param jsonString 存储目录文件专用
+     */
+    public void putFileMap(String jsonString) {
+        SharedPreferences sp = IpeerCloudApplication.instance.getSharedPreferences("GsSpMap", Context.MODE_APPEND);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("filemap", jsonString);
+        editor.apply();
+    }
+
+    /**
+     * 存储目录文件专用
+     */
+    public String getFileMap() {
+        SharedPreferences sp = IpeerCloudApplication.instance.getSharedPreferences("GsSpMap", Context.MODE_APPEND);
+        return sp.getString("filemap", "");
     }
 
     public String getString(String key) {

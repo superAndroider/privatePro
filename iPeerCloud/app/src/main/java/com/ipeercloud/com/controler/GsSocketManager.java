@@ -1,6 +1,10 @@
 package com.ipeercloud.com.controler;
 
+import com.ipeercloud.com.model.EventBusEvent.GsProgressEvent;
+import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsLog;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * @author 673391138@qq.com
@@ -25,23 +29,32 @@ public class GsSocketManager {
 
     /**
      * 下载文件时jni对java的回调
+     *
      * @param finishLength 已经完成的长度
-     * @param totalLength 总共的长度
-     * @param remotePath  文件的远端路径
+     * @param totalLength  总共的长度
+     * @param remotePath   文件的远端路径
      */
-    public static void gsGetFileCallback(long finishLength,long totalLength,String remotePath){
-
-        GsLog.d("下载回调 "+finishLength+"   "+totalLength+"    "+remotePath);
+    public static void gsGetFileCallback(long finishLength, long totalLength, String remotePath) {
+        notifyUpdate(finishLength, totalLength, remotePath);
     }
+
     /**
      * 上传文件时jni对java的回调
+     *
      * @param finishLength 已经完成的长度
-     * @param totalLength 总共的长度
-     * @param remotePath  文件的远端路径
+     * @param totalLength  总共的长度
+     * @param remotePath   文件的远端路径
      */
-    public static void gsPutFileCallback(long finishLength,long totalLength,String remotePath){
-
+    public static void gsPutFileCallback(long finishLength, long totalLength, String remotePath) {
+        notifyUpdate(finishLength, totalLength, remotePath);
     }
+
+    private static void notifyUpdate(long finishLength, long totalLength, String remotePath) {
+        int progress = (int) ((finishLength / (float) totalLength) * 100);
+        EventBus.getDefault().post(new GsProgressEvent(progress, remotePath));
+        GsDataManager.getInstance().updateDownLoadProgress(progress, remotePath);
+    }
+
     //
     //函数名：helloGoonas
     //功能：返回当前jni库的版本，确定java调用goonas jni库已经成功
@@ -114,7 +127,7 @@ public class GsSocketManager {
     //返回数据：以json格式返回数据
     //	/// json格式：
     /*
-	[
+    [
         {
                 "FileName": "$360Section",      // 名称
                 "FileSize": 0,                  // 文件大小

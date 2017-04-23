@@ -197,8 +197,6 @@ public class GsJniManager {
                         case MEDIA_PARAM:
                             updateList(GsDataManager.getInstance().medias.fileList, new GsFileModule(result).fileList);
                             break;
-                        default:
-                            GsDataManager.getInstance().subFiles = new GsFileModule(result);
                     }
                 } else {
                     GsFileModule fileModule = GsDataManager.getInstance().fileMaps.get(path);
