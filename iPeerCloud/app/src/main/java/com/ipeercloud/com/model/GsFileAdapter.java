@@ -137,7 +137,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     @Override
                     public void onClick(View v) {
                         pop.dismiss();
-//                        downLoadFile(fileName);
+                        downLoadFile(fileName);
                         gsholder.progressBar.setVisibility(View.VISIBLE);
                         mList.get(position).loadingProgress = 0;
                     }

@@ -146,7 +146,7 @@ public class GsJniManager {
             public void run() {
                 GsLog.d("本地路径: " + localPath + "  远端路径：  " + remotePath);
                 final int result = GsSocketManager.getInstance().gsGetFile(remotePath, localPath);
-                if (result == -1) {
+                /*if (result == -1) {
                     GsLog.d("请求失败，需要重连");
                     loginAgain(new Runnable() {
                         @Override
@@ -155,7 +155,7 @@ public class GsJniManager {
                         }
                     });
                     return;
-                }
+                }*/
                 GsLog.d("返回结果 " + result);
                 if (callback == null) return;
                 mHandler.post(new Runnable() {
