@@ -17,7 +17,7 @@ import java.io.File;
  * 主要功能: 使用外部app打开对应的文件
  */
 
-public class GsOpenFileHelper {
+public class GsFileHelper {
     //android获取一个用于打开HTML文件的intent
     public static Intent getHtmlFileIntent(String Path) {
         File file = new File(Path);
@@ -156,7 +156,7 @@ public class GsOpenFileHelper {
                 startActivity(context, intent);
                 break;
             case GsFileType.TYPE_PDF:
-                intent = getPdfFileIntent(path);
+                intent = getTextFileIntent(path);
                 startActivity(context, intent);
                 break;
 
@@ -182,10 +182,45 @@ public class GsOpenFileHelper {
             return "";
         }
         int index = fileName.lastIndexOf('.');
-        if (index >= fileName.length()) {
+        if (index >= fileName.length() || index == -1) {
             return "";
         }
         String type = fileName.subSequence(index + 1, fileName.length()).toString();
         return type;
+    }
+
+    /**
+     * 根据路径获取文件名
+     *
+     * @return
+     */
+    public static String getFileNameFromPath(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return "";
+        }
+        String fileName = null;
+        int index = path.lastIndexOf('/');
+        if (index == -1)
+            return fileName;
+        fileName = path.substring(index + 1, path.length());
+        return fileName;
+    }
+
+    /**
+     * 根据路径获取文件所在的文件夹路径
+     *
+     * @return
+     */
+    public static String getFolderNameFromPath(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return "";
+        }
+        String folderName = null;
+        int index = path.lastIndexOf('/');
+        if (index == -1)
+            return folderName;
+        folderName = path.substring(0, index - 1);
+        GsLog.d("文件夹是 " + folderName);
+        return folderName;
     }
 }

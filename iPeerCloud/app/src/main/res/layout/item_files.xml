@@ -1,25 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/item_pading"
     android:layout_marginRight="@dimen/item_pading"
-    android:orientation="horizontal"
     android:paddingBottom="@dimen/item_pading"
     android:paddingTop="@dimen/item_pading">
 
-    <ImageView
-        android:id="@+id/iv_type_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        tools:src="@mipmap/pdf_icon" />
+    <FrameLayout
+        android:id="@+id/icon_layout"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true">
+
+        <ImageView
+            android:id="@+id/iv_type_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            tools:src="@mipmap/pdf_icon" />
+
+        <ImageView
+            android:visibility="invisible"
+            android:id="@+id/iv_has_down"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="14dp"
+            android:src="@drawable/icon_has_down" />
+    </FrameLayout>
+
 
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/item_inner_margin"
+        android:layout_toRightOf="@id/icon_layout"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -28,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:maxLines="2"
             android:textSize="@dimen/tv_size_middle"
             tools:text="我是名字" />
 
@@ -43,10 +62,24 @@
     </LinearLayout>
 
     <ImageView
-        android:padding="10dp"
         android:id="@+id/iv_file_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_gravity="center"
+        android:padding="10dp"
         android:src="@drawable/btn_pop" />
-</LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/ll"
+        android:layout_marginTop="3dp"
+        android:background="@color/gray"
+        android:max="100"
+        android:progress="20"
+        android:visibility="invisible" />
+</RelativeLayout>
