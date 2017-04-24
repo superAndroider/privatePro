@@ -1,0 +1,26 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+
+    <uk.co.senab.photoview.HackyViewPager
+        android:id="@+id/viewPagerPreViewActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ff000000">
+
+    </uk.co.senab.photoview.HackyViewPager>
+
+
+    <TextView
+        android:id="@+id/tvIndicatorPreViewActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:padding="10dp"
+        android:textColor="@color/color_white"
+        tools:text="1/20" />
+
+</FrameLayout>
