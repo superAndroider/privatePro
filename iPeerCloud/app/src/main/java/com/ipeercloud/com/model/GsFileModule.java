@@ -2,8 +2,6 @@ package com.ipeercloud.com.model;
 
 import android.text.TextUtils;
 
-import com.ipeercloud.com.utils.GsLog;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,8 +22,23 @@ public class GsFileModule {
         public String FileName;
         public long FileSize;
         public int FileType;
-        public long LastModifyTime;
+        public long lastModifyTime;
+        //下载进度，-1 表示未下载，0-99表示下载中，100表示下载完成
+        public int loadingProgress = -1;
+        @Override
+        public boolean equals(Object o) {
+            if (FileName == null || o == null) {
+                return false;
+            }
+            if (o instanceof FileEntity && FileName.equals(((FileEntity) o).FileName)) {
+                return true;
+            }
+            return false;
+        }
+    }
 
+    public GsFileModule() {
+        fileList = new ArrayList<>();
     }
 
     public GsFileModule(String json) {
@@ -40,16 +53,22 @@ public class GsFileModule {
                 JSONObject jb = (JSONObject) ja.get(i);
                 FileEntity entity = new FileEntity();
                 entity.FileName = jb.optString("FileName");
-                entity.FileSize = jb.optLong("FileSize");
-                entity.FileType = jb.optInt("FileType");
-                entity.LastModifyTime = jb.optLong("LastModifyTime");
+                entity.FileSize = jb.optLong("FileName");
+                entity.FileType = jb.optInt("FileName");
+                entity.lastModifyTime = jb.optLong("lastModifyTime");
                 fileList.add(entity);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
-        GsLog.d("大小是 " + fileList.size());
-        GsLog.d("" + fileList.get(0).FileName);
+    public void addEntity(FileEntity entity) {
+        if (entity == null)
+            return;
+        if (fileList.contains(entity)) {
+            return;
+        }
+        fileList.add(entity);
     }
 }

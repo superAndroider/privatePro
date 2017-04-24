@@ -9,6 +9,8 @@ import com.ipeercloud.com.model.GsSimpleResponse;
 import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsLog;
 
+import java.util.List;
+
 
 /**
  * @author 673391138@qq.com
@@ -59,12 +61,32 @@ public class GsJniManager {
         });
     }
 
-    public void registerAgain(final Runnable runnable) {
+    public void login(final String server, final String user, final String password, final GsCallBack callback) {
+        this.server = server;
+        this.user = user;
+        this.password = password;
         GsThreadPool.getInstance().execute(new Runnable() {
             @Override
             public void run() {
-                GsLog.d("重连入参 "+server+"   "+user+"   "+password);
-                final boolean result = GsSocketManager.getInstance().gsUserRegister(server, user, password);
+                final boolean result = GsSocketManager.getInstance().gsLogin(server, user, password);
+                if (callback == null) return;
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onResult(new GsSimpleResponse(result));
+                    }
+                });
+
+            }
+        });
+    }
+
+    public void loginAgain(final Runnable runnable) {
+        GsThreadPool.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                GsLog.d("重连入参 " + server + "   " + user + "   " + password);
+                final boolean result = GsSocketManager.getInstance().gsLogin(server, user, password);
                 if (result) {
                     GsLog.d("重连后继续工作");
                     GsThreadPool.getInstance().execute(runnable);
@@ -126,12 +148,12 @@ public class GsJniManager {
                 final int result = GsSocketManager.getInstance().gsGetFile(remotePath, localPath);
                 if (result == -1) {
                     GsLog.d("请求失败，需要重连");
-                   registerAgain(new Runnable() {
-                       @Override
-                       public void run() {
-                           downFile(localPath,remotePath,callback);
-                       }
-                   });
+                    loginAgain(new Runnable() {
+                        @Override
+                        public void run() {
+                            downFile(localPath, remotePath, callback);
+                        }
+                    });
                     return;
                 }
                 GsLog.d("返回结果 " + result);
@@ -149,8 +171,11 @@ public class GsJniManager {
 
     /**
      * 获得指定目录下的文件
+     *
+     * @param path
+     * @param isTabClick 是不是点击一个tab发起的请求
      */
-    public void getPathFile(final String path, final GsCallBack callback) {
+    public void getPathFile(final String path, final boolean isTabClick, final GsCallBack callback) {
         GsThreadPool.getInstance().execute(new Runnable() {
             @Override
             public void run() {
@@ -162,16 +187,24 @@ public class GsJniManager {
                 }
                 if (result == null)
                     return;
-                switch (path) {
-                    case FILE_PARAM:
-                        GsDataManager.getInstance().files = new GsFileModule(result);
-                        break;
-                    case SHARE_PARAM:
-                        GsDataManager.getInstance().recentFile = new GsFileModule(result);
-                        break;
-                    case MEDIA_PARAM:
-                        GsDataManager.getInstance().medias = new GsFileModule(result);
-                        break;
+                GsLog.d("json数据： " + result);
+                if (isTabClick) {
+                    switch (path) {
+                        case FILE_PARAM:
+                            updateList(GsDataManager.getInstance().files.fileList, new GsFileModule(result).fileList);
+
+                            break;
+                        case MEDIA_PARAM:
+                            updateList(GsDataManager.getInstance().medias.fileList, new GsFileModule(result).fileList);
+                            break;
+                    }
+                } else {
+                    GsFileModule fileModule = GsDataManager.getInstance().fileMaps.get(path);
+                    if (fileModule == null) {
+                        GsDataManager.getInstance().fileMaps.put(path, new GsFileModule(result));
+                    } else {
+                        updateList(fileModule.fileList, new GsFileModule(result).fileList);
+                    }
                 }
                 if (callback == null) return;
                 final boolean success = !TextUtils.isEmpty(result);
@@ -184,6 +217,50 @@ public class GsJniManager {
 
             }
         });
+    }
+
+    /**
+     * 从远端获取某个文件夹下面的文件后需要将本地没有的补上，本地有的不再变化，防止本地文件下载状态丢失
+     */
+    private void updateList(List<GsFileModule.FileEntity> localList, List<GsFileModule.FileEntity> remoteList) {
+        if (localList.size() == 0) {
+            localList.addAll(remoteList);
+            return;
+        }
+        if (remoteList.size() == 0) {
+            return;
+        }
+        int localSize = localList.size();
+        int remoteSize = remoteList.size();
+        for (int i = 0; i < remoteSize; i++) {
+            boolean find = false;
+            for (int j = 0; j < localSize; j++) {
+                if (localList.get(j).equals(remoteList.get(i))) {
+                    find = true;
+                }
+            }
+            if (!find) {
+                localList.add(remoteList.get(i));
+            }
+        }
+    }
+
+    public void upLoadFile(final String localPath, final String remotePath, final GsCallBack<GsSimpleResponse> callBack) {
+        GsThreadPool.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                final boolean result = GsSocketManager.getInstance().gsPutFile(localPath, remotePath);
+                if (callBack == null)
+                    return;
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.onResult(new GsSimpleResponse(result));
+                    }
+                });
+            }
+        });
+
     }
 
 }

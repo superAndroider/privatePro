@@ -7,10 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.ipeercloud.com.R;
 import com.ipeercloud.com.model.GsFileAdapter;
 import com.ipeercloud.com.store.GsDataManager;
+import com.ipeercloud.com.utils.GsLog;
+import com.ipeercloud.com.widget.GsDividerDecoration;
 
 
 /**
@@ -21,6 +24,7 @@ import com.ipeercloud.com.store.GsDataManager;
 public class FilesFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private GsFileAdapter mAdapter;
+    private ImageView mBtnBack;
 
     @Nullable
     @Override
@@ -31,21 +35,61 @@ public class FilesFragment extends BaseFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        GsLog.d("onStart");
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        GsLog.d("onResume");
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        GsLog.d("onStop");
     }
 
     private void initView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_file);
+        mBtnBack = (ImageView) view.findViewById(R.id.btn_back_iv);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
-        mAdapter = new GsFileAdapter(GsDataManager.getInstance().files != null ? GsDataManager.getInstance().files.fileList : null, getContext());
+        GsDividerDecoration divider = new GsDividerDecoration(getContext());
+        divider.isLastItemShowDivider(true);
+        divider.setDividerColor(getResources().getColor(R.color.color_devider_line));
+        mAdapter = new GsFileAdapter(GsDataManager.getInstance().files.fileList, getContext());
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.onCreate();
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     public void notifyData() {
-        mAdapter.setData(GsDataManager.getInstance().files != null ? GsDataManager.getInstance().files.fileList : null);
+        mAdapter.setData(GsDataManager.getInstance().files.fileList);
+    }
+
+    public void onBackPressed() {
+        mAdapter.onBackPressed();
+    }
+
+    @Override
+    public void resetData() {
+        if (mAdapter != null) {
+            mAdapter.resetData();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAdapter.onDestory();
     }
 }

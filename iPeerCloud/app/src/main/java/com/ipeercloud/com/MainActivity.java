@@ -1,19 +1,25 @@
 package com.ipeercloud.com;
 
+import android.content.ClipData;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ipeercloud.com.controler.GsFileHelper;
 import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.controler.GsSocketManager;
 import com.ipeercloud.com.model.GsCallBack;
+import com.ipeercloud.com.model.GsFileModule;
 import com.ipeercloud.com.model.GsSimpleResponse;
+import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.utils.UI;
 import com.ipeercloud.com.view.activity.BaseAcitivity;
@@ -79,10 +85,10 @@ public class MainActivity extends BaseAcitivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ViewUtils.inject(this);
+        GsDataManager.getInstance().recoverData();
         initView();
         initFragment();
         String callString = GsSocketManager.getInstance().helloGoonas();
-        GsLog.d("返回了返回的字串：" + callString);
     }
 
     private void initFragment() {
@@ -116,10 +122,93 @@ public class MainActivity extends BaseAcitivity {
         });
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        GsLog.d("onNewIntent");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        parseIntent();
+
+
+    }
+
+    private void parseIntent() {
+        Intent intent = getIntent();
+        if (intent.getAction() == null) {
+            return;
+        }
+        //处理其他app的调用
+        //获取其他app传过来的文件路径
+        ClipData data = intent.getClipData();
+        String localPath = null;
+        if (data == null) {
+            return;
+        } else {
+            int size = data.getItemCount();
+            if (size > 0) {
+                ClipData.Item item = data.getItemAt(0);
+                if (item != null && item.getUri() != null) {
+                    localPath = item.getUri().getEncodedPath();
+                    GsLog.d("uriString" + localPath);
+                }
+            }
+
+        }
+        if (TextUtils.isEmpty(localPath)) {
+            return;
+        }
+        // 解码，中文必须解码
+        localPath = Uri.decode(localPath);
+        String fileName = GsFileHelper.getFileNameFromPath(localPath);
+        String type = GsFileHelper.getFileNameType(fileName);
+        GsLog.d("名字： " + fileName + "   type  " + type);
+        GsFileModule.FileEntity entity = new GsFileModule.FileEntity();
+        entity.FileName = fileName;
+        GsDataManager.getInstance().recentFile.addEntity(entity);
+        homeFragment.notifyData();
+        upLoadFile(localPath, fileName);
+    }
+
+    /**
+     * 将其他app发送过来的文件上传到远端
+     */
+    private void upLoadFile(String localpath, final String fileName) {
+        GsJniManager.getInstance().upLoadFile(localpath, "\\" + fileName, new GsCallBack<GsSimpleResponse>() {
+            @Override
+            public void onResult(GsSimpleResponse response) {
+                if (response.result) {
+                    Toast.makeText(MainActivity.this, fileName + "上传成功", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.this, fileName + "上传失败", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        GsDataManager.getInstance().saveDataLocal();
     }
 
     /**
@@ -161,6 +250,7 @@ public class MainActivity extends BaseAcitivity {
         mTabs[index].setSelected(true);
         UI.setTextColor(mTexts[index], "#0079FF");
         currentTabIndex = index;
+        fragments[index].resetData();
     }
 
     @Override
@@ -231,7 +321,7 @@ public class MainActivity extends BaseAcitivity {
     }
 
     private void getAllFiles() {
-        GsJniManager.getInstance().getPathFile(GsJniManager.FILE_PARAM, new GsCallBack<GsSimpleResponse>() {
+        GsJniManager.getInstance().getPathFile(GsJniManager.FILE_PARAM, true, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
                 if (response.result) {
@@ -240,18 +330,13 @@ public class MainActivity extends BaseAcitivity {
             }
         });
     }
+
     private void getRecentFiles() {
-        GsJniManager.getInstance().getPathFile(GsJniManager.SHARE_PARAM, new GsCallBack<GsSimpleResponse>() {
-            @Override
-            public void onResult(GsSimpleResponse response) {
-                if (response.result) {
-                    homeFragment.notifyData();
-                }
-            }
-        });
+
     }
+
     private void getMedias() {
-        GsJniManager.getInstance().getPathFile(GsJniManager.MEDIA_PARAM, new GsCallBack<GsSimpleResponse>() {
+        GsJniManager.getInstance().getPathFile(GsJniManager.MEDIA_PARAM, true, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
                 if (response.result) {
@@ -274,19 +359,6 @@ public class MainActivity extends BaseAcitivity {
                 GsLog.d("是否链接 " + response.result);
             }
         });
-       /* GsJniManager.getInstance().getPathFile(GsJniManager.MEDIA_PARAM, new GsCallBack<GsSimpleResponse>() {
-            @Override
-            public void onResult(GsSimpleResponse response) {
-
-            }
-        });
-        GsJniManager.getInstance().getPathFile(GsJniManager.SHARE_PARAM, new GsCallBack<GsSimpleResponse>() {
-            @Override
-            public void onResult(GsSimpleResponse response) {
-
-            }
-        });*/
-
 
     }
 }
