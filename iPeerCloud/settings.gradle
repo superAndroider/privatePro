@@ -1,1 +1,1 @@
-include ':app', ':zxing-android-embedded', ':imageselect'
+include ':app', ':zxing-android-embedded', ':imageselect', ':vitamio'
