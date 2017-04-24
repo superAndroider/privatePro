@@ -12,7 +12,7 @@
 /.idea/libraries
 build/
 /captures
-
+/.idea
 
 # Generatee by MacOSX
 .DS_Store
