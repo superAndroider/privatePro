@@ -89,7 +89,6 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             gsholder.progressBar.setVisibility(View.VISIBLE);
             gsholder.mHasDownIv.setVisibility(View.INVISIBLE);
             gsholder.progressBar.setProgress(mList.get(position).loadingProgress);
-            GsLog.d("onBindViewHolder 进度");
         }
 
         gsholder.tvName.setText(mList.get(position).FileName);

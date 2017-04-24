@@ -10,6 +10,8 @@ import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsLog;
 
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**
@@ -29,6 +31,8 @@ public class GsJniManager {
     private String server;
     private String user;
     private String password;
+    private Queue<Runnable> mDownLoadRunnables = new LinkedBlockingQueue<>(128);
+    private boolean mCanLoad = true;
 
     private GsJniManager() {
         mHandler = new Handler();
@@ -141,22 +145,11 @@ public class GsJniManager {
      * 从远端下载文件
      */
     public void downFile(final String localPath, final String remotePath, final GsCallBack callback) {
-        GsThreadPool.getInstance().execute(new Runnable() {
+        mDownLoadRunnables.add(new Runnable() {
             @Override
             public void run() {
-                GsLog.d("本地路径: " + localPath + "  远端路径：  " + remotePath);
                 final int result = GsSocketManager.getInstance().gsGetFile(remotePath, localPath);
-                /*if (result == -1) {
-                    GsLog.d("请求失败，需要重连");
-                    loginAgain(new Runnable() {
-                        @Override
-                        public void run() {
-                            downFile(localPath, remotePath, callback);
-                        }
-                    });
-                    return;
-                }*/
-                GsLog.d("返回结果 " + result);
+                downFinish();
                 if (callback == null) return;
                 mHandler.post(new Runnable() {
                     @Override
@@ -164,9 +157,24 @@ public class GsJniManager {
                         callback.onResult(new GsSimpleResponse(result == 0));
                     }
                 });
-
             }
         });
+        if (mCanLoad && mDownLoadRunnables.peek() != null) {
+            mCanLoad = false;
+            GsThreadPool.getInstance().execute(mDownLoadRunnables.poll());
+        }
+
+    }
+
+    /**
+     * 一个下载任务结束后，开始下一个下载任务
+     */
+    private void downFinish() {
+        mCanLoad = true;
+        if ( mDownLoadRunnables.peek() != null) {
+            mCanLoad = false;
+            GsThreadPool.getInstance().execute(mDownLoadRunnables.poll());
+        }
     }
 
     /**
