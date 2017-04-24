@@ -10,9 +10,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
 
-        <activity android:name=".ui.ImagesGridActivity">
+        <activity android:name=".ui.ImagesGridActivity"></activity>
 
-        </activity>
+        <activity android:name=".ui.ImagePreviewActivity"></activity>
     </application>
 
 </manifest>

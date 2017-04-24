@@ -1,11 +1,13 @@
 package com.ipeercloud.com.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,10 +17,12 @@ import com.ipeer.imageselect.data.DataSource;
 import com.ipeer.imageselect.data.OnImagesLoadedListener;
 import com.ipeer.imageselect.data.impl.LocalDataSource;
 import com.ipeer.imageselect.ui.ImageGrideAdapter;
+import com.ipeer.imageselect.ui.ImagePreviewActivity;
 import com.lidroid.xutils.ViewUtils;
 import com.ipeercloud.com.R;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -27,7 +31,7 @@ import java.util.List;
  * 首页
  */
 
-public class PhotosFragment extends BaseFragment implements OnImagesLoadedListener {
+public class PhotosFragment extends BaseFragment implements OnImagesLoadedListener, AdapterView.OnItemClickListener {
 
     private static final int ORDER_HOSPITAL = 1;
     private static final int ORDER_FAMILY = 2;
@@ -51,6 +55,7 @@ public class PhotosFragment extends BaseFragment implements OnImagesLoadedListen
 
         mAdapter = new ImageGrideAdapter(getActivity(), mGridView);
         mGridView.setAdapter(mAdapter);
+        mGridView.setOnItemClickListener(this);
 
         DataSource dataSource = new LocalDataSource(getActivity());
         dataSource.provideMediaItems(this);//select all images from local database
@@ -61,12 +66,18 @@ public class PhotosFragment extends BaseFragment implements OnImagesLoadedListen
     @Override
     public void onImagesLoaded(List<ImageSet> imageSetList) {
 
-        Log.i("lxm", "load = ==" + imageSetList.size());
-
+        if (imageSetList == null || imageSetList.size() == 0 || imageSetList.get(0) == null) return;
         tvPhotosCount.setText(imageSetList.get(0).imageItems.size() + "照片");
-
         mAdapter.setImages(imageSetList.get(0).imageItems);
 
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+        Intent intent = new Intent(getActivity(), ImagePreviewActivity.class);
+        intent.putExtra(ImagePreviewActivity.CURRENT_POSITION, position);
+        intent.putExtra(ImagePreviewActivity.LIST_IMAGES, (Serializable) mAdapter.getList());
+        startActivity(intent);
+    }
 }
