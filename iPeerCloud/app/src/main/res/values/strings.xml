@@ -55,4 +55,7 @@
     <string name="enter_uuid">手动输入UUID</string>
     <string name="cancel">取消</string>
     <string name="net_wrong">网络异常</string>
+
+    <string name="download_file">下载文件</string>
+    <string name="delete_file">删除文件</string>
 </resources>

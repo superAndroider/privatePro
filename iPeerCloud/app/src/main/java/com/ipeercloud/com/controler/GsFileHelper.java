@@ -194,7 +194,7 @@ public class GsFileHelper {
      *
      * @return
      */
-    public static String getFileNameFromPath(String path) {
+    public static String getFileNameFromLocalPath(String path) {
         if (TextUtils.isEmpty(path)) {
             return "";
         }
@@ -205,13 +205,29 @@ public class GsFileHelper {
         fileName = path.substring(index + 1, path.length());
         return fileName;
     }
-
     /**
-     * 根据路径获取文件所在的文件夹路径
+     * 根据路径获取文件名
      *
      * @return
      */
-    public static String getFolderNameFromPath(String path) {
+    public static String getFileNameFromRemotePath(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return "";
+        }
+        String fileName = null;
+        int index = path.lastIndexOf('\\');
+        if (index == -1)
+            return fileName;
+        fileName = path.substring(index + 1, path.length());
+        return fileName;
+    }
+
+    /**
+     * 根据路径获取文件所在的文件夹路径,本地文件使用
+     *
+     * @return
+     */
+    public static String getFolderNameFromLocalPath(String path) {
         if (TextUtils.isEmpty(path)) {
             return "";
         }
@@ -219,7 +235,24 @@ public class GsFileHelper {
         int index = path.lastIndexOf('/');
         if (index == -1)
             return folderName;
-        folderName = path.substring(0, index - 1);
+        folderName = path.substring(0, index);
+        GsLog.d("文件夹是 " + folderName);
+        return folderName;
+    }
+    /**
+     * 根据路径获取文件所在的文件夹路径，远端问阿金使用
+     *
+     * @return
+     */
+    public static String getFolderNameFromRemotePath(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return "";
+        }
+        String folderName = null;
+        int index = path.lastIndexOf('\\');
+        if (index == -1)
+            return folderName;
+        folderName = path.substring(0, index);
         GsLog.d("文件夹是 " + folderName);
         return folderName;
     }

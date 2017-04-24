@@ -56,6 +56,7 @@ public class GsSocketManager {
     }
 
     private static void notifyUpdate(long finishLength, long totalLength, String remotePath) {
+        GsLog.d("进度回调");
         int progress = (int) ((finishLength / (float) totalLength) * 100);
         EventBus.getDefault().post(new GsProgressEvent(progress, remotePath));
         GsDataManager.getInstance().updateDownLoadProgress(progress, remotePath);
