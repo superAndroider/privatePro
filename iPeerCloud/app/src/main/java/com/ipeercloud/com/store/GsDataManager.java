@@ -101,8 +101,8 @@ public class GsDataManager {
         if (TextUtils.isEmpty(remotePath)) {
             return;
         }
-        String folderName = GsFileHelper.getFolderNameFromPath(remotePath);
-        String fileName = GsFileHelper.getFileNameFromPath(remotePath);
+        String folderName = GsFileHelper.getFolderNameFromRemotePath(remotePath);
+        String fileName = GsFileHelper.getFileNameFromRemotePath(remotePath);
         if (TextUtils.isEmpty(fileName)) {
             return;
         }

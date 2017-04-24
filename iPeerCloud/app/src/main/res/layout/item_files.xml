@@ -80,6 +80,6 @@
         android:layout_marginTop="3dp"
         android:background="@color/gray"
         android:max="100"
-        android:progress="20"
+        android:progress="0"
         android:visibility="invisible" />
 </RelativeLayout>
