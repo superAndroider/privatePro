@@ -185,9 +185,10 @@ public class GsJniManager {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if (result == null)
-                    return;
                 GsLog.d("json数据： " + result);
+                if (result == null) {
+                    return;
+                }
                 if (isTabClick) {
                     switch (path) {
                         case FILE_PARAM:

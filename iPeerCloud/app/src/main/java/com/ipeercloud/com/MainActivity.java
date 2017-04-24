@@ -80,6 +80,7 @@ public class MainActivity extends BaseAcitivity {
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,13 +164,14 @@ public class MainActivity extends BaseAcitivity {
         }
         // 解码，中文必须解码
         localPath = Uri.decode(localPath);
-        String fileName = GsFileHelper.getFileNameFromPath(localPath);
+        String fileName = GsFileHelper.getFileNameFromLocalPath(localPath);
         String type = GsFileHelper.getFileNameType(fileName);
         GsLog.d("名字： " + fileName + "   type  " + type);
         GsFileModule.FileEntity entity = new GsFileModule.FileEntity();
         entity.FileName = fileName;
         GsDataManager.getInstance().recentFile.addEntity(entity);
         homeFragment.notifyData();
+        GsLog.d("上传 "+localPath+"    "+fileName);
         upLoadFile(localPath, fileName);
     }
 

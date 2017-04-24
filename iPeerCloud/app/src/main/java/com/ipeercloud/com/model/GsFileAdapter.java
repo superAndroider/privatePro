@@ -2,6 +2,8 @@ package com.ipeercloud.com.model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -44,10 +46,16 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private StringBuilder mNewPath = new StringBuilder();
     //0 表示最近 1 表示视频 2表示文件
     private int mType;
-
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            notifyDataSetChanged();
+        }
+    };
     public GsFileAdapter(List<GsFileModule.FileEntity> list, Context context) {
         this.mList = list;
         this.context = context;
+
     }
 
     public void setData(List<GsFileModule.FileEntity> list) {
@@ -67,9 +75,9 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return;
         final GsViewHolder gsholder = (GsViewHolder) holder;
         //
-        if (GsFile.isContainsFile(mList.get(position).FileName)) {
+        /*if (GsFile.isContainsFile(mList.get(position).FileName)) {
             mList.get(position).loadingProgress = 100;
-        }
+        }*/
         //控制进度与下载是否完成图标的显示
         if (mList.get(position).loadingProgress == -1) {
             gsholder.progressBar.setVisibility(View.INVISIBLE);
@@ -80,6 +88,8 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             gsholder.progressBar.setVisibility(View.VISIBLE);
             gsholder.mHasDownIv.setVisibility(View.INVISIBLE);
+            gsholder.progressBar.setProgress(mList.get(position).loadingProgress);
+            GsLog.d("onBindViewHolder 进度");
         }
 
         gsholder.tvName.setText(mList.get(position).FileName);
@@ -101,6 +111,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         public void onResult(GsSimpleResponse response) {
                             if (response.result) {
                                 mCurrentPath = new StringBuilder(mNewPath);
+                                GsLog.d("向下目录 ： " + mCurrentPath.toString());
                                 updateData(mCurrentPath.toString());
                                 notifyDataSetChanged();
                             } else {
@@ -131,15 +142,20 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         gsholder.BtnPop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final boolean hasDown = mList.get(position).loadingProgress == 100;
                 //弹窗
-                final GsFullPop pop = new GsFullPop((Activity) context);
+                final GsFullPop pop = new GsFullPop((Activity) context, hasDown);
                 pop.setDownloadClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         pop.dismiss();
-                        downLoadFile(fileName);
-                        gsholder.progressBar.setVisibility(View.VISIBLE);
-                        mList.get(position).loadingProgress = 0;
+                        if (hasDown) {
+                            //删除
+                        } else {
+                            downLoadFile(fileName);
+                            gsholder.progressBar.setVisibility(View.VISIBLE);
+                            mList.get(position).loadingProgress = 0;
+                        }
                     }
                 });
                 pop.show();
@@ -190,7 +206,8 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
             }
         }
-        notifyDataSetChanged();
+
+
     }
 
     private int getFileIconId(String fileName) {
@@ -323,20 +340,24 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (mList == null || mList.size() == 0) {
             return;
         }
-        String remotePath = event.remotePath;
-        if (!remotePath.contains(mCurrentPath)) {
+        String remoteFolderName = GsFileHelper.getFolderNameFromRemotePath(event.remotePath);
+        if (TextUtils.isEmpty(remoteFolderName)) {
+            return;
+        }
+        if (!remoteFolderName.contains(mCurrentPath.toString())) {
             // 要更新下载进度的文件不在本adapter中
             return;
         }
-        String fileName = GsFileHelper.getFileNameFromPath(remotePath);
+        String fileName = GsFileHelper.getFileNameFromRemotePath(event.remotePath);
         if (TextUtils.isEmpty(fileName)) {
             return;
         }
         int size = mList.size();
         for (int i = 0; i < size; i++) {
             if (fileName.equals(mList.get(i).FileName)) {
+                final int index = i;
                 mList.get(i).loadingProgress = event.progress;
-                notifyDataSetChanged();
+                mHandler.sendEmptyMessage(index);
                 return;
             }
         }
