@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.zhy.android.percent.support.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f0f0f0"
@@ -13,30 +12,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
-        app:layout_heightPercent="5%h"
-        >
+        app:layout_heightPercent="5%h">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/photos"
-            android:textColor="#111111"
-            />
+            android:textColor="#111111" />
     </com.zhy.android.percent.support.PercentRelativeLayout>
 
     <View
         android:id="@+id/line_top"
-        android:layout_below="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#e1e1e1"
-        />
+        android:layout_below="@+id/top_bar"
+        android:background="#e1e1e1" />
+
+
+    <GridView
+        android:layout_below="@+id/line_top"
+        android:id="@+id/gridViewPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_above="@+id/tvPhotosCount"
+        android:horizontalSpacing="2dp"
+        android:numColumns="4"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="2dp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/logo"
-        android:text="fragment_photos"
-        android:layout_centerInParent="true"
-        />
+        android:id="@+id/tvPhotosCount"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff"
+        android:gravity="center"
+        tools:text="共1200张照片" />
+
 </com.zhy.android.percent.support.PercentRelativeLayout>

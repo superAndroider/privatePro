@@ -45,7 +45,7 @@ public class ImagesGridActivity extends FragmentActivity implements OnImagesLoad
         setContentView(R.layout.fragment_images_grid);
 
         mGridView = (GridView) findViewById(R.id.gridview);
-        mAdapter = new ImageGrideAdapter(this);
+        mAdapter = new ImageGrideAdapter(this,mGridView);
         mGridView.setAdapter(mAdapter);
 
         DataSource dataSource = new LocalDataSource(this);
@@ -56,7 +56,7 @@ public class ImagesGridActivity extends FragmentActivity implements OnImagesLoad
     @Override
     public void onImagesLoaded(List<ImageSet> imageSetList) {
 
-        Log.i("lxm", "load = ==" + imageSetList.size());
+        Log.i("lxm", "load = ==" + imageSetList.get(0).imageItems.size());
 
         mAdapter.setImages(imageSetList.get(0).imageItems);
 
