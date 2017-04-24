@@ -7,9 +7,6 @@
 /build
 /captures
 /zxing-android-embedded
-<<<<<<< HEAD
-iPeerCloud/zxing-android-embedded/build
-=======
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
