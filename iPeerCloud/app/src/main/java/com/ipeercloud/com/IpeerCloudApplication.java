@@ -12,7 +12,7 @@ import java.util.Stack;
  */
 public class IpeerCloudApplication extends Application {
 
-    private static IpeerCloudApplication instance;
+    public static IpeerCloudApplication instance;
     private static Stack<Activity> activityStack;
     //加载so库
     static {

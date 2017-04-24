@@ -15,7 +15,10 @@ import android.widget.Toast;
 import com.ipeercloud.com.IpeerCloudApplication;
 import com.ipeercloud.com.MainActivity;
 import com.ipeercloud.com.R;
+import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.controler.GsSocketManager;
+import com.ipeercloud.com.model.GsCallBack;
+import com.ipeercloud.com.model.GsSimpleResponse;
 import com.ipeercloud.com.utils.Contants;
 import com.ipeercloud.com.utils.GsConfig;
 import com.ipeercloud.com.utils.SharedPreferencesHelper;
@@ -126,6 +129,19 @@ public class LoginAcitivity extends BaseAcitivity {
 
     private final static int MSG_LOGIN = 111;
     private final static int MSG_ONLINE = 112;
+
+    private void afterLogin(boolean loginSuccess) {
+        cancelLoadingDialog();
+        if (loginSuccess) {
+            SharedPreferencesHelper.getInstance(IpeerCloudApplication.getInstance()).setString(Contants.SP_USERNAME, username);
+            Intent intent = new Intent(LoginAcitivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(LoginAcitivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -133,16 +149,7 @@ public class LoginAcitivity extends BaseAcitivity {
             Intent intent;
             switch (msg.what) {
                 case MSG_LOGIN:
-                    cancelLoadingDialog();
-                    boolean loginback = (boolean) msg.obj;
-                    if (loginback) {
-                        SharedPreferencesHelper.getInstance(IpeerCloudApplication.getInstance()).setString(Contants.SP_USERNAME, username);
-                        intent = new Intent(LoginAcitivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(LoginAcitivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-                    }
+
                     break;
                 case MSG_ONLINE:
                     Map<String, Object> map = (Map<String, Object>) msg.obj;
@@ -156,17 +163,12 @@ public class LoginAcitivity extends BaseAcitivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        new Thread() {
+                        GsJniManager.getInstance().login(GsConfig.serverip, emailStr, passwordStr, new GsCallBack<GsSimpleResponse>() {
                             @Override
-                            public void run() {
-                                super.run();
-                                boolean loginback = GsSocketManager.getInstance().gsLogin(GsConfig.serverip, emailStr, passwordStr);
-                                Message message = new Message();
-                                message.what = MSG_LOGIN;
-                                message.obj = loginback;
-                                mHandler.sendMessage(message);
+                            public void onResult(GsSimpleResponse response) {
+                                afterLogin(response.result);
                             }
-                        }.start();
+                        });
                     }
                     break;
             }
