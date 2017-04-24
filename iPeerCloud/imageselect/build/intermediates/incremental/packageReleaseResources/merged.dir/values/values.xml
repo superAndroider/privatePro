@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="all_images">全部图片</string>
+    <string name="app_name">ImageSelect</string>
+</resources>
