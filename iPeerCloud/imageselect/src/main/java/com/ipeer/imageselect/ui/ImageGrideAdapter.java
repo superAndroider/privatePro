@@ -1,12 +1,15 @@
 package com.ipeer.imageselect.ui;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -27,8 +30,21 @@ public class ImageGrideAdapter extends BaseAdapter {
     List<ImageItem> images = new ArrayList<>();
     Context mContext;
 
-    public ImageGrideAdapter(Context ctx) {
+
+    int itemWidth;  //每个item宽度
+
+    public ImageGrideAdapter(Context ctx, GridView gridView) {
         this.mContext = ctx;
+
+        int screenWidth = ctx.getResources().getDisplayMetrics().widthPixels;
+
+        int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        //measure一次才能获取到属性值
+        gridView.measure(width, height);
+        int columnCount = gridView.getNumColumns();
+
+        itemWidth = screenWidth / columnCount;
     }
 
     public void setImages(List<ImageItem> images) {
@@ -58,6 +74,13 @@ public class ImageGrideAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.grid_item_camera, null);
             holder = new ViewHolder();
             holder.ivPic = (ImageView) convertView.findViewById(R.id.ivItemGrid);
+
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.ivPic.getLayoutParams();
+            params.width = itemWidth;
+            params.height = itemWidth;
+            holder.ivPic.setLayoutParams(params);
+
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
