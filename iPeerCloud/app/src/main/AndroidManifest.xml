@@ -82,7 +82,9 @@
             android:name="com.ipeercloud.com.view.activity.LinkGoonasAcitivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".ui.SelectActivity">
 
+        </activity>
         <activity
             android:name="com.ipeercloud.com.zxing.ToolbarCaptureActivity"
             android:clearTaskOnLaunch="true"

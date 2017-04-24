@@ -1,10 +1,16 @@
 package com.ipeercloud.com.controler;
 
+import com.ipeercloud.com.store.GsDataManager;
+import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.model.EventBusEvent.GsProgressEvent;
 import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsLog;
 
 import org.greenrobot.eventbus.EventBus;
+
+import com.ipeercloud.com.utils.GsLog;
+
+import static com.lidroid.xutils.http.client.HttpRequest.HttpMethod.HEAD;
 
 /**
  * @author 673391138@qq.com
@@ -54,6 +60,7 @@ public class GsSocketManager {
         EventBus.getDefault().post(new GsProgressEvent(progress, remotePath));
         GsDataManager.getInstance().updateDownLoadProgress(progress, remotePath);
     }
+
 
     //
     //函数名：helloGoonas
