@@ -85,6 +85,8 @@
                 android:text="@string/private_clould_uuid"
                 android:textColor="#111111"
                 android:textSize="12sp"
+                android:ellipsize="end"
+                android:lines="1"
                 android:gravity="center_vertical"
                 app:layout_marginLeftPercent="2.5%w"
                 />
