@@ -99,6 +99,7 @@
                     app:layout_paddingLeftPercent="2.5%w"
                     />
                 <TextView
+                    android:id="@+id/tv_camera_sync"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/iv_right2"

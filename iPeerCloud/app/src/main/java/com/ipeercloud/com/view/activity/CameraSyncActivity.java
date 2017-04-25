@@ -10,10 +10,13 @@ import android.widget.TextView;
 
 import com.ipeer.widget.switchbutton.SwitchButton;
 import com.ipeercloud.com.R;
+import com.ipeercloud.com.model.EventBusEvent.GsCameraSyncEvent;
 import com.ipeercloud.com.utils.ConstantSP;
 import com.ipeercloud.com.utils.SharedPreferencesHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 public class CameraSyncActivity extends BaseAcitivity implements CompoundButton.OnCheckedChangeListener {
@@ -45,13 +48,13 @@ public class CameraSyncActivity extends BaseAcitivity implements CompoundButton.
     }
 
     private void initView() {
-        camera_sync_switch.setOnCheckedChangeListener(this);
-        sync_video_switch.setOnCheckedChangeListener(this);
-        use_celluar_data_switch.setOnCheckedChangeListener(this);
-
         boolean cameraSyncChecked = SharedPreferencesHelper.getInstance(this).getBoolean(ConstantSP.SP_CAMERA_SYNC, false);
         camera_sync_switch.setChecked(cameraSyncChecked);
         initCheckedStatus(cameraSyncChecked);
+
+        camera_sync_switch.setOnCheckedChangeListener(this);
+        sync_video_switch.setOnCheckedChangeListener(this);
+        use_celluar_data_switch.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -59,14 +62,11 @@ public class CameraSyncActivity extends BaseAcitivity implements CompoundButton.
         switch (compoundButton.getId()) {
             case R.id.camera_sync_switch:
                 Log.i("lxm", "相机 = " + b);
+                EventBus.getDefault().post(new GsCameraSyncEvent(b));
                 SharedPreferencesHelper.getInstance(this).setBoolean(ConstantSP.SP_SYNC_VIDEO, false);
                 SharedPreferencesHelper.getInstance(this).setBoolean(ConstantSP.SP_USE_CELLULAR_DATA, false);
-
                 SharedPreferencesHelper.getInstance(this).setBoolean(ConstantSP.SP_CAMERA_SYNC, b);
-
                 initCheckedStatus(b);
-
-
                 break;
             case R.id.sync_video_switch:
                 SharedPreferencesHelper.getInstance(this).setBoolean(ConstantSP.SP_SYNC_VIDEO, b);
