@@ -12,7 +12,8 @@
 
     <style name="Translucent_NoTitle" parent="android:style/Theme.Dialog">
         <item name="android:background">#00000000</item> <!-- 设置自定义布局的背景透明 -->
-        <item name="android:windowBackground">@android:color/transparent</item>  <!-- 设置window背景透明，也就是去边框 -->
+        <item name="android:windowBackground">@android:color/transparent
+        </item>  <!-- 设置window背景透明，也就是去边框 -->
     </style>
 
     <!-- 二维码扫描 -->
@@ -23,10 +24,12 @@
         <item name="colorPrimaryDark">#ffb341</item>
         <item name="colorAccent">#ffb341</item>
     </style>
+
     <style name="GsFullMenuAnim">
         <item name="android:windowEnterAnimation">@anim/gs_full_menu_enter_anim</item>
         <item name="android:windowExitAnimation">@anim/gs_full_menu_exit_anim</item>
     </style>
+
     <style name="GsBtn">
         <item name="android:padding">10dp</item>
         <item name="android:background">@drawable/gs_btn_selector</item>
@@ -34,5 +37,29 @@
         <item name="android:layout_margin">10dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <!--相机设置-->
+    <style name="camera_sync_linear_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:background">@color/color_white</item>
+        <item name="android:padding">@dimen/item_pading</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="camera_sync">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="camera_sync_detail">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/color_gray</item>
+        <item name="android:padding">@dimen/item_pading</item>
+        <item name="android:layout_marginBottom">@dimen/item_pading</item>
     </style>
 </resources>

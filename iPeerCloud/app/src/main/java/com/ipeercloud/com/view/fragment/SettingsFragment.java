@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.ipeercloud.com.IpeerCloudApplication;
 import com.ipeercloud.com.utils.Contants;
 import com.ipeercloud.com.utils.SharedPreferencesHelper;
+import com.ipeercloud.com.view.activity.CameraSyncActivity;
 import com.ipeercloud.com.view.activity.ChangePasswordAcitivity;
 import com.ipeercloud.com.view.activity.LinkGoonasAcitivity;
 import com.ipeercloud.com.view.activity.LoginAcitivity;
@@ -27,10 +28,11 @@ import com.zhy.android.percent.support.PercentRelativeLayout;
  * 个人中心
  */
 
-public class SettingsFragment extends BaseFragment{
+public class SettingsFragment extends BaseFragment {
 
     private PercentRelativeLayout prl_exit;
-    @ViewInject(R.id.tv_username)TextView tv_username;
+    @ViewInject(R.id.tv_username)
+    TextView tv_username;
 
     @Nullable
     @Override
@@ -46,10 +48,10 @@ public class SettingsFragment extends BaseFragment{
         tv_username.setText(username);
     }
 
-    @OnClick({(R.id.prl_exit),(R.id.prl_changepwd),(R.id.prl_connectcloud),(R.id.prl_addnewcloud),(R.id.prl_clearcache)})
-    public void onClick(View view){
+    @OnClick({(R.id.prl_exit), (R.id.prl_changepwd),(R.id.prl_camera), (R.id.prl_connectcloud), (R.id.prl_addnewcloud), (R.id.prl_clearcache)})
+    public void onClick(View view) {
         Intent intent;
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.prl_exit:                     // 退出登录
                 intent = new Intent(SettingsFragment.this.getActivity(), LoginAcitivity.class);
                 startActivity(intent);
@@ -66,6 +68,9 @@ public class SettingsFragment extends BaseFragment{
             case R.id.prl_addnewcloud:              // 添加新的私有云
                 break;
             case R.id.prl_clearcache:               // 清除缓存
+                break;
+            case R.id.prl_camera:               // 相机同步
+                startActivity(new Intent(getActivity(), CameraSyncActivity.class));
                 break;
         }
     }
