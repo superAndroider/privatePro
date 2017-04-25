@@ -60,4 +60,6 @@
     <string name="use_cellular_data">Use Cellular Data</string>
     <string name="use_cellular_data_detail">Goonas will not sync using your data plan for this option is disabled</string>
 
+    <string name="setting_on_sync_camera">On</string>
+    <string name="setting_off_sync_camera">Off</string>
 </resources>

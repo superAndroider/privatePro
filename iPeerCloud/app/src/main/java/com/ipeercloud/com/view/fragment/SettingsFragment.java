@@ -3,6 +3,7 @@ package com.ipeercloud.com.view.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ipeercloud.com.IpeerCloudApplication;
+import com.ipeercloud.com.model.EventBusEvent.GsCameraSyncEvent;
 import com.ipeercloud.com.utils.Contants;
 import com.ipeercloud.com.utils.SharedPreferencesHelper;
 import com.ipeercloud.com.view.activity.CameraSyncActivity;
@@ -22,6 +24,10 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 
 /**
  * Created by longhengdong on 2016/11/16.
@@ -33,12 +39,16 @@ public class SettingsFragment extends BaseFragment {
     private PercentRelativeLayout prl_exit;
     @ViewInject(R.id.tv_username)
     TextView tv_username;
+    @ViewInject(R.id.tv_camera_sync)
+    TextView tv_camera_sync;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         ViewUtils.inject(this, view);
+        EventBus.getDefault().register(this);
+
         initView(view);
         return view;
     }
@@ -48,7 +58,7 @@ public class SettingsFragment extends BaseFragment {
         tv_username.setText(username);
     }
 
-    @OnClick({(R.id.prl_exit), (R.id.prl_changepwd),(R.id.prl_camera), (R.id.prl_connectcloud), (R.id.prl_addnewcloud), (R.id.prl_clearcache)})
+    @OnClick({(R.id.prl_exit), (R.id.prl_changepwd), (R.id.prl_camera), (R.id.prl_connectcloud), (R.id.prl_addnewcloud), (R.id.prl_clearcache)})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -75,4 +85,17 @@ public class SettingsFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    //相机同步
+    @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
+    public void onEvent(GsCameraSyncEvent event) {
+        Log.i("lxm","event" +event.isOn);
+
+        tv_camera_sync.setText(event.isOn ? getString(R.string.setting_on_sync_camera) : getString(R.string.setting_off_sync_camera));
+    }
 }
