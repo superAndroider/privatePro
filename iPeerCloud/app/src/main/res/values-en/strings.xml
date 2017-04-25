@@ -50,4 +50,14 @@
     <string name="scan_code">By Scan Drive QR Code</string>
     <string name="enter_uuid">By Manual Enter Drive UUID</string>
     <string name="cancel">Cancel</string>
+
+
+    <!--设置-->
+    <string name="camera_sync">Camera Sync</string>
+    <string name="camera_sync_detail">Photos will automatic sync to the photos folder in your peer drive</string>
+    <string name="sync_videos">Sync Videos</string>
+    <string name="sync_videos_detail">Camera videos will automatic sync to the photos folder in your peer drive</string>
+    <string name="use_cellular_data">Use Cellular Data</string>
+    <string name="use_cellular_data_detail">Goonas will not sync using your data plan for this option is disabled</string>
+
 </resources>

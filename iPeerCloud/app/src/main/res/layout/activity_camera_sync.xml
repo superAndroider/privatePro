@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/camera_sync_linear_layout">
+
+        <TextView
+            style="@style/camera_sync"
+            android:text="@string/camera_sync" />
+
+        <com.ipeer.widget.switchbutton.SwitchButton
+            android:id="@+id/camera_sync_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/camera_sync_detail"
+        android:text="@string/camera_sync_detail" />
+
+    <LinearLayout
+        android:id="@+id/ll_sync_video"
+        style="@style/camera_sync_linear_layout">
+
+        <TextView
+            style="@style/camera_sync"
+            android:text="@string/sync_videos" />
+
+        <com.ipeer.widget.switchbutton.SwitchButton
+            android:id="@+id/sync_video_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_sync_video_detail"
+        style="@style/camera_sync_detail"
+        android:text="@string/sync_videos_detail" />
+
+    <LinearLayout
+        android:id="@+id/ll_use_cellular_data"
+        style="@style/camera_sync_linear_layout">
+
+        <TextView
+            style="@style/camera_sync"
+            android:text="@string/use_cellular_data" />
+
+        <com.ipeer.widget.switchbutton.SwitchButton
+            android:id="@+id/use_celluar_data_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_use_cellular_data_detail"
+        style="@style/camera_sync_detail"
+        android:text="@string/use_cellular_data_detail" />
+
+</LinearLayout>

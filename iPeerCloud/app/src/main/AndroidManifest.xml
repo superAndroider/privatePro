@@ -64,8 +64,10 @@
                 <data android:mimeType="application/vnd.android.package-archive" />
                 <data android:mimeType="*/*" />
                 <data android:mimeType="application/vnd.ms-powerpoint" />
+
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -85,6 +87,9 @@
         <activity android:name=".ui.SelectActivity">
 
         </activity>
+
+        <activity android:name=".view.activity.CameraSyncActivity"></activity>
+
         <activity
             android:name="com.ipeercloud.com.zxing.ToolbarCaptureActivity"
             android:clearTaskOnLaunch="true"

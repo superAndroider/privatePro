@@ -8,4 +8,7 @@
 
     <color name="color_devider_line">#F0F0F0</color>
 
+    <!--设置页  相机同步-->
+    <color name="color_gray">#CCCCCC</color>
+
 </resources>
