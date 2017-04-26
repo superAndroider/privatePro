@@ -101,7 +101,8 @@
             android:theme="@style/AppCompatCaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
-        <service android:name=".view.service.SyncService"></service>
+        <service android:name=".view.service.SyncUploadService"></service>
+        <service android:name=".view.service.SyncDownLoadService"></service>
 
     </application>
 

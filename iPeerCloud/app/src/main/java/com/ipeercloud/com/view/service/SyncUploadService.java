@@ -32,7 +32,7 @@ import java.util.List;
  * 邮箱:287907160@qq.com
  */
 
-public class SyncService extends Service {
+public class SyncUploadService extends Service {
 
     private List<ImageItem> imageItems = new ArrayList<>();
 
@@ -52,9 +52,16 @@ public class SyncService extends Service {
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
 
+        if (intent == null) return;
         imageItems = (List<ImageItem>) intent.getSerializableExtra(ImagePreviewActivity.LIST_IMAGES);
 
-        onImagesLoaded(imageItems);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                onImagesLoaded(imageItems);
+            }
+        }).start();
+
         GsLog.d("SyncService onStart = " + imageItems.size());
     }
 
@@ -101,7 +108,6 @@ public class SyncService extends Service {
 
         for (final ImageItem item : imageList) {
             if (item.time > oneDayAgo) {
-                GsLog.d("可以上傳了");
                 GsJniManager.getInstance().uploadFile(item.path, item.name, new GsCallBack<GsSimpleResponse>() {
                     @Override
                     public void onResult(GsSimpleResponse response) {

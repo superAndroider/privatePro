@@ -17,21 +17,13 @@ import com.ipeer.imageselect.data.OnImagesLoadedListener;
 import com.ipeer.imageselect.data.impl.LocalDataSource;
 import com.ipeer.imageselect.ui.ImageGrideAdapter;
 import com.ipeer.imageselect.ui.ImagePreviewActivity;
-import com.ipeercloud.com.MainActivity;
 import com.ipeercloud.com.R;
-import com.ipeercloud.com.controler.GsJniManager;
-import com.ipeercloud.com.model.GsCallBack;
 import com.ipeercloud.com.model.GsFileModule;
-import com.ipeercloud.com.model.GsSimpleResponse;
 import com.ipeercloud.com.store.GsDataManager;
-import com.ipeercloud.com.utils.GsLog;
-import com.ipeercloud.com.view.service.SyncService;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 
 
@@ -79,41 +71,12 @@ public class PhotosFragment extends BaseFragment implements OnImagesLoadedListen
         tvPhotosCount.setText(imageSetList.get(0).imageItems.size() + "照片");
         mAdapter.setImages(imageSetList.get(0).imageItems);
 
-        Intent intent = new Intent(getActivity(), SyncService.class);
-        intent.putExtra(ImagePreviewActivity.LIST_IMAGES, (Serializable) imageSetList.get(0).imageItems);
-        getActivity().startService(intent);
-    }
-
-
-    /**
-     * 上传照片
-     */
-    private void upLoadFile(String localpath, final String fileName) {
-        GsJniManager.getInstance().upLoadOneFile(localpath, GsJniManager.PHOTO_PARAM + "\\" + fileName, new GsCallBack<GsSimpleResponse>() {
-            @Override
-            public void onResult(GsSimpleResponse response) {
-                if (response.result) {
-                    GsLog.d("上傳成功:" + fileName);
-//                    Toast.makeText(getContext(), fileName + "上传成功", Toast.LENGTH_LONG).show();
-                } else {
-                    GsLog.d("上傳失敗:" + fileName);
-//                    Toast.makeText(getContext(), fileName + "上传失败", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
-    public void notifyData() {
-        GsLog.d("photo notify");
-//        mAdapter.setData(GsDataManager.getInstance().medias != null ? GsDataManager.getInstance().photos.fileList : null);
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         ImageItem imageItem = mAdapter.getItem(position);
-        /*******/
-        upLoadFile(imageItem.path, imageItem.name);
-        /*******/
+
         GsFileModule.FileEntity entity = new GsFileModule.FileEntity();
         entity.FileName = imageItem.name;
         entity.FileSize = 0;
