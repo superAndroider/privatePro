@@ -179,7 +179,7 @@ public class MainActivity extends BaseAcitivity {
      * 将其他app发送过来的文件上传到远端
      */
     private void upLoadFile(String localpath, final String fileName) {
-        GsJniManager.getInstance().upLoadFile(localpath, "\\" + fileName, new GsCallBack<GsSimpleResponse>() {
+        GsJniManager.getInstance().upLoadOneFile(localpath, "\\" + fileName, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
                 if (response.result) {

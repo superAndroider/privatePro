@@ -33,7 +33,9 @@ public class GsJniManager {
     private String user;
     private String password;
     private Queue<Runnable> mDownLoadRunnables = new LinkedBlockingQueue<>(128);
+    private Queue<Runnable> mUpLoadRunnables = new LinkedBlockingQueue<>(128);
     private boolean mCanLoad = true;
+    private boolean mCanUpLoad = true;
 
     private GsJniManager() {
         mHandler = new Handler();
@@ -260,7 +262,7 @@ public class GsJniManager {
         }
     }
 
-    public void upLoadFile(final String localPath, final String remotePath, final GsCallBack<GsSimpleResponse> callBack) {
+    public void upLoadOneFile(final String localPath, final String remotePath, final GsCallBack<GsSimpleResponse> callBack) {
         GsThreadPool.getInstance().execute(new Runnable() {
             @Override
             public void run() {
@@ -277,6 +279,40 @@ public class GsJniManager {
             }
         });
 
+    }
+
+    /**
+     * 上传文件
+     */
+    public void uploadFile(final String localPath, final String remotePath, final GsCallBack callback) {
+        mUpLoadRunnables.add(new Runnable() {
+            @Override
+            public void run() {
+                GsLog.d("上传文件 =="+localPath);
+                final boolean result = GsSocketManager.getInstance().gsPutFile(localPath, remotePath);
+                uploadFinish();
+                if (callback == null) return;
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onResult(new GsSimpleResponse(result));
+                    }
+                });
+            }
+        });
+        if (mCanUpLoad && mUpLoadRunnables.peek() != null) {
+            mCanUpLoad = false;
+            GsThreadPool.getInstance().execute(mUpLoadRunnables.poll());
+        }
+
+    }
+
+    private void uploadFinish() {
+        mCanUpLoad = true;
+        if (mUpLoadRunnables.peek() != null) {
+            mCanLoad = false;
+            GsThreadPool.getInstance().execute(mUpLoadRunnables.poll());
+        }
     }
 
     public void addWIFI(final String wifiName, final String password,final GsCallBack<GsSimpleResponse> callBack) {
