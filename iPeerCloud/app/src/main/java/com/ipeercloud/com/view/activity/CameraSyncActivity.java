@@ -2,10 +2,8 @@ package com.ipeercloud.com.view.activity;
 
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -14,6 +12,7 @@ import com.ipeer.widget.switchbutton.SwitchButton;
 import com.ipeercloud.com.R;
 import com.ipeercloud.com.model.EventBusEvent.GsCameraSyncEvent;
 import com.ipeercloud.com.utils.ConstantSP;
+import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.utils.SharedPreferencesHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -66,7 +65,7 @@ public class CameraSyncActivity extends BaseAcitivity implements CompoundButton.
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         switch (compoundButton.getId()) {
             case R.id.camera_sync_switch:
-                Log.i("lxm", "相机 = " + b);
+                GsLog.d("相机 = " + b);
                 EventBus.getDefault().post(new GsCameraSyncEvent(b));
                 SharedPreferencesHelper.getInstance(this).setInt(ConstantSP.SP_PHOTO_SAVE_TIME, 0);
                 SharedPreferencesHelper.getInstance(this).setBoolean(ConstantSP.SP_SYNC_VIDEO, false);
@@ -77,11 +76,11 @@ public class CameraSyncActivity extends BaseAcitivity implements CompoundButton.
                 break;
             case R.id.sync_video_switch:
                 SharedPreferencesHelper.getInstance(this).setBoolean(ConstantSP.SP_SYNC_VIDEO, b);
-                Log.i("lxm", "视频 = " + b);
+                GsLog.d("视频 = " + b);
                 break;
             case R.id.use_celluar_data_switch:
                 SharedPreferencesHelper.getInstance(this).setBoolean(ConstantSP.SP_USE_CELLULAR_DATA, b);
-                Log.i("lxm", "网络 = " + b);
+                GsLog.d("网络 = " + b);
                 break;
         }
     }
@@ -103,16 +102,38 @@ public class CameraSyncActivity extends BaseAcitivity implements CompoundButton.
 
         sync_video_switch.setChecked(SharedPreferencesHelper.getInstance(this).getBoolean(ConstantSP.SP_SYNC_VIDEO, false));
         use_celluar_data_switch.setChecked(SharedPreferencesHelper.getInstance(this).getBoolean(ConstantSP.SP_USE_CELLULAR_DATA, false));
-        rg_camera_sync.check(SharedPreferencesHelper.getInstance(this).getInt(ConstantSP.SP_PHOTO_SAVE_TIME, 0));
-
+        int checkedPosition = SharedPreferencesHelper.getInstance(this).getInt(ConstantSP.SP_PHOTO_SAVE_TIME, 0);
+        switch (checkedPosition) {
+            case 0:
+                rg_camera_sync.check(R.id.rb_one_day);
+                break;
+            case 1:
+                rg_camera_sync.check(R.id.rb_one_month);
+                break;
+            case 2:
+                rg_camera_sync.check(R.id.rb_one_year);
+                break;
+        }
     }
 
 
     //保存照片时间设置
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-        Log.i("lxm", "RadioGroup changed = " + i);
+        switch (i) {
+            case R.id.rb_one_day:
+                SharedPreferencesHelper.getInstance(this).setInt(ConstantSP.SP_PHOTO_SAVE_TIME, 0);
+                GsLog.d("RadioGroup changed = " + 0);
+                break;
+            case R.id.rb_one_month:
+                SharedPreferencesHelper.getInstance(this).setInt(ConstantSP.SP_PHOTO_SAVE_TIME, 1);
+                GsLog.d("RadioGroup changed = " + 1);
+                break;
+            case R.id.rb_one_year:
+                SharedPreferencesHelper.getInstance(this).setInt(ConstantSP.SP_PHOTO_SAVE_TIME, 2);
+                GsLog.d("RadioGroup changed = " + 2);
+                break;
 
-        SharedPreferencesHelper.getInstance(this).setInt(ConstantSP.SP_PHOTO_SAVE_TIME, i);
+        }
     }
 }

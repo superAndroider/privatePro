@@ -125,14 +125,14 @@ upLoadFile(item.path, item.name);
 
     public void notifyData() {
         GsLog.d("photo notify");
-//        mAdapter.setData(GsDataManager.getInstance().medias != null ? GsDataManager.getInstance().medias.fileList : null);
+//        mAdapter.setData(GsDataManager.getInstance().medias != null ? GsDataManager.getInstance().photos.fileList : null);
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         ImageItem imageItem = mAdapter.getItem(position);
         /*******/
-        upLoadFile(imageItem.path, imageItem.time + ".png");
+        upLoadFile(imageItem.path, imageItem.name);
         /*******/
         GsFileModule.FileEntity entity = new GsFileModule.FileEntity();
         entity.FileName = imageItem.name;

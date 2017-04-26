@@ -12,7 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ipeercloud.com.IpeerCloudApplication;
+import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.model.EventBusEvent.GsCameraSyncEvent;
+import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.Contants;
 import com.ipeercloud.com.utils.SharedPreferencesHelper;
 import com.ipeercloud.com.view.activity.AddWifiActivity;
@@ -82,6 +84,7 @@ public class SettingsFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), AddWifiActivity.class));
                 break;
             case R.id.prl_clearcache:               // 清除缓存
+                GsDataManager.getInstance().clearRecentFiles();
                 break;
 
             case R.id.prl_invite:               // 发送邮件

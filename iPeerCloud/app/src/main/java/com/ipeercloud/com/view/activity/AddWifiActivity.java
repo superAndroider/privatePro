@@ -14,7 +14,10 @@ import com.ipeer.widget.switchbutton.SwitchButton;
 import com.ipeercloud.com.R;
 import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.model.EventBusEvent.GsCameraSyncEvent;
+import com.ipeercloud.com.model.GsCallBack;
+import com.ipeercloud.com.model.GsSimpleResponse;
 import com.ipeercloud.com.utils.ConstantSP;
+import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.utils.SharedPreferencesHelper;
 import com.ipeercloud.com.utils.network.NetworkUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -45,9 +48,10 @@ public class AddWifiActivity extends BaseAcitivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
+        String SSID = NetworkUtils.getWifiSSID(this).replace("\"", "");
+        Log.i("lxm", "ssid = " + SSID);
 
-        Log.i("lxm", "ssid = " + NetworkUtils.getWifiSSID(this));
-        tv_ssid_add_activity.setText(NetworkUtils.getWifiSSID(this));
+        tv_ssid_add_activity.setText(SSID);
     }
 
     private void initView() {
@@ -56,6 +60,12 @@ public class AddWifiActivity extends BaseAcitivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        GsJniManager.getInstance().addWIFI(tv_ssid_add_activity.getText().toString(), et_password_wifi.getText().toString());
+        GsJniManager.getInstance().addWIFI(tv_ssid_add_activity.getText().toString(),
+                et_password_wifi.getText().toString(), new GsCallBack<GsSimpleResponse>() {
+                    @Override
+                    public void onResult(GsSimpleResponse response) {
+                        GsLog.d("添加WiFi連接 =" + response.result);
+                    }
+                });
     }
 }

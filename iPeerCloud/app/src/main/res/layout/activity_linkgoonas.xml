@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.zhy.android.percent.support.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f0f0f0"
@@ -13,21 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#EAEAEA"
-        app:layout_heightPercent="6%h"
-        >
+        app:layout_heightPercent="6%h">
 
         <com.zhy.android.percent.support.PercentRelativeLayout
             android:id="@+id/btn_back"
             android:layout_width="60dp"
             android:layout_height="match_parent">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_heightPercent="80%h"
-                android:src="@mipmap/icon_leftbtn"
                 android:layout_centerVertical="true"
-                app:layout_marginLeftPercent="25%h"
-                />
+                android:src="@mipmap/icon_leftbtn"
+                app:layout_heightPercent="80%h"
+                app:layout_marginLeftPercent="25%h" />
         </com.zhy.android.percent.support.PercentRelativeLayout>
 
         <TextView
@@ -35,8 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/link_cloud"
-            android:textColor="#111111"
-            />
+            android:textColor="#111111" />
 
         <TextView
             android:id="@+id/btn_create"
@@ -46,137 +43,153 @@
             android:layout_centerVertical="true"
             android:text="@string/link"
             android:textColor="#0079FF"
-            app:layout_marginRightPercent="2.5%w"
-            />
+            app:layout_marginRightPercent="2.5%w" />
 
     </com.zhy.android.percent.support.PercentRelativeLayout>
 
     <View
         android:id="@+id/line_top"
-        android:layout_below="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#e1e1e1"
-        />
+        android:layout_below="@+id/top_bar"
+        android:background="#e1e1e1" />
 
     <com.zhy.android.percent.support.PercentLinearLayout
         android:id="@+id/ll_content"
-        android:layout_below="@+id/line_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/line_top"
         android:background="#ffffff"
-        app:layout_heightPercent="10%h"
-        app:layout_marginTopPercent="8%h"
         android:orientation="vertical"
-        >
+        app:layout_heightPercent="10%h"
+        app:layout_marginTopPercent="8%h">
+
         <LinearLayout
             android:id="@+id/ll_linkstate"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:layout_marginLeftPercent="2%w"
             android:orientation="horizontal"
-            >
+            app:layout_marginLeftPercent="2%w">
+
             <TextView
                 android:id="@+id/tv_emailp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lines="1"
                 android:text="@string/private_clould_uuid"
                 android:textColor="#111111"
                 android:textSize="12sp"
-                android:ellipsize="end"
-                android:lines="1"
-                android:gravity="center_vertical"
-                app:layout_marginLeftPercent="2.5%w"
-                />
-            <TextView
-                android:id="@+id/edit_linkstate"
+                app:layout_marginLeftPercent="2.5%w" />
+
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
-                android:hint="@string/linked"
-                android:textColor="#e1e1e1"
-                android:textColorHint="#999999"
-                android:textSize="12sp"
                 android:gravity="center_vertical"
-                app:layout_marginLeftPercent="2.5%w"
-                android:background="@null"
-                />
+                app:layout_marginLeftPercent="2.5%w">
+
+                <TextView
+                    android:id="@+id/tv_show_linkstate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="@string/linked"
+                    android:textColor="#e1e1e1"
+                    android:textColorHint="#999999"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/edit_linkstate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_white"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint_linked"
+                    android:textColor="#e1e1e1"
+                    android:textColorHint="#999999"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+            </FrameLayout>
         </LinearLayout>
     </com.zhy.android.percent.support.PercentLinearLayout>
 
     <TextView
-        android:layout_below="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_marginTopPercent="1%w"
-        app:layout_marginLeftPercent="2.5%w"
-        app:layout_marginRightPercent="2.5%w"
+        android:layout_below="@+id/ll_content"
         android:lines="2"
         android:text="@string/link_tips"
-        android:textSize="12sp"
         android:textColor="#111111"
-        />
+        android:textSize="12sp"
+        app:layout_marginLeftPercent="2.5%w"
+        app:layout_marginRightPercent="2.5%w"
+        app:layout_marginTopPercent="1%w" />
 
 
     <RelativeLayout
-        android:layout_below="@+id/tv_toptitle"
         android:id="@+id/rl_popuview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/tv_toptitle"
         android:background="#55000000">
+
         <View
             android:id="@+id/view_square_popup_outside"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_alignParentBottom="true"
             android:layout_height="120dip"
-            android:background="@drawable/bg_login_input"
+            android:layout_alignParentBottom="true"
             android:layout_margin="2dip"
-            android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:background="@drawable/bg_login_input"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/btn_scancode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/scan_code"
-                android:textColor="#333333"
-                android:gravity="center"
                 android:layout_centerHorizontal="true"
-                />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/scan_code"
+                android:textColor="#333333" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dip"
-                android:background="#f0f0f0"
-                />
+                android:background="#f0f0f0" />
+
             <TextView
                 android:id="@+id/btn_enteruuid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/enter_uuid"
-                android:textColor="#333333"
                 android:gravity="center"
-                />
+                android:text="@string/enter_uuid"
+                android:textColor="#333333" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dip"
-                android:background="#f0f0f0"
-                />
+                android:background="#f0f0f0" />
+
             <TextView
                 android:id="@+id/btn_cancell"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/cancel"
-                android:textColor="#333333"
-                android:gravity="center"
                 android:layout_centerHorizontal="true"
-                />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:textColor="#333333" />
         </LinearLayout>
     </RelativeLayout>
 </com.zhy.android.percent.support.PercentRelativeLayout>

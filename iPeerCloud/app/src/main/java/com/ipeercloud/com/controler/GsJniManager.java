@@ -279,16 +279,22 @@ public class GsJniManager {
 
     }
 
-    public void addWIFI(final String wifiName, final String password) {
+    public void addWIFI(final String wifiName, final String password,final GsCallBack<GsSimpleResponse> callBack) {
         GsThreadPool.getInstance().execute(new Runnable() {
             @Override
             public void run() {
+                GsLog.d("請求添加wifi模块");
                 final boolean result = GsSocketManager.getInstance().gsAddWifi(wifiName, password);
                 GsLog.d("添加wifi模块 = " + result);
+                if (callBack == null)
+                    return;
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.onResult(new GsSimpleResponse(result));
+                    }
+                });
             }
         });
-
     }
-
-
 }

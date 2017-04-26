@@ -46,6 +46,7 @@
     <string name="link_cloud">连接你的私有云</string>
     <string name="link">连接</string>
     <string name="linked">已连接</string>
+    <string name="hint_linked">请输入购买的UUID</string>
     <string name="unlinked">未链接</string>
     <string name="private_clould_uuid">私有云存储服务器的UUID号</string>
     <string name="link_tips">连接到您的私有云存储服务器后，系统将自动同步相册、视频文件</string>

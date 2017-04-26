@@ -43,6 +43,7 @@
     <string name="link_cloud">Link Your GOONAS LaDrive</string>
     <string name="link">Link</string>
     <string name="linked">Linked</string>
+    <string name="hint_linked">please Enter Drive UUID </string>
     <string name="unlinked">Unlinked</string>
     <string name="private_clould_uuid">Private Cloud Storage</string>
     <string name="link_tips">After link to Your GOONAS laDrive/PeerDrive, Phone and Drives will sync photos videos files between each other automatic</string>
