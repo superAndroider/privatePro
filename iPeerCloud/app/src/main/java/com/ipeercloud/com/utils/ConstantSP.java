@@ -16,4 +16,7 @@ public class ConstantSP {
     //相机设置页使用网络数据
     public static final String SP_USE_CELLULAR_DATA = "SP_USE_CELLULAR_DATA";
 
+    //相册保存时间 :一天   :一个月   :一年
+    public static final String SP_PHOTO_SAVE_TIME = "SP_PHOTO_SAVE_TIME";
+
 }

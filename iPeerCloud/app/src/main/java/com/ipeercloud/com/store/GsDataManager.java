@@ -21,6 +21,8 @@ import java.util.Map;
 public class GsDataManager {
     // 文件
     public GsFileModule files;
+    // 文件
+    public GsFileModule photos;
     // 视频
     public GsFileModule medias;
     // 最新
@@ -33,6 +35,7 @@ public class GsDataManager {
 
     private GsDataManager() {
         files = new GsFileModule();
+        photos = new GsFileModule();
         medias = new GsFileModule();
         recentFile = new GsFileModule();
     }
@@ -51,6 +54,10 @@ public class GsDataManager {
         Gson gson = new Gson();
         String gsonString = gson.toJson(files, GsFileModule.class);
         GsSp.getInstance().putString("files", gsonString);
+
+        gsonString = gson.toJson(photos, GsFileModule.class);
+        GsSp.getInstance().putString("photos", gsonString);
+
         gsonString = gson.toJson(recentFile, GsFileModule.class);
         GsSp.getInstance().putString("recentFile", gsonString);
         gsonString = gson.toJson(medias, GsFileModule.class);
@@ -69,6 +76,12 @@ public class GsDataManager {
         if (!TextUtils.isEmpty(jsonString)) {
             files = gson.fromJson(jsonString, GsFileModule.class);
         }
+
+        jsonString = GsSp.getInstance().getString("photos");
+        if (!TextUtils.isEmpty(jsonString)) {
+            photos = gson.fromJson(jsonString, GsFileModule.class);
+        }
+
         jsonString = GsSp.getInstance().getString("recentFile");
         if (!TextUtils.isEmpty(jsonString)) {
             recentFile = gson.fromJson(jsonString, GsFileModule.class);

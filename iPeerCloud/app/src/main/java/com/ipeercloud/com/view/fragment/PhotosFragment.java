@@ -3,23 +3,24 @@ package com.ipeercloud.com.view.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ipeer.imageselect.bean.ImageItem;
 import com.ipeer.imageselect.bean.ImageSet;
 import com.ipeer.imageselect.data.DataSource;
 import com.ipeer.imageselect.data.OnImagesLoadedListener;
 import com.ipeer.imageselect.data.impl.LocalDataSource;
 import com.ipeer.imageselect.ui.ImageGrideAdapter;
 import com.ipeer.imageselect.ui.ImagePreviewActivity;
-import com.lidroid.xutils.ViewUtils;
 import com.ipeercloud.com.R;
+import com.ipeercloud.com.model.GsFileModule;
+import com.ipeercloud.com.store.GsDataManager;
+import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
@@ -74,7 +75,14 @@ public class PhotosFragment extends BaseFragment implements OnImagesLoadedListen
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        ImageItem imageItem = mAdapter.getItem(position);
 
+        GsFileModule.FileEntity entity = new GsFileModule.FileEntity();
+        entity.FileName = imageItem.name;
+        entity.FileSize = 0;
+        entity.FileType = 0;
+
+        GsDataManager.getInstance().recentFile.addEntity(entity);
         Intent intent = new Intent(getActivity(), ImagePreviewActivity.class);
         intent.putExtra(ImagePreviewActivity.CURRENT_POSITION, position);
         intent.putExtra(ImagePreviewActivity.LIST_IMAGES, (Serializable) mAdapter.getList());

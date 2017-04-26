@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ipeer.imageselect.bean.ImageSet;
+import com.ipeer.imageselect.data.DataSource;
+import com.ipeer.imageselect.data.OnImagesLoadedListener;
+import com.ipeer.imageselect.data.impl.LocalDataSource;
 import com.ipeercloud.com.controler.GsFileHelper;
 import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.controler.GsSocketManager;
@@ -29,10 +33,13 @@ import com.ipeercloud.com.view.fragment.HomeFragment;
 import com.ipeercloud.com.view.fragment.MediasFragment;
 import com.ipeercloud.com.view.fragment.PhotosFragment;
 import com.ipeercloud.com.view.fragment.SettingsFragment;
+import com.ipeercloud.com.view.service.SyncDownLoadService;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
-public class MainActivity extends BaseAcitivity {
+import java.util.List;
+
+public class MainActivity extends BaseAcitivity implements OnImagesLoadedListener {
 
     private HomeFragment homeFragment;                                      // 首页
     private PhotosFragment photosFragment;                                  // photos
@@ -90,6 +97,9 @@ public class MainActivity extends BaseAcitivity {
         initView();
         initFragment();
         String callString = GsSocketManager.getInstance().helloGoonas();
+        DataSource dataSource = new LocalDataSource(this);
+        dataSource.provideMediaItems(this);//select all images from local database
+        getPhotos();
     }
 
     private void initFragment() {
@@ -171,7 +181,7 @@ public class MainActivity extends BaseAcitivity {
         entity.FileName = fileName;
         GsDataManager.getInstance().recentFile.addEntity(entity);
         homeFragment.notifyData();
-        GsLog.d("上传 "+localPath+"    "+fileName);
+        GsLog.d("上传 " + localPath + "    " + fileName);
         upLoadFile(localPath, fileName);
     }
 
@@ -179,7 +189,7 @@ public class MainActivity extends BaseAcitivity {
      * 将其他app发送过来的文件上传到远端
      */
     private void upLoadFile(String localpath, final String fileName) {
-        GsJniManager.getInstance().upLoadFile(localpath, "\\" + fileName, new GsCallBack<GsSimpleResponse>() {
+        GsJniManager.getInstance().upLoadOneFile(localpath, "\\" + fileName, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
                 if (response.result) {
@@ -223,7 +233,8 @@ public class MainActivity extends BaseAcitivity {
                 getRecentFiles();
                 break;
             case R.id.rl_photos:
-                isOnLine();
+//                isOnLine();
+//                getPhotos();
                 index = 1;
                 break;
             case R.id.rl_medias:
@@ -323,6 +334,7 @@ public class MainActivity extends BaseAcitivity {
     }
 
     private void getAllFiles() {
+        GsLog.d("开始获取文件");
         GsJniManager.getInstance().getPathFile(GsJniManager.FILE_PARAM, true, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
@@ -333,11 +345,25 @@ public class MainActivity extends BaseAcitivity {
         });
     }
 
+    private void getPhotos() {
+        GsLog.d("开始获取照片");
+        GsJniManager.getInstance().getPathFile(GsJniManager.PHOTO_PARAM, true, new GsCallBack<GsSimpleResponse>() {
+            @Override
+            public void onResult(GsSimpleResponse response) {
+                if (response.result) {
+                    GsLog.d("照片数量 = " + GsDataManager.getInstance().photos.fileList.size());
+                    downLoad();
+                }
+            }
+        });
+    }
+
     private void getRecentFiles() {
 
     }
 
     private void getMedias() {
+        GsLog.d("开始获取视频");
         GsJniManager.getInstance().getPathFile(GsJniManager.MEDIA_PARAM, true, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
@@ -363,4 +389,22 @@ public class MainActivity extends BaseAcitivity {
         });
 
     }
+
+    @Override
+    public void onImagesLoaded(List<ImageSet> imageSetList) {
+
+        // TODO: 17/4/26  开启上传同步
+        if (imageSetList == null || imageSetList.size() == 0 || imageSetList.get(0) == null) return;
+//        Intent intent = new Intent(this, SyncService.class);
+//        intent.putExtra(ImagePreviewActivity.LIST_IMAGES, (Serializable) imageSetList.get(0).imageItems);
+//        startService(intent);
+    }
+
+    // TODO: 17/4/26 下载同步
+    private void downLoad() {
+//        Intent intent = new Intent(this, SyncDownLoadService.class);
+//        startService(intent);
+
+    }
+
 }

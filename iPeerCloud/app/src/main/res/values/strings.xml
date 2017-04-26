@@ -46,6 +46,7 @@
     <string name="link_cloud">连接你的私有云</string>
     <string name="link">连接</string>
     <string name="linked">已连接</string>
+    <string name="hint_linked">请输入购买的UUID</string>
     <string name="unlinked">未链接</string>
     <string name="private_clould_uuid">私有云存储服务器的UUID号</string>
     <string name="link_tips">连接到您的私有云存储服务器后，系统将自动同步相册、视频文件</string>
@@ -58,4 +59,26 @@
 
     <string name="download_file">下载文件</string>
     <string name="delete_file">删除文件</string>
+
+
+    <!--设置-->
+    <string name="camera_sync_day">One Day</string>
+    <string name="camera_sync_month">One Month</string>
+    <string name="camera_sync_year">One Year</string>
+
+    <string name="camera_sync">Camera Sync</string>
+    <string name="camera_sync_detail">Photos will automatic sync to the photos folder in your peer drive</string>
+    <string name="sync_videos">Sync Videos</string>
+    <string name="sync_videos_detail">Camera videos will automatic sync to the photos folder in your peer drive</string>
+    <string name="use_cellular_data">Use Cellular Data</string>
+    <string name="use_cellular_data_detail">Goonas will not sync using your data plan for this option is disabled</string>
+
+    <string name="setting_on_sync_camera">On</string>
+    <string name="setting_off_sync_camera">Off</string>
+
+    <string name="add_wifi_connection_to_sever">Add internet connection to sever</string>
+    <string name="add_wifi">添加</string>
+    <string name="wifi_ssid">WIFI SSID</string>
+    <string name="wifi_password">WIFI Password</string>
+    <string name="wifi_password_hint">请输入WIFI密码</string>
 </resources>

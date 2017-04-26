@@ -24,6 +24,7 @@ public class GsJniManager {
     //根目录下的内容
     public static final String FILE_PARAM = "\\";
     //Medias下的内容
+    public static final String PHOTO_PARAM = "\\Photo";
     public static final String MEDIA_PARAM = "\\Medias";
     public static final String SHARE_PARAM = "\\ShareIn";
     private Handler mHandler;
@@ -32,7 +33,9 @@ public class GsJniManager {
     private String user;
     private String password;
     private Queue<Runnable> mDownLoadRunnables = new LinkedBlockingQueue<>(128);
+    private Queue<Runnable> mUpLoadRunnables = new LinkedBlockingQueue<>(128);
     private boolean mCanLoad = true;
+    private boolean mCanUpLoad = true;
 
     private GsJniManager() {
         mHandler = new Handler();
@@ -171,7 +174,7 @@ public class GsJniManager {
      */
     private void downFinish() {
         mCanLoad = true;
-        if ( mDownLoadRunnables.peek() != null) {
+        if (mDownLoadRunnables.peek() != null) {
             mCanLoad = false;
             GsThreadPool.getInstance().execute(mDownLoadRunnables.poll());
         }
@@ -203,6 +206,11 @@ public class GsJniManager {
                             updateList(GsDataManager.getInstance().files.fileList, new GsFileModule(result).fileList);
 
                             break;
+                        case PHOTO_PARAM:
+                            updateList(GsDataManager.getInstance().photos.fileList, new GsFileModule(result).fileList);
+
+                            break;
+
                         case MEDIA_PARAM:
                             updateList(GsDataManager.getInstance().medias.fileList, new GsFileModule(result).fileList);
                             break;
@@ -254,11 +262,12 @@ public class GsJniManager {
         }
     }
 
-    public void upLoadFile(final String localPath, final String remotePath, final GsCallBack<GsSimpleResponse> callBack) {
+    public void upLoadOneFile(final String localPath, final String remotePath, final GsCallBack<GsSimpleResponse> callBack) {
         GsThreadPool.getInstance().execute(new Runnable() {
             @Override
             public void run() {
                 final boolean result = GsSocketManager.getInstance().gsPutFile(localPath, remotePath);
+                GsLog.d("上传 = "+remotePath);
                 if (callBack == null)
                     return;
                 mHandler.post(new Runnable() {
@@ -272,4 +281,56 @@ public class GsJniManager {
 
     }
 
+    /**
+     * 上传文件
+     */
+    public void uploadFile(final String localPath, final String remotePath, final GsCallBack callback) {
+        mUpLoadRunnables.add(new Runnable() {
+            @Override
+            public void run() {
+                GsLog.d("上传文件 =="+localPath);
+                final boolean result = GsSocketManager.getInstance().gsPutFile(localPath, remotePath);
+                uploadFinish();
+                if (callback == null) return;
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onResult(new GsSimpleResponse(result));
+                    }
+                });
+            }
+        });
+        if (mCanUpLoad && mUpLoadRunnables.peek() != null) {
+            mCanUpLoad = false;
+            GsThreadPool.getInstance().execute(mUpLoadRunnables.poll());
+        }
+
+    }
+
+    private void uploadFinish() {
+        mCanUpLoad = true;
+        if (mUpLoadRunnables.peek() != null) {
+            mCanLoad = false;
+            GsThreadPool.getInstance().execute(mUpLoadRunnables.poll());
+        }
+    }
+
+    public void addWIFI(final String wifiName, final String password,final GsCallBack<GsSimpleResponse> callBack) {
+        GsThreadPool.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                GsLog.d("請求添加wifi模块");
+                final boolean result = GsSocketManager.getInstance().gsAddWifi(wifiName, password);
+                GsLog.d("添加wifi模块 = " + result);
+                if (callBack == null)
+                    return;
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.onResult(new GsSimpleResponse(result));
+                    }
+                });
+            }
+        });
+    }
 }
