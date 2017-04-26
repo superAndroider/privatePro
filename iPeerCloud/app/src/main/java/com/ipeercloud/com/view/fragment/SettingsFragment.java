@@ -2,6 +2,7 @@ package com.ipeercloud.com.view.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.ipeercloud.com.IpeerCloudApplication;
 import com.ipeercloud.com.model.EventBusEvent.GsCameraSyncEvent;
 import com.ipeercloud.com.utils.Contants;
 import com.ipeercloud.com.utils.SharedPreferencesHelper;
+import com.ipeercloud.com.view.activity.AddWifiActivity;
 import com.ipeercloud.com.view.activity.CameraSyncActivity;
 import com.ipeercloud.com.view.activity.ChangePasswordAcitivity;
 import com.ipeercloud.com.view.activity.LinkGoonasAcitivity;
@@ -77,8 +79,7 @@ public class SettingsFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.prl_addnewcloud:              // 添加新的私有云
-
-
+                startActivity(new Intent(getActivity(), AddWifiActivity.class));
                 break;
             case R.id.prl_clearcache:               // 清除缓存
                 break;

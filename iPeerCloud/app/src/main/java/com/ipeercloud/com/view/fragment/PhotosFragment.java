@@ -11,18 +11,29 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ipeer.imageselect.bean.ImageItem;
 import com.ipeer.imageselect.bean.ImageSet;
 import com.ipeer.imageselect.data.DataSource;
 import com.ipeer.imageselect.data.OnImagesLoadedListener;
 import com.ipeer.imageselect.data.impl.LocalDataSource;
 import com.ipeer.imageselect.ui.ImageGrideAdapter;
 import com.ipeer.imageselect.ui.ImagePreviewActivity;
+import com.ipeercloud.com.MainActivity;
+import com.ipeercloud.com.controler.GsJniManager;
+import com.ipeercloud.com.controler.GsThreadPool;
+import com.ipeercloud.com.model.GsCallBack;
+import com.ipeercloud.com.model.GsFileModule;
+import com.ipeercloud.com.model.GsSimpleResponse;
+import com.ipeercloud.com.store.GsDataManager;
+import com.ipeercloud.com.utils.Contants;
 import com.lidroid.xutils.ViewUtils;
 import com.ipeercloud.com.R;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 
@@ -70,11 +81,58 @@ public class PhotosFragment extends BaseFragment implements OnImagesLoadedListen
         tvPhotosCount.setText(imageSetList.get(0).imageItems.size() + "照片");
         mAdapter.setImages(imageSetList.get(0).imageItems);
 
+
+        Log.i("lxm", "current = " + (System.currentTimeMillis()));
+
+        final long oneDayAgo = System.currentTimeMillis() - Contants.MILLIS_ONE_DAY;
+
+        for (final ImageItem item : imageSetList.get(0).imageItems) {
+            GsThreadPool.getInstance().execute(new Runnable() {
+                @Override
+                public void run() {
+//                    if (item.time > oneDayAgo) {
+//                    Log.i("lxm", "上传照片 = =" + item.name);
+//                    upLoadFile(item.path, item.name);
+//                    }
+                }
+            });
+        }
+
+    }
+
+
+    /**
+     * 将其他app发送过来的文件上传到远端
+     */
+    private void upLoadFile(String localpath, final String fileName) {
+        GsJniManager.getInstance().upLoadFile(localpath, GsJniManager.PHOTO_PARAM + fileName, new GsCallBack<GsSimpleResponse>() {
+            @Override
+            public void onResult(GsSimpleResponse response) {
+                if (response.result) {
+                    Log.i("lxm", "上傳成功:" + fileName);
+//                    Toast.makeText(getContext(), fileName + "上传成功", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.i("lxm", "上傳失敗:" + fileName);
+//                    Toast.makeText(getContext(), fileName + "上传失败", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void notifyData() {
+        Log.i("lxm", "photo notify");
+//        mAdapter.setData(GsDataManager.getInstance().medias != null ? GsDataManager.getInstance().medias.fileList : null);
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        ImageItem imageItem = mAdapter.getItem(position);
+        GsFileModule.FileEntity entity = new GsFileModule.FileEntity();
+        entity.FileName = imageItem.name;
+        entity.FileSize = 0;
+        entity.FileType = 0;
 
+        GsDataManager.getInstance().recentFile.addEntity(entity);
         Intent intent = new Intent(getActivity(), ImagePreviewActivity.class);
         intent.putExtra(ImagePreviewActivity.CURRENT_POSITION, position);
         intent.putExtra(ImagePreviewActivity.LIST_IMAGES, (Serializable) mAdapter.getList());

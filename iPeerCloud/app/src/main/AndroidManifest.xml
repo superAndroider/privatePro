@@ -52,6 +52,7 @@
         <activity
             android:name="com.ipeercloud.com.MainActivity"
             android:screenOrientation="portrait">
+
             <intent-filter>
                 <data android:mimeType="application/vnd.ms-excel" />
                 <data android:mimeType="application/msword" />
@@ -89,9 +90,8 @@
         </activity>
 
         <activity android:name=".view.activity.CameraSyncActivity"></activity>
-        <activity android:name=".view.activity.SendEmailActivity">
-
-        </activity>
+        <activity android:name=".view.activity.SendEmailActivity"></activity>
+        <activity android:name=".view.activity.AddWifiActivity"></activity>
 
         <activity
             android:name="com.ipeercloud.com.zxing.ToolbarCaptureActivity"

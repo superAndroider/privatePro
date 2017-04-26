@@ -21,6 +21,38 @@
         style="@style/camera_sync_detail"
         android:text="@string/camera_sync_detail" />
 
+    <RadioGroup
+        android:id="@+id/rg_camera_sync"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="40dp">
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#0f0"
+            android:gravity="center"
+            android:text="@string/camera_sync_day" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="#0ff"
+            android:text="@string/camera_sync_month" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ff0"
+            android:gravity="center"
+            android:text="@string/camera_sync_year" />
+
+    </RadioGroup>
+
     <LinearLayout
         android:id="@+id/ll_sync_video"
         style="@style/camera_sync_linear_layout">

@@ -24,6 +24,7 @@ public class GsJniManager {
     //根目录下的内容
     public static final String FILE_PARAM = "\\";
     //Medias下的内容
+    public static final String PHOTO_PARAM = "\\Photo";
     public static final String MEDIA_PARAM = "\\Medias";
     public static final String SHARE_PARAM = "\\ShareIn";
     private Handler mHandler;
@@ -171,7 +172,7 @@ public class GsJniManager {
      */
     private void downFinish() {
         mCanLoad = true;
-        if ( mDownLoadRunnables.peek() != null) {
+        if (mDownLoadRunnables.peek() != null) {
             mCanLoad = false;
             GsThreadPool.getInstance().execute(mDownLoadRunnables.poll());
         }
@@ -203,6 +204,11 @@ public class GsJniManager {
                             updateList(GsDataManager.getInstance().files.fileList, new GsFileModule(result).fileList);
 
                             break;
+                        case PHOTO_PARAM:
+                            updateList(GsDataManager.getInstance().photos.fileList, new GsFileModule(result).fileList);
+
+                            break;
+
                         case MEDIA_PARAM:
                             updateList(GsDataManager.getInstance().medias.fileList, new GsFileModule(result).fileList);
                             break;
@@ -271,5 +277,17 @@ public class GsJniManager {
         });
 
     }
+
+    public void addWIFI(final String wifiName, final String password) {
+        GsThreadPool.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                final boolean result = GsSocketManager.getInstance().gsAddWifi(wifiName, password);
+                GsLog.d("添加wifi模块 = " + result);
+            }
+        });
+
+    }
+
 
 }
