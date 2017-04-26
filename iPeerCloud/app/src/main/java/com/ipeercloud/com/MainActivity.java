@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -325,7 +324,7 @@ public class MainActivity extends BaseAcitivity {
     }
 
     private void getAllFiles() {
-        Log.i("lxm", "開始获取文件");
+        GsLog.d("开始获取文件");
         GsJniManager.getInstance().getPathFile(GsJniManager.FILE_PARAM, true, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
@@ -337,11 +336,12 @@ public class MainActivity extends BaseAcitivity {
     }
 
     private void getPhotos() {
-        Log.i("lxm", "開始获取照片");
+        GsLog.d("开始获取照片");
         GsJniManager.getInstance().getPathFile(GsJniManager.PHOTO_PARAM, true, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
                 if (response.result) {
+                    GsLog.d("照片数量 = "+GsDataManager.getInstance().photos.fileList.size());
                     photosFragment.notifyData();
                 }
             }
@@ -353,7 +353,7 @@ public class MainActivity extends BaseAcitivity {
     }
 
     private void getMedias() {
-        Log.i("lxm", "開始获取媒體");
+        GsLog.d("开始获取视频");
         GsJniManager.getInstance().getPathFile(GsJniManager.MEDIA_PARAM, true, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {

@@ -265,6 +265,7 @@ public class GsJniManager {
             @Override
             public void run() {
                 final boolean result = GsSocketManager.getInstance().gsPutFile(localPath, remotePath);
+                GsLog.d("上传 = "+remotePath);
                 if (callBack == null)
                     return;
                 mHandler.post(new Runnable() {
