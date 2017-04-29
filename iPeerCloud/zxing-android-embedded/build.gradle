@@ -29,7 +29,15 @@ android {
             assets.srcDirs = ['assets']
         }
     }
+    defaultConfig {
+        minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
+        versionCode 1
+        versionName "1.0"
 
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
     // This is bad practice - we should fix the warnings instead.
     lintOptions {
         // Android warns about the he and id locale folders. he -> iw is already handled with a

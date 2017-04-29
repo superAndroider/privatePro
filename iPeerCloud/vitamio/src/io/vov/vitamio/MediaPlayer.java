@@ -358,14 +358,15 @@ public class MediaPlayer {
     		}
     	}
     	
-    	  if(LIB_ROOT==null){
-    	    	System.loadLibrary("stlport_shared");
+    	  if(TextUtils.isEmpty(LIB_ROOT)){
+              System.loadLibrary("stlport_shared");
     	    	System.loadLibrary("vplayer");	
     	    	loadFFmpeg_native("libffmpeg.so");
     	    	loadVVO_native("libvvo.9.so");
     	    	loadVVO_native("libvvo.9.so");
     	    	loadVAO_native("libvao.0.so");
     	    }else{
+              android.util.Log.d("hkc", "LIB_ROOT: "+LIB_ROOT);
     	    	System.load(LIB_ROOT+ "libstlport_shared.so");
     	    	System.load(LIB_ROOT+ "libvplayer.so");
     	    	loadFFmpeg_native(LIB_ROOT+"libffmpeg.so");

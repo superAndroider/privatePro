@@ -6,7 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/iPeerCloud.iml" filepath="$PROJECT_DIR$/iPeerCloud.iml" />
       <module fileurl="file://$PROJECT_DIR$/imageselect/imageselect.iml" filepath="$PROJECT_DIR$/imageselect/imageselect.iml" />
       <module fileurl="file://$PROJECT_DIR$/vitamio/vitamio.iml" filepath="$PROJECT_DIR$/vitamio/vitamio.iml" />
-      <module fileurl="file://$PROJECT_DIR$/vitamio/vitamio.iml" filepath="$PROJECT_DIR$/vitamio/vitamio.iml" />
       <module fileurl="file://$PROJECT_DIR$/zxing-android-embedded/zxing-android-embedded.iml" filepath="$PROJECT_DIR$/zxing-android-embedded/zxing-android-embedded.iml" />
     </modules>
   </component>

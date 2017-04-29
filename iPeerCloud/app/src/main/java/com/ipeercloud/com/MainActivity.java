@@ -27,13 +27,13 @@ import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.utils.UI;
 import com.ipeercloud.com.view.activity.BaseAcitivity;
+import com.ipeercloud.com.view.activity.VideoViewActivity;
 import com.ipeercloud.com.view.fragment.BaseFragment;
 import com.ipeercloud.com.view.fragment.FilesFragment;
 import com.ipeercloud.com.view.fragment.HomeFragment;
 import com.ipeercloud.com.view.fragment.MediasFragment;
 import com.ipeercloud.com.view.fragment.PhotosFragment;
 import com.ipeercloud.com.view.fragment.SettingsFragment;
-import com.ipeercloud.com.view.service.SyncDownLoadService;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -238,7 +238,8 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
                 index = 1;
                 break;
             case R.id.rl_medias:
-                getMedias();
+//                getMedias();
+                testVideo();
                 index = 2;
                 break;
             case R.id.rl_files:
@@ -316,7 +317,10 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
         }
     }
 
-
+   private void testVideo(){
+       Intent intent = new Intent(MainActivity.this, VideoViewActivity.class);
+       startActivity(intent);
+   }
     private void goToOnClick() {
 
 //        boolean login = GsSocketManager.getInstance().gsLogin("sz.goonas.com", "2411309415@qq.com", "1818");
