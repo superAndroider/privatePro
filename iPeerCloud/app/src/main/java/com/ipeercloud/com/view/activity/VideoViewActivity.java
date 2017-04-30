@@ -17,8 +17,11 @@
 package com.ipeercloud.com.view.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -56,7 +59,11 @@ public class VideoViewActivity extends Activity implements OnInfoListener, OnBuf
 
     downloadRateView = (TextView) findViewById(R.id.download_rate);
     loadRateView = (TextView) findViewById(R.id.load_rate);
-    if (path == "") {
+
+    // 获取path
+    Intent intent = getIntent();
+    path = intent.getStringExtra("path");
+    if (TextUtils.isEmpty(path)) {
       // Tell the user to provide a media file URL/path.
       Toast.makeText(
           VideoViewActivity.this,
@@ -84,7 +91,11 @@ public class VideoViewActivity extends Activity implements OnInfoListener, OnBuf
     }
 
   }
-
+  public static void startActivity(Context context,String path){
+    Intent intent = new Intent(context,VideoViewActivity.class);
+    intent.putExtra("path",path);
+    context.startActivity(intent);
+  }
   @Override
   public boolean onInfo(MediaPlayer mp, int what, int extra) {
     switch (what) {

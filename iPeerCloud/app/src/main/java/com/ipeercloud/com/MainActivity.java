@@ -27,7 +27,7 @@ import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.utils.UI;
 import com.ipeercloud.com.view.activity.BaseAcitivity;
-import com.ipeercloud.com.view.activity.VideoViewActivity;
+import com.ipeercloud.com.view.activity.GsMediaPlayerActivity;
 import com.ipeercloud.com.view.fragment.BaseFragment;
 import com.ipeercloud.com.view.fragment.FilesFragment;
 import com.ipeercloud.com.view.fragment.HomeFragment;
@@ -318,7 +318,7 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
     }
 
    private void testVideo(){
-       Intent intent = new Intent(MainActivity.this, VideoViewActivity.class);
+       Intent intent = new Intent(MainActivity.this, GsMediaPlayerActivity.class);
        startActivity(intent);
    }
     private void goToOnClick() {

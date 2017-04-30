@@ -84,9 +84,10 @@
         <activity
             android:name="com.ipeercloud.com.view.activity.LinkGoonasAcitivity"
             android:screenOrientation="portrait" />
+        <activity android:name="com.ipeercloud.com.view.activity.VideoViewActivity" />
         <activity
-            android:name="com.ipeercloud.com.view.activity.VideoViewActivity"
-            android:screenOrientation="portrait" />
+            android:name=".view.activity.GsMediaPlayerActivity"
+            android:screenOrientation="landscape" />
 
         <activity android:name=".ui.SelectActivity">
 
