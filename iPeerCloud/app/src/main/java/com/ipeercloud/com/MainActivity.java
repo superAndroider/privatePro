@@ -20,6 +20,7 @@ import com.ipeer.imageselect.data.impl.LocalDataSource;
 import com.ipeercloud.com.controler.GsFileHelper;
 import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.controler.GsSocketManager;
+import com.ipeercloud.com.httpd.GsHttpd;
 import com.ipeercloud.com.model.GsCallBack;
 import com.ipeercloud.com.model.GsFileModule;
 import com.ipeercloud.com.model.GsSimpleResponse;
@@ -28,6 +29,7 @@ import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.utils.UI;
 import com.ipeercloud.com.view.activity.BaseAcitivity;
 import com.ipeercloud.com.view.activity.GsMediaPlayerActivity;
+import com.ipeercloud.com.view.activity.VideoViewActivity;
 import com.ipeercloud.com.view.fragment.BaseFragment;
 import com.ipeercloud.com.view.fragment.FilesFragment;
 import com.ipeercloud.com.view.fragment.HomeFragment;
@@ -37,6 +39,7 @@ import com.ipeercloud.com.view.fragment.SettingsFragment;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends BaseAcitivity implements OnImagesLoadedListener {
@@ -234,12 +237,12 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
                 break;
             case R.id.rl_photos:
 //                isOnLine();
-//                getPhotos();
+                getPhotos();
                 index = 1;
                 break;
             case R.id.rl_medias:
-//                getMedias();
-                testVideo();
+                getMedias();
+//                testHttpd();
                 index = 2;
                 break;
             case R.id.rl_files:
@@ -248,6 +251,8 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
                 break;
             case R.id.rl_settings:
                 index = 4;
+                testGetFile();
+//                testVitamio();
                 break;
         }
         if (currentTabIndex != index) {
@@ -411,4 +416,42 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
 
     }
 
+    private void testHttpd(){
+        GsHttpd httpServer = new GsHttpd(80080);
+        try {
+            httpServer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+            GsLog.d("start 发生了异常");
+        }
+    }
+
+    private void testVitamio(){
+        Intent intent = new Intent(MainActivity.this, VideoViewActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * 测试gsReadFileBuffer接口
+     */
+    private void testGetFile() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                byte buf[] = new byte[1025];
+                int len[] = new int[1025];
+                final boolean result = GsSocketManager.getInstance().gsReadFileBuffer("\\Medias\\少女时代.mp4", 0, 1024, buf, len);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (result) {
+                            Toast.makeText(MainActivity.this, "gsReadFileBuffer 下载成功", 1).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "gsReadFileBuffer 下载失败", 1).show();
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
 }

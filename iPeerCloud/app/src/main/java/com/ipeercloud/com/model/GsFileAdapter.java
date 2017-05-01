@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipeercloud.com.R;
-import com.ipeercloud.com.controler.GsCacheVideo;
 import com.ipeercloud.com.controler.GsFileHelper;
 import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.controler.GsLifeCycle;
@@ -131,7 +130,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             public void onClick(View v) {
                 if (!GsFile.isContainsFile(fileName)) {
                     //点击条目，但是条目并没有下载
-                    GsCacheVideo.cacheVideo(context,mCurrentPath.toString()+"\\"+fileName);
+//                    GsCacheVideo.cacheVideo(context,mCurrentPath.toString()+"\\"+fileName);
                 } else {
                     GsLog.d("文件已经存在，直接打开");
                     GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
