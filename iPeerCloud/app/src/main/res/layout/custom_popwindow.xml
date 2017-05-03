@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#90000000"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <TextView
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/item_pading"
-        android:text="@string/camera_sync_day" />
+        android:text="@string/camera_sync_all" />
     <TextView
         android:id="@+id/tvDayPopWindow"
         android:layout_width="match_parent"

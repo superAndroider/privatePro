@@ -61,26 +61,30 @@
     <string name="delete_file">删除文件</string>
 
 
-    <!--设置-->
+    <!--照片-->
     <string name="sort">排序</string>
+    <string name="picture">照片</string>
+    <!--设置-->
 
-    <string name="camera_sync_day">One Day</string>
-    <string name="camera_sync_month">One Month</string>
-    <string name="camera_sync_year">One Year</string>
+    <string name="camera_sync_all">所有</string>
+    <string name="camera_sync_day">1天</string>
+    <string name="camera_sync_month">一个月</string>
+    <string name="camera_sync_year">一年</string>
 
-    <string name="camera_sync">Camera Sync</string>
-    <string name="camera_sync_detail">Photos will automatic sync to the photos folder in your peer drive</string>
-    <string name="sync_videos">Sync Videos</string>
-    <string name="sync_videos_detail">Camera videos will automatic sync to the photos folder in your peer drive</string>
-    <string name="use_cellular_data">Use Cellular Data</string>
-    <string name="use_cellular_data_detail">Goonas will not sync using your data plan for this option is disabled</string>
+    <string name="camera_sync">相机同步</string>
+    <string name="camera_sync_detail">所有的照片将会自动同步到您设备中的相册文件夹中</string>
+    <string name="sync_videos">视频同步</string>
+    <string name="sync_videos_detail">所有的视频将会自动同步到您设备中的相册文件夹中</string>
+    <string name="use_cellular_data">启用蜂窝数据</string>
+    <string name="use_cellular_data_detail">此选项关闭后Goonas将不会使用蜂窝网络同步您的数据</string>
 
-    <string name="setting_on_sync_camera">On</string>
-    <string name="setting_off_sync_camera">Off</string>
+    <string name="setting_on_sync_camera">开启</string>
+    <string name="setting_off_sync_camera">关闭</string>
 
-    <string name="add_wifi_connection_to_sever">Add internet connection to sever</string>
+    <string name="add_wifi_connection_to_sever">添加网络连接</string>
     <string name="add_wifi">添加</string>
     <string name="wifi_ssid">WIFI SSID</string>
-    <string name="wifi_password">WIFI Password</string>
+    <string name="wifi_password">WIFI 密码</string>
     <string name="wifi_password_hint">请输入WIFI密码</string>
+
 </resources>

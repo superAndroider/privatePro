@@ -96,12 +96,14 @@ public class PhotosFragment extends BaseFragment implements OnImagesLoadedListen
         startActivity(intent);
     }
 
+    private CustomPopWindow popWindow;
+
     @OnClick({(R.id.main_title_sort)})
     public void onClick(View view) {
         if (list == null || list.size() == 0) return;
         switch (view.getId()) {
             case R.id.main_title_sort:
-                final CustomPopWindow popWindow = new CustomPopWindow(getActivity(), new View.OnClickListener() {
+                popWindow = new CustomPopWindow(getActivity(), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         switch (view.getId()) {
@@ -118,7 +120,7 @@ public class PhotosFragment extends BaseFragment implements OnImagesLoadedListen
                                 mAdapter.setImages(sort(list, 3));
                                 break;
                         }
-
+                        popWindow.dismiss();
                     }
                 });
                 popWindow.showAsDropDown(view);
@@ -127,7 +129,7 @@ public class PhotosFragment extends BaseFragment implements OnImagesLoadedListen
     }
 
     /***
-     * @param type: 0:所有  1:一天  2:一月  3:一年
+     * @param type: 0:一天  1:一月  2:一年  3:所有
      * */
     private List<ImageItem> sort(List<ImageItem> items, int type) {
         List<ImageItem> sortList = new ArrayList<>();
@@ -135,12 +137,15 @@ public class PhotosFragment extends BaseFragment implements OnImagesLoadedListen
         long oneDayAgo = 0l;
         switch (type) {
             case 0:
-                oneDayAgo = System.currentTimeMillis() - Contants.MILLIS_ONE_DAY;
+                oneDayAgo = 0;
                 break;
             case 1:
-                oneDayAgo = System.currentTimeMillis() - Contants.MILLIS_ONE_MONTH;
+                oneDayAgo = System.currentTimeMillis() - Contants.MILLIS_ONE_DAY;
                 break;
             case 2:
+                oneDayAgo = System.currentTimeMillis() - Contants.MILLIS_ONE_MONTH;
+                break;
+            case 3:
                 oneDayAgo = System.currentTimeMillis() - Contants.MILLIS_ONE_YEAR;
                 break;
             default:

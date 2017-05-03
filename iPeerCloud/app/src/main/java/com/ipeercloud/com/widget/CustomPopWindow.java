@@ -41,13 +41,13 @@ public class CustomPopWindow extends PopupWindow implements View.OnClickListener
         //设置SelectPicPopupWindow的View
         setContentView(mMenuView);
         //设置SelectPicPopupWindow弹出窗体的宽
-        setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
 //        //设置SelectPicPopupWindow弹出窗体的高
-        setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
         ColorDrawable dw = new ColorDrawable(0x00000000);
         setBackgroundDrawable(dw);
         setFocusable(true);
-        setAnimationStyle(R.style.popwindow_anim_style);
+//        setAnimationStyle(R.style.popwindow_anim_style);
     }
 
     @Override

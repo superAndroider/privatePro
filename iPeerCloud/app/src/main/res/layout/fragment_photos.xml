@@ -11,8 +11,7 @@
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#ffffff"
-        app:layout_heightPercent="5%h">
+        android:background="@color/gray">
 
         <TextView
             android:layout_width="wrap_content"
