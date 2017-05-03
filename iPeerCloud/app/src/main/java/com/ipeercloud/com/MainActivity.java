@@ -412,7 +412,7 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
     // TODO: 17/4/26 下载同步
     private void downLoad() {
 //        Intent intent = new Intent(this, SyncDownLoadService.class);
-//        startService(intent);
+//        startService(intent);service
 
     }
 

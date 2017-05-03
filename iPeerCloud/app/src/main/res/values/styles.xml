@@ -62,4 +62,11 @@
         <item name="android:padding">@dimen/item_pading</item>
         <item name="android:layout_marginBottom">@dimen/item_pading</item>
     </style>
+
+    <!--  Popwindow样式 -->
+    <style name="popwindow_anim_style">
+        <item name="android:windowEnterAnimation">@anim/popwindow_show_anim</item>
+        <item name="android:windowExitAnimation">@anim/popwindow_hidden_anim</item>
+    </style>popwindow_hidden_anim.xml
+    popwindow_show_anim.xml
 </resources>

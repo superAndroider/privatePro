@@ -62,6 +62,8 @@
 
 
     <!--设置-->
+    <string name="sort">排序</string>
+
     <string name="camera_sync_day">One Day</string>
     <string name="camera_sync_month">One Month</string>
     <string name="camera_sync_year">One Year</string>

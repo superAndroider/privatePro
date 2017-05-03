@@ -4,9 +4,12 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.ipeer.imageselect.bean.ImageItem;
 import com.ipeer.imageselect.ui.ImagePreviewActivity;
+import com.ipeercloud.com.SyncUtil;
+import com.ipeercloud.com.controler.GsFileHelper;
 import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.model.GsCallBack;
 import com.ipeercloud.com.model.GsFileModule;
@@ -14,6 +17,7 @@ import com.ipeercloud.com.model.GsSimpleResponse;
 import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.ConstantSP;
 import com.ipeercloud.com.utils.Contants;
+import com.ipeercloud.com.utils.GsFile;
 import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.utils.SharedPreferencesHelper;
 import com.ipeercloud.com.utils.network.NetType;
@@ -48,12 +52,12 @@ public class SyncDownLoadService extends Service {
         super.onStart(intent, startId);
 
         if (intent == null) return;
-        imageItems = GsDataManager.getInstance().photos.fileList;
+        imageItems = (List<GsFileModule.FileEntity>) intent.getSerializableExtra("remotePathList");
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                onImagesLoaded(imageItems);
+                SyncUtil.onImagesDownLoaded(imageItems);
             }
         }).start();
 
@@ -62,14 +66,8 @@ public class SyncDownLoadService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        GsLog.d("SyncDownLoadService onStartCommand");
+        GsLog.d("SyncDownLoadService onStartCommand Thread = "+android.os.Process.myTid());
         return super.onStartCommand(intent, flags, startId);
     }
 
-
-    //下载照片
-    public void onImagesLoaded(List<GsFileModule.FileEntity> imageList) {
-        GsLog.d("load listUrls");
-
-    }
 }

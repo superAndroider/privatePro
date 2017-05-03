@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#90000000"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvAllPopWindow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/item_pading"
+        android:text="@string/camera_sync_day" />
+    <TextView
+        android:id="@+id/tvDayPopWindow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/item_pading"
+        android:text="@string/camera_sync_day" />
+
+    <TextView
+        android:id="@+id/tvMonthPopWindow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/item_pading"
+        android:text="@string/camera_sync_month" />
+
+
+    <TextView
+        android:id="@+id/tvYearPopWindow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/item_pading"
+        android:text="@string/camera_sync_year" />
+</LinearLayout>
