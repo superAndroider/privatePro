@@ -77,10 +77,6 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (mList == null)
             return;
         final GsViewHolder gsholder = (GsViewHolder) holder;
-        //
-        /*if (GsFile.isContainsFile(mList.get(position).FileName)) {
-            mList.get(position).loadingProgress = 100;
-        }*/
         //控制进度与下载是否完成图标的显示
         if (mList.get(position).loadingProgress == -1) {
             gsholder.progressBar.setVisibility(View.INVISIBLE);
@@ -93,12 +89,16 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             gsholder.mHasDownIv.setVisibility(View.INVISIBLE);
             gsholder.progressBar.setProgress(mList.get(position).loadingProgress);
         }
-
-        gsholder.tvName.setText(mList.get(position).FileName);
-        gsholder.tvSize.setText(getStringSize(mList.get(position).FileSize));
-        gsholder.ivType.setImageResource(getFileIconId(mList.get(position).FileName));
+        final String fileName = mList.get(position).FileName;
+        gsholder.tvName.setText(fileName);
+        if (isDir(fileName)) {
+            gsholder.tvSize.setText(context.getString(R.string.app_name));
+        } else {
+            gsholder.tvSize.setText(getStringSize(mList.get(position).FileSize));
+        }
+        gsholder.ivType.setImageResource(getFileIconId(fileName));
         // 是一个目录
-        if (GsFileType.TYPE_DIRECTORY.equals(GsFileHelper.getFileNameType(mList.get(position).FileName))) {
+        if (isDir(fileName)) {
             gsholder.BtnPop.setVisibility(View.INVISIBLE);
             gsholder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,7 +107,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (!mCurrentPath.equals("\\")) {
                         mNewPath = mNewPath.append("\\");
                     }
-                    mNewPath = mNewPath.append(mList.get(position).FileName);
+                    mNewPath = mNewPath.append(fileName);
                     GsJniManager.getInstance().getPathFile(mNewPath.toString(), false, new GsCallBack<GsSimpleResponse>() {
                         @Override
                         public void onResult(GsSimpleResponse response) {
@@ -130,7 +130,6 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         // 是文件
         gsholder.BtnPop.setVisibility(View.VISIBLE);
-        final String fileName = mList.get(position).FileName;
         gsholder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,6 +173,9 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+    private boolean isDir(String name) {
+        return GsFileType.TYPE_DIRECTORY.equals(GsFileHelper.getFileNameType(name));
+    }
 
     private void downLoadFile(final String fileName) {
         String remotePath;
