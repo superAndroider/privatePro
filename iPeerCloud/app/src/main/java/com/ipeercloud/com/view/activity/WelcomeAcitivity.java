@@ -5,11 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.ipeercloud.com.MainActivity;
 import com.ipeercloud.com.R;
+import com.ipeercloud.com.controler.GsJniManager;
+import com.ipeercloud.com.model.GsCallBack;
+import com.ipeercloud.com.model.GsSimpleResponse;
+import com.ipeercloud.com.utils.GsConfig;
+import com.ipeercloud.com.utils.GsSp;
 
 
 public class WelcomeAcitivity extends BaseAcitivity {
@@ -52,27 +58,48 @@ public class WelcomeAcitivity extends BaseAcitivity {
 
     }
 
+    private boolean autoLogin() {
+        String email = GsSp.getInstance().getString("email");
+        String passWord = GsSp.getInstance().getString("passWord");
+        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(passWord)) {
+            //自动登录
+            GsJniManager.getInstance().login(GsConfig.serverip, email, passWord, new GsCallBack<GsSimpleResponse>() {
+                @Override
+                public void onResult(GsSimpleResponse response) {
+                    afterLogin(response.result);
+                }
+            });
+            return true;
+        }
+        return false;
+    }
+
+    private void afterLogin(boolean loginSuccess) {
+        cancelLoadingDialog();
+        if (loginSuccess) {
+            Intent intent = new Intent(WelcomeAcitivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Intent intent = new Intent(WelcomeAcitivity.this, LoginAcitivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                super.run();
-//                boolean isOnline = MainActivity.gsOnline();
-//                if (isOnline) {
-//                    mHandler.sendEmptyMessageDelayed(MSG_GO_HOME, SPLASH_SLEEPTIME);
-//                } else {
-                    mHandler.sendEmptyMessageDelayed(MSG_GO_LOGIN, SPLASH_SLEEPTIME);
-//                }
-//            }
-//        }.start();
+        if (!autoLogin()) {
+            mHandler.sendEmptyMessageDelayed(MSG_GO_LOGIN, SPLASH_SLEEPTIME);
+        }
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mHandler!=null) {
+        if (mHandler != null) {
             mHandler.removeMessages(MSG_GO_LOGIN);
             mHandler.removeMessages(MSG_GO_HOME);
         }

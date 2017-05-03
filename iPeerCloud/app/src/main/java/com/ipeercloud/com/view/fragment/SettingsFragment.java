@@ -2,17 +2,14 @@ package com.ipeercloud.com.view.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ipeercloud.com.IpeerCloudApplication;
-import com.ipeercloud.com.controler.GsJniManager;
+import com.ipeercloud.com.R;
 import com.ipeercloud.com.model.EventBusEvent.GsCameraSyncEvent;
 import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.Contants;
@@ -22,8 +19,6 @@ import com.ipeercloud.com.view.activity.CameraSyncActivity;
 import com.ipeercloud.com.view.activity.ChangePasswordAcitivity;
 import com.ipeercloud.com.view.activity.LinkGoonasAcitivity;
 import com.ipeercloud.com.view.activity.LoginAcitivity;
-import com.ipeercloud.com.R;
-import com.ipeercloud.com.view.activity.SendEmailActivity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -68,6 +63,7 @@ public class SettingsFragment extends BaseFragment {
         Intent intent;
         switch (view.getId()) {
             case R.id.prl_exit:                     // 退出登录
+                GsDataManager.getInstance().loginOut();
                 intent = new Intent(SettingsFragment.this.getActivity(), LoginAcitivity.class);
                 startActivity(intent);
                 getActivity().finish();

@@ -21,6 +21,7 @@ import com.ipeercloud.com.model.GsCallBack;
 import com.ipeercloud.com.model.GsSimpleResponse;
 import com.ipeercloud.com.utils.Contants;
 import com.ipeercloud.com.utils.GsConfig;
+import com.ipeercloud.com.utils.GsSp;
 import com.ipeercloud.com.utils.SharedPreferencesHelper;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -166,6 +167,9 @@ public class LoginAcitivity extends BaseAcitivity {
                         GsJniManager.getInstance().login(GsConfig.serverip, emailStr, passwordStr, new GsCallBack<GsSimpleResponse>() {
                             @Override
                             public void onResult(GsSimpleResponse response) {
+                                //存储邮箱密码
+                                GsSp.getInstance().putString("email",emailStr);
+                                GsSp.getInstance().putString("passWord",passwordStr);
                                 afterLogin(response.result);
                             }
                         });
