@@ -190,9 +190,10 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     public void onResult(GsSimpleResponse response) {
                         GsLog.d("下载的结果  " + response.result);
                         if (response.result) {
-//                            GsFileHelper.startActivity(FileName, GsFile.getPath(FileName), context);
                             Toast.makeText(context, "文件" + fileName + "下载成功", Toast.LENGTH_LONG).show();
                             downSuccess(fileName);
+                            // 下载完成后直接打开
+                            GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
                         } else {
                             Toast.makeText(context, "文件" + fileName + "下载失败", Toast.LENGTH_LONG).show();
                         }
