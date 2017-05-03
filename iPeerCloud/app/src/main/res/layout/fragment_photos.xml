@@ -10,7 +10,7 @@
     <com.zhy.android.percent.support.PercentRelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:background="#ffffff"
         app:layout_heightPercent="5%h">
 
@@ -19,6 +19,14 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/photos"
+            android:textColor="#111111" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/photos"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:textColor="#111111" />
     </com.zhy.android.percent.support.PercentRelativeLayout>
 
