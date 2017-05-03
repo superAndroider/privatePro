@@ -240,13 +240,14 @@ public class GsJniManager {
      * 从远端获取某个文件夹下面的文件后需要将本地没有的补上，本地有的不再变化，防止本地文件下载状态丢失
      */
     private void updateList(List<GsFileModule.FileEntity> localList, List<GsFileModule.FileEntity> remoteList) {
+        if (remoteList == null ||remoteList.size() == 0) {
+            return;
+        }
         if (localList.size() == 0) {
             localList.addAll(remoteList);
             return;
         }
-        if (remoteList.size() == 0) {
-            return;
-        }
+
         int localSize = localList.size();
         int remoteSize = remoteList.size();
         for (int i = 0; i < remoteSize; i++) {

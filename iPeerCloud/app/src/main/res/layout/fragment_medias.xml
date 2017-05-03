@@ -15,7 +15,7 @@
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:padding="12dp"
-            android:src="@drawable/back" />
+            android:src="@drawable/ok" />
 
         <TextView
             android:id="@+id/main_title_tv"

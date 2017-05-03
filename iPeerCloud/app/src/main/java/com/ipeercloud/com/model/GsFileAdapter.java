@@ -18,6 +18,7 @@ import com.ipeercloud.com.R;
 import com.ipeercloud.com.controler.GsFileHelper;
 import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.controler.GsLifeCycle;
+import com.ipeercloud.com.httpd.GsHttpd;
 import com.ipeercloud.com.model.EventBusEvent.GsProgressEvent;
 import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsFile;
@@ -46,16 +47,18 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private StringBuilder mNewPath = new StringBuilder();
     //0 表示最近 1 表示视频 2表示文件
     private int mType;
-    Handler mHandler = new Handler(){
+    Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             notifyDataSetChanged();
         }
     };
-    public GsFileAdapter(List<GsFileModule.FileEntity> list, Context context) {
+    private View.OnClickListener mListener;
+
+    public GsFileAdapter(List<GsFileModule.FileEntity> list, Context context, View.OnClickListener listener) {
         this.mList = list;
         this.context = context;
-
+        this.mListener = listener;
     }
 
     public void setData(List<GsFileModule.FileEntity> list) {
@@ -113,6 +116,9 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 GsLog.d("向下目录 ： " + mCurrentPath.toString());
                                 updateData(mCurrentPath.toString());
                                 notifyDataSetChanged();
+                                if (mListener != null) {
+                                    mListener.onClick(gsholder.itemView);
+                                }
                             } else {
                                 Toast.makeText(context, context.getResources().getString(R.string.net_wrong), Toast.LENGTH_LONG).show();
                             }
@@ -130,6 +136,9 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             public void onClick(View v) {
                 if (!GsFile.isContainsFile(fileName)) {
                     //点击条目，但是条目并没有下载
+                    String path = mCurrentPath.toString() + "\\" + fileName;
+                    GsHttpd.sRemotePath = path;
+//                    VideoViewActivity.startActivity(context,path);
 //                    GsCacheVideo.cacheVideo(context,mCurrentPath.toString()+"\\"+fileName);
                 } else {
                     GsLog.d("文件已经存在，直接打开");
@@ -281,19 +290,23 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-    public void onBackPressed() {
+    public boolean onBackPressed() {
         if (mCurrentPath.equals("\\")) {
-            return;
+            return false;
         }
 
         int index = mCurrentPath.lastIndexOf("\\");
         if (index == -1) {
-            return;
+            return false;
         }
 
         mCurrentPath.delete(index, mCurrentPath.length());
+        if (mCurrentPath.toString().equals("\\")) {
+            updateData(mCurrentPath.toString());
+            return false;
+        }
         updateData(mCurrentPath.toString());
-
+        return true;
     }
 
     public void resetData() {
