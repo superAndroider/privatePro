@@ -103,6 +103,7 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
         DataSource dataSource = new LocalDataSource(this);
         dataSource.provideMediaItems(this);//select all images from local database
         getPhotos();
+        testHttpd();
     }
 
     private void initFragment() {
@@ -415,7 +416,6 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
 //        startService(intent);service
 
     }
-
     private void testHttpd(){
         GsHttpd httpServer = new GsHttpd(80080);
         try {

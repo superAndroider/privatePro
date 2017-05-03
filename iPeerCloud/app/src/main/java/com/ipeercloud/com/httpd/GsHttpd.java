@@ -1,5 +1,6 @@
 package com.ipeercloud.com.httpd;
 
+import com.ipeercloud.com.controler.GsSocketManager;
 import com.ipeercloud.com.utils.GsFile;
 import com.ipeercloud.com.utils.GsLog;
 
@@ -19,24 +20,40 @@ import fi.iki.elonen.NanoHTTPD;
 public class GsHttpd extends NanoHTTPD {
     private static final int BUF_SIZE = 1024 * 1024;
     private String fileName = "hkc.mp4";
-
+    public static String sRemotePath;
     public GsHttpd(int port) {
         super(8080);
     }
 
     @Override
     public Response serve(IHTTPSession session) {
-        String range = session.getHeaders().get("range");
-        GsLog.d("请求range " + range);
-        Response response = new Response(NanoHTTPD.Response.Status.PARTIAL_CONTENT, "text/html", getStream());
-        response.addHeader("Content-Length", "" + BUF_SIZE);
-        int start = (time - 1) * BUF_SIZE;
-        response.addHeader("Content-Range", "bytes " + start + "-" + ((time) * BUF_SIZE - 1) + "/" + getSize());
-        return response;
+//        String range = session.getHeaders().get("range");
+//        GsLog.d("请求range " + range);
+//        Response response = new Response(NanoHTTPD.Response.Status.PARTIAL_CONTENT, "text/html", getStream());
+//        response.addHeader("Content-Length", "" + BUF_SIZE);
+//        int start = (time - 1) * BUF_SIZE;
+//        response.addHeader("Content-Range", "bytes " + start + "-" + ((time) * BUF_SIZE - 1) + "/" + getSize());
+        GsLog.d("url "+session.getUri());
+        return new Response(Response.Status.OK,"text/html",new ByteArrayInputStream(getFromJni(sRemotePath)));
     }
 
     int index = -1;
     static int time = 0;
+
+    private byte[] getFromJni(String remotePath) {
+        int size = 1024;
+        byte[] buf = new byte[size];
+        int[] leng = new int[]{};
+        GsLog.d("远端路径 "+remotePath);
+        boolean result = GsSocketManager.getInstance().gsReadFileBuffer(remotePath, 0, size, buf, leng);
+        if (result) {
+            GsLog.d("请求数据流成功  "+buf.length);
+
+            return buf;
+        }
+        GsLog.d("请求数据失败");
+        return null;
+    }
 
     private long getSize() {
         File file = new File(GsFile.getDir(), fileName);
@@ -65,7 +82,7 @@ public class GsHttpd extends NanoHTTPD {
             byte[] gcBuf = new byte[offset];
             fis.read(gcBuf);
             //读有用数据
-            fis.read(buf,0,BUF_SIZE);
+            fis.read(buf, 0, BUF_SIZE);
             ByteArrayInputStream bis = new ByteArrayInputStream(buf);
             time++;
             return bis;
