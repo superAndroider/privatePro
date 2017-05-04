@@ -48,6 +48,7 @@ public class GsSp {
         return mSp.getString(key, "");
     }
 
+
     public static GsSp getInstance() {
         if (instance == null) {
             instance = new GsSp();

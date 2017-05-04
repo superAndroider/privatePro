@@ -42,7 +42,7 @@ public class VideoViewActivity extends Activity implements OnInfoListener, OnBuf
    * TODO: Set the path variable to a streaming video URL or a local media file
    * path.
    */
-  private String path="http://localhost:8080/aaa/bb";
+  private String path="http://localhost:8080/aa.php";
   private Uri uri;
   private VideoView mVideoView;
   private ProgressBar pb;
@@ -61,8 +61,8 @@ public class VideoViewActivity extends Activity implements OnInfoListener, OnBuf
     loadRateView = (TextView) findViewById(R.id.load_rate);
 
     // 获取path
-//    Intent intent = getIntent();
-//    path = intent.getStringExtra("path");
+    Intent intent = getIntent();
+//    path = path+"?"+"uri="+intent.getStringExtra("path");
     if (TextUtils.isEmpty(path)) {
       // Tell the user to provide a media file URL/path.
       Toast.makeText(

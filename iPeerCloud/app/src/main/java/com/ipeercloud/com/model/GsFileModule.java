@@ -53,7 +53,7 @@ public class GsFileModule {
                 JSONObject jb = (JSONObject) ja.get(i);
                 FileEntity entity = new FileEntity();
                 entity.FileName = jb.optString("FileName");
-                entity.FileSize = jb.optLong("FileName");
+                entity.FileSize = jb.optLong("FileSize");
                 entity.FileType = jb.optInt("FileName");
                 entity.lastModifyTime = jb.optLong("lastModifyTime");
                 fileList.add(entity);

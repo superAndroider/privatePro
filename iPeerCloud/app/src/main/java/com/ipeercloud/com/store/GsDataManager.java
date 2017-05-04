@@ -91,7 +91,7 @@ public class GsDataManager {
             medias = gson.fromJson(jsonString, GsFileModule.class);
         }
         jsonString = GsSp.getInstance().getFileMap();
-        GsLog.d("拿出数据 "+jsonString);
+        GsLog.d("拿出数据 " + jsonString);
         if (!TextUtils.isEmpty(jsonString)) {
             fileMaps = gson.fromJson(jsonString, new TypeToken<Map<String, GsFileModule>>() {
             }.getType());
@@ -147,5 +147,13 @@ public class GsDataManager {
                 return;
             }
         }
+    }
+
+    /**
+     * 退出登录，清除用户名和密码
+     */
+    public void loginOut() {
+        GsSp.getInstance().putString("email", null);
+        GsSp.getInstance().putString("passWord", null);
     }
 }

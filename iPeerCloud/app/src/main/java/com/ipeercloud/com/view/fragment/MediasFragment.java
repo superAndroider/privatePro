@@ -20,10 +20,11 @@ import com.ipeercloud.com.widget.GsDividerDecoration;
  * 个人中心
  */
 
-public class MediasFragment extends BaseFragment{
+public class MediasFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private GsFileAdapter mAdapter;
     private ImageView mBtnBack;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,7 +49,12 @@ public class MediasFragment extends BaseFragment{
         divider.setDividerColor(getResources().getColor(R.color.color_devider_line));
         divider.isLastItemShowDivider(true);
         mRecyclerView.addItemDecoration(divider);
-        mAdapter = new GsFileAdapter(GsDataManager.getInstance().medias.fileList, getContext());
+        mAdapter = new GsFileAdapter(GsDataManager.getInstance().medias.fileList, getContext(), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBtnBack.setImageResource(R.drawable.back);
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,8 +68,11 @@ public class MediasFragment extends BaseFragment{
     public void notifyData() {
         mAdapter.setData(GsDataManager.getInstance().medias != null ? GsDataManager.getInstance().medias.fileList : null);
     }
+
     public void onBackPressed() {
-        mAdapter.onBackPressed();
+        if (!mAdapter.onBackPressed()) {
+            mBtnBack.setImageResource(R.drawable.ok);
+        }
     }
 
     @Override

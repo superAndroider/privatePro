@@ -60,13 +60,18 @@ public class HomeFragment extends BaseFragment {
         divider.setDividerColor(getResources().getColor(R.color.color_devider_line));
         divider.isLastItemShowDivider(true);
         mRecyclerView.addItemDecoration(divider);
-        mAdapter = new GsFileAdapter(GsDataManager.getInstance().recentFile.fileList, getContext());
+        mAdapter = new GsFileAdapter(GsDataManager.getInstance().recentFile.fileList, getContext(), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBtnBack.setImageResource(R.drawable.back);
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
         mBtnBack = (ImageView) view.findViewById(R.id.btn_back_iv);
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                notifyData();
+                onBackPressed();
             }
         });
         mAdapter.onCreate();
@@ -122,5 +127,10 @@ public class HomeFragment extends BaseFragment {
             }
         }
         mAdapter.setData(matchedList);
+    }
+    public void onBackPressed() {
+        if (!mAdapter.onBackPressed()) {
+            mBtnBack.setImageResource(R.drawable.ok);
+        }
     }
 }

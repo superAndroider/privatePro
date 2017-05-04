@@ -5,8 +5,14 @@
     <color name="colorAccent">#FF4081</color>
     <color name="gray">#F0F0F0</color>
     <color name="text_color_black">#434343</color>
-
+    <!--列表分割线颜色-->
     <color name="color_devider_line">#F0F0F0</color>
+    <!--pop弹窗按钮背景色常态-->
+    <color name="color_pop_btn_bg_common">#FF4081</color>
+    <!--pop弹窗按钮背景色按下态-->
+    <color name="color_pop_btn_bg_pressed">#FF4231</color>
+    <!--pop弹窗按钮文字颜色-->
+    <color name="color_pop_btn_text">#ffffff</color>
 
     <!--设置页  相机同步-->
     <color name="color_gray">#CCCCCC</color>
