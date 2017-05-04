@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ipeercloud.com.R;
+import com.ipeercloud.com.controler.GsSocketManager;
 import com.ipeercloud.com.model.GsFileAdapter;
 import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsLog;
@@ -68,6 +69,19 @@ public class FilesFragment extends BaseFragment {
                 mBtnBack.setImageResource(R.drawable.back);
             }
         });
+
+        int connMode = GsSocketManager.getInstance().gsReturnConnectedMode();//1->直连;2->中转;3->局域网
+        if ( connMode == 1 ){
+            mBtnBack = (ImageView) view.findViewById(R.id.connP2pState);
+        }
+        else if (connMode == 2 ){
+            mBtnBack = (ImageView) view.findViewById(R.id.btn_back_iv);
+        }
+        else {
+            mBtnBack = (ImageView) view.findViewById(R.id.connLanState);
+        }
+        mBtnBack.setVisibility(View.VISIBLE);
+
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.onCreate();
         mBtnBack.setOnClickListener(new View.OnClickListener() {
