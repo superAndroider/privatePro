@@ -13,23 +13,23 @@
     <string name="peercloud">PeerCloud</string>
     <string name="forgetpassword">忘记密码</string>
 
-    <string name="recents">最新</string>
-    <string name="photos">照片</string>
-    <string name="medias">视频</string>
-    <string name="files">文件</string>
+    <string name="recents">历史使用</string>
+    <string name="photos">手机相册</string>
+    <string name="medias">多媒体</string>
+    <string name="files">云端文件</string>
     <string name="settings">设置</string>
     <string name="search">搜索</string>
 
-    <string name="logonuser">用户名</string>
-    <string name="camerasync">相机同步</string>
+    <string name="logonuser">登录用户</string>
+    <string name="camerasync">照片同步</string>
     <string name="off">关闭</string>
     <string name="on">打开</string>
-    <string name="linkyourgoonas">连接你的私有云</string>
-    <string name="addnewinternet">添加新的连接</string>
+    <string name="linkyourgoonas">绑定账号到私有云存储服务器</string>
+    <string name="addnewinternet">服务器添加WIFI连接</string>
     <string name="ver">版本</string>
-    <string name="clearcaches">清除缓存</string>
-    <string name="invitefriends">邀请好友</string>
-    <string name="exitapp">退出登录</string>
+    <string name="clearcaches">清除软件缓存</string>
+    <string name="invitefriends">邀请朋友一起使用Goonas</string>
+    <string name="exitapp">退出当前账号，关闭app</string>
 
     <string name="msg_load_ing">加载中....</string>
 
@@ -37,19 +37,19 @@
     <string name="changepassword">修改密码</string>
     <string name="change">修改</string>
     <string name="oldpassword">旧密码</string>
-    <string name="input_oldpassword">请输入旧密码</string>
+    <string name="input_oldpassword">输入旧密码</string>
     <string name="newpassword">新密码</string>
-    <string name="input_newpassword">请输入新密码</string>
-    <string name="changetips">请输入您的旧密码和新密码，然后点击右上方的按钮</string>
+    <string name="input_newpassword">输入新密码</string>
+    <string name="changetips">输入旧密码和新密码，然后点击右上角的修改</string>
 
 
-    <string name="link_cloud">连接你的私有云</string>
-    <string name="link">连接</string>
-    <string name="linked">已连接</string>
-    <string name="hint_linked">请输入购买的UUID</string>
+    <string name="link_cloud">绑定一台Goonas授权的服务器</string>
+    <string name="link">绑定</string>
+    <string name="linked">私有数据去存储服务器</string>
+    <string name="hint_linked">输入服务器的UUID</string>
     <string name="unlinked">未链接</string>
     <string name="private_clould_uuid">私有云存储服务器的UUID号</string>
-    <string name="link_tips">连接到您的私有云存储服务器后，系统将自动同步相册、视频文件</string>
+    <string name="link_tips">只有绑定了您的账号和私有数据云存储服务器后，您才可以跟私有数据云存储服务器通过互联网传输、同步数据</string>
 
 
     <string name="scan_code">扫描二维码</string>

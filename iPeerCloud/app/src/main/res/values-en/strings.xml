@@ -33,20 +33,20 @@
 
     <string name="msg_load_ing">loading....</string>
 
-    <string name="changepassword">Change New Password</string>
+    <string name="changepassword">Change New Passcode</string>
     <string name="change">Change</string>
-    <string name="oldpassword">Old Password</string>
-    <string name="newpassword">New Password</string>
+    <string name="oldpassword">Old Passcode</string>
+    <string name="newpassword">New Passcode</string>
 
-    <string name="changetips">Enter your old password and new password, click Change in right top hand</string>
+    <string name="changetips">Enter both old and new passcode then click change button at right top corner</string>
 
-    <string name="link_cloud">Link Your GOONAS LaDrive</string>
+    <string name="link_cloud">Link Goonas Cloud Server Drive</string>
     <string name="link">Link</string>
     <string name="linked">Linked</string>
     <string name="hint_linked">please Enter Drive UUID </string>
     <string name="unlinked">Unlinked</string>
     <string name="private_clould_uuid">Private Cloud Storage</string>
-    <string name="link_tips">After link to Your GOONAS laDrive/PeerDrive, Phone and Drives will sync photos videos files between each other automatic</string>
+    <string name="link_tips">After link to Goonas cloud server drive, Phone and drive will sync photos videos files between each other</string>
 
     <string name="scan_code">By Scan Drive QR Code</string>
     <string name="enter_uuid">By Manual Enter Drive UUID</string>
