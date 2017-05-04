@@ -207,7 +207,7 @@ public class GsSocketManager {
     //			bufflen读取数据缓存大小，这个值在函数前需要填写buff的大小，完成会修改成为真实读取的大小。
     //返回数据：返回值，为0时成功，为1表明已经到达结尾，没有数据可读，小于0代表失败,
     //
-    public native boolean gsReadFileBuffer(String remote, long offset, int count, byte[] buffer, int[] bufflen);
+    public native int gsReadFileBuffer(String remote, long offset, int count, byte[] buffer, int[] bufflen);
 
     public static void main(String[] args) {
         return;

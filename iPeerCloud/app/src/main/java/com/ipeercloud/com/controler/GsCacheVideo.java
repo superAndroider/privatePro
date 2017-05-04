@@ -35,7 +35,7 @@ public class GsCacheVideo {
             public void run() {
                 byte[] buf = new byte[]{};
                 int[] bufLen = new int[]{};
-                boolean result = GsSocketManager.getInstance().gsReadFileBuffer(remotePath, 0, 1024 * 1024, buf, bufLen);
+                int result = GsSocketManager.getInstance().gsReadFileBuffer(remotePath, 0, 1024 * 1024, buf, bufLen);
                 GsLog.d("缓存结果 " + result);
 //                if(!result){x
                     mHandler.post(new Runnable() {

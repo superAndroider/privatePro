@@ -45,8 +45,8 @@ public class GsHttpd extends NanoHTTPD {
         byte[] buf = new byte[size];
         int[] leng = new int[]{};
         GsLog.d("远端路径 "+remotePath);
-        boolean result = GsSocketManager.getInstance().gsReadFileBuffer(remotePath, 0, size, buf, leng);
-        if (result) {
+        int result = GsSocketManager.getInstance().gsReadFileBuffer(remotePath, 0, size, buf, leng);
+        if (result == 0) {
             GsLog.d("请求数据流成功  "+buf.length);
 
             return buf;

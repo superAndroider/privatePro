@@ -440,11 +440,12 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
             public void run() {
                 byte buf[] = new byte[1025];
                 int len[] = new int[1025];
-                final boolean result = GsSocketManager.getInstance().gsReadFileBuffer("\\Medias\\少女时代.mp4", 0, 1024, buf, len);
+                len[0] = 1000;
+                final int result = GsSocketManager.getInstance().gsReadFileBuffer("\\Medias\\少女时代.mp4", 100, 100, buf, len);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (result) {
+                        if (result == 0) {
                             Toast.makeText(MainActivity.this, "gsReadFileBuffer 下载成功", 1).show();
                         } else {
                             Toast.makeText(MainActivity.this, "gsReadFileBuffer 下载失败", 1).show();
