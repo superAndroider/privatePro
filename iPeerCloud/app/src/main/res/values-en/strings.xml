@@ -5,12 +5,12 @@
     <string name="welcome">welcome</string>
     <string name="newaccount">New Account</string>
     <string name="create">Create</string>
-    <string name="emailorphone">Email/Phone</string>
-    <string name="emailorphone_edt">Email Address/Phone Number</string>
-    <string name="Password">Password</string>
-    <string name="password">password</string>
-    <string name="tips_newaccount">Please enter a valid email address, this is very important, it will help you reset your password when you forget it.</string>
-    <string name="peercloud">PeerCloud</string>
+    <string name="emailorphone">Email</string>
+    <string name="emailorphone_edt">Email Address</string>
+    <string name="Password">Passcode</string>
+    <string name="password">Passcode</string>
+    <string name="tips_newaccount">Please enter a valid email address, this is very important, it will help you reset your passcode when you forget it.</string>
+    <string name="peercloud">iPeerCloud</string>
     <string name="forgetpassword">Forget Password</string>
 
     <string name="recents">Recents</string>

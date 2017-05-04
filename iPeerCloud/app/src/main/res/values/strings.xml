@@ -5,13 +5,13 @@
     <string name="welcome">返回</string>
     <string name="newaccount">新账号</string>
     <string name="create">创建</string>
-    <string name="emailorphone">邮箱/电话</string>
-    <string name="emailorphone_edt">请输入邮箱地址或电话</string>
+    <string name="emailorphone">邮箱</string>
+    <string name="emailorphone_edt">输入邮箱地址</string>
     <string name="Password">密码</string>
-    <string name="password">请输入密码</string>
-    <string name="tips_newaccount">请输入一个有效的电子邮件地址，这将是您找回密码的唯一凭证，请牢记.</string>
-    <string name="peercloud">PeerCloud</string>
-    <string name="forgetpassword">忘记密码</string>
+    <string name="password">输入密码</string>
+    <string name="tips_newaccount">输入一个有效的电子邮件地址，这将是您重置密码的唯一凭证，请牢记.</string>
+    <string name="peercloud">iPeerCloud</string>
+    <string name="forgetpassword">重置密码</string>
 
     <string name="recents">历史使用</string>
     <string name="photos">手机相册</string>
