@@ -23,6 +23,8 @@ public class WelcomeAcitivity extends BaseAcitivity {
     TextView tv_signup;
     TextView tv_login;
 
+    private static boolean first_time = false;
+
     private static final int MSG_GO_HOME = 1;
     private static final int MSG_GO_LOGIN = 2;
 
@@ -55,7 +57,6 @@ public class WelcomeAcitivity extends BaseAcitivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_welcome);
-
     }
 
     private boolean autoLogin() {
@@ -90,7 +91,8 @@ public class WelcomeAcitivity extends BaseAcitivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (!autoLogin()) {
+
+        if (!autoLogin())  {
             mHandler.sendEmptyMessageDelayed(MSG_GO_LOGIN, SPLASH_SLEEPTIME);
         }
 

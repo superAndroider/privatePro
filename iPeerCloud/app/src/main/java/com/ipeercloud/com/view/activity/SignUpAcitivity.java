@@ -41,6 +41,9 @@ public class SignUpAcitivity extends BaseAcitivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //finish();
+                Intent intent = new Intent(SignUpAcitivity.this, AccountAcitivity.class);
+                startActivity(intent);
                 finish();
             }
         });

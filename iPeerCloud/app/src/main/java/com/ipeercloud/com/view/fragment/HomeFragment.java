@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.ipeercloud.com.R;
+import com.ipeercloud.com.controler.GsSocketManager;
 import com.ipeercloud.com.model.GsFileAdapter;
 import com.ipeercloud.com.model.GsFileModule;
 import com.ipeercloud.com.store.GsDataManager;
@@ -67,7 +68,17 @@ public class HomeFragment extends BaseFragment {
             }
         });
         mRecyclerView.setAdapter(mAdapter);
-        mBtnBack = (ImageView) view.findViewById(R.id.btn_back_iv);
+
+        int connMode = GsSocketManager.getInstance().gsReturnConnectedMode();//1->直连;2->中转;3->局域网
+        if ( connMode == 1 ){
+            mBtnBack = (ImageView) view.findViewById(R.id.btn);
+        }
+        else if (connMode == 2 ){
+            mBtnBack = (ImageView) view.findViewById(R.id.btn_back_iv);
+        }
+        else {
+            mBtnBack = (ImageView) view.findViewById(R.id.btn_back_iv);
+        }
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +86,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
         mAdapter.onCreate();
+
     }
 
     public void notifyData() {

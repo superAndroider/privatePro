@@ -53,8 +53,8 @@ public class LoginAcitivity extends BaseAcitivity {
     }
 
     private void initView() {
-        edit_email.setText("2411309415@qq.com");
-        edit_password.setText("181818");
+        //edit_email.setText("2411309415@qq.com");
+        //edit_password.setText("181818");
 
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null) {
@@ -114,6 +114,9 @@ public class LoginAcitivity extends BaseAcitivity {
         tv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //finish();
+                Intent intent = new Intent(LoginAcitivity.this, AccountAcitivity.class);
+                startActivity(intent);
                 finish();
             }
         });
