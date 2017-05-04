@@ -36,10 +36,13 @@ import com.ipeercloud.com.view.fragment.HomeFragment;
 import com.ipeercloud.com.view.fragment.MediasFragment;
 import com.ipeercloud.com.view.fragment.PhotosFragment;
 import com.ipeercloud.com.view.fragment.SettingsFragment;
+import com.ipeercloud.com.view.service.SyncDownLoadService;
+import com.ipeercloud.com.view.service.SyncUploadService;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 public class MainActivity extends BaseAcitivity implements OnImagesLoadedListener {
@@ -404,16 +407,17 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
     public void onImagesLoaded(List<ImageSet> imageSetList) {
 
         // TODO: 17/4/26  开启上传同步
-        if (imageSetList == null || imageSetList.size() == 0 || imageSetList.get(0) == null) return;
-//        Intent intent = new Intent(this, SyncService.class);
-//        intent.putExtra(ImagePreviewActivity.LIST_IMAGES, (Serializable) imageSetList.get(0).imageItems);
+//        if (imageSetList == null || imageSetList.size() == 0 || imageSetList.get(0) == null) return;
+//        Intent intent = new Intent(this, SyncUploadService.class);
+//        intent.putExtra("localPathList", (Serializable) imageSetList.get(0).imageItems);
 //        startService(intent);
     }
 
     // TODO: 17/4/26 下载同步
     private void downLoad() {
-//        Intent intent = new Intent(this, SyncDownLoadService.class);
-//        startService(intent);service
+        Intent intent = new Intent(this, SyncDownLoadService.class);
+        intent.putExtra("remotePathList", (Serializable) GsDataManager.getInstance().photos.fileList);
+        startService(intent);
 
     }
     private void testHttpd(){
@@ -445,9 +449,9 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
                     @Override
                     public void run() {
                         if (result) {
-                            Toast.makeText(MainActivity.this, "gsReadFileBuffer 下载成功", 1).show();
+                            Toast.makeText(MainActivity.this, "gsReadFileBuffer 下载成功", Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(MainActivity.this, "gsReadFileBuffer 下载失败", 1).show();
+                            Toast.makeText(MainActivity.this, "gsReadFileBuffer 下载失败", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
