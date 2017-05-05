@@ -102,7 +102,7 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
         GsDataManager.getInstance().recoverData();
         initView();
         initFragment();
-        //String callString = GsSocketManager.getInstance().helloGoonas();
+        String callString = GsSocketManager.getInstance().helloGoonas();
         DataSource dataSource = new LocalDataSource(this);
         dataSource.provideMediaItems(this);//select all images from local database
         //getPhotos();
@@ -241,7 +241,7 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
                 break;
             case R.id.rl_photos:
 //                isOnLine();
-                getPhotos();
+                //getPhotos();
                 index = 1;
                 break;
             case R.id.rl_medias:
@@ -255,7 +255,7 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
                 break;
             case R.id.rl_settings:
                 index = 4;
-                testGetFile();
+                //testGetFile();
 //                testVitamio();
                 break;
         }

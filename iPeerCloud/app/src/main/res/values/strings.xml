@@ -10,7 +10,7 @@
     <string name="Password">密码</string>
     <string name="password">输入密码</string>
     <string name="tips_newaccount">输入一个有效的电子邮件地址，这将是您重置密码的唯一凭证，请牢记.</string>
-    <string name="peercloud">iPeerCloud</string>
+    <string name="peercloud">国民存储</string>
     <string name="forgetpassword">重置密码</string>
 
     <string name="recents">历史使用</string>

@@ -244,7 +244,13 @@ public class GsJniManager {
             return;
         }
         if (localList.size() == 0) {
-            localList.addAll(remoteList);
+            //localList.addAll(remoteList);
+            for (int k = 0; k < remoteList.size(); k++) {
+                //GsLog.d("index="+remoteList.get(k).FileName.indexOf("gcloudmd5"));
+                if (remoteList.get(k).FileName.indexOf("gcloudmd5") == -1 ) {
+                    localList.add(remoteList.get(k));
+                }
+            }
             return;
         }
 
@@ -258,7 +264,9 @@ public class GsJniManager {
                 }
             }
             if (!find) {
-                localList.add(remoteList.get(i));
+                if (remoteList.get(i).FileName.indexOf("gcloudmd5") == -1 ){
+                    localList.add(remoteList.get(i));
+                }
             }
         }
     }

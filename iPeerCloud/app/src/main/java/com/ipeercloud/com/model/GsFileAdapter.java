@@ -159,12 +159,12 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     public void onClick(View v) {
                         pop.dismiss();
                         if (hasDown) {
+                            //删除
                             File file = new File(GsFile.getPath(fileName));
                             boolean ret = file.delete();
                             mList.get(position).loadingProgress = -1;
                             gsholder.progressBar.setVisibility(View.INVISIBLE);
-
-                            //删除
+                            notifyDataSetChanged();
                         } else {
                             downLoadFile(fileName);
                             gsholder.progressBar.setVisibility(View.VISIBLE);

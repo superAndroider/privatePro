@@ -66,7 +66,7 @@ public class FilesFragment extends BaseFragment {
         mAdapter = new GsFileAdapter(GsDataManager.getInstance().files.fileList, getActivity(), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBtnBack.setImageResource(R.drawable.back);
+                 mBtnBack.setImageResource(R.drawable.back);
             }
         });
 
@@ -98,7 +98,16 @@ public class FilesFragment extends BaseFragment {
 
     public void onBackPressed() {
         if (!mAdapter.onBackPressed()) {
-            mBtnBack.setImageResource(R.drawable.ok);
+            int connMode = GsSocketManager.getInstance().gsReturnConnectedMode();//1->直连;2->中转;3->局域网
+            if ( connMode == 1 ){
+                mBtnBack.setImageResource(R.drawable.connp2psynced);
+            }
+            else if (connMode == 2 ){
+                mBtnBack.setImageResource(R.drawable.ok);
+            }
+            else {
+                mBtnBack.setImageResource(R.drawable.connlansynced);
+            }
         }
     }
 
