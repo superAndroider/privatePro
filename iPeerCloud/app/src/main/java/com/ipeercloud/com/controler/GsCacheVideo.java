@@ -35,6 +35,7 @@ public class GsCacheVideo {
             public void run() {
                 byte[] buf = new byte[]{};
                 int[] bufLen = new int[]{};
+                bufLen[0] = 1024*1024;//要读取的字节数要先保存到这里
                 int result = GsSocketManager.getInstance().gsReadFileBuffer(remotePath, 0, 1024 * 1024, buf, bufLen);
                 GsLog.d("缓存结果 " + result);
 //                if(!result){x

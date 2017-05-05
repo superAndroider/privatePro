@@ -256,7 +256,7 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
             case R.id.rl_settings:
                 index = 4;
                 //testGetFile();
-//                testVitamio();
+                //testVitamio();
                 break;
         }
         if (currentTabIndex != index) {
@@ -444,6 +444,7 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
             public void run() {
                 byte buf[] = new byte[1025];
                 int len[] = new int[1025];
+                len[0] = 1024;//要读取的字节数先放这里
                 final int result = GsSocketManager.getInstance().gsReadFileBuffer("\\Medias\\少女时代.mp4", 0, 1024, buf, len);
                 runOnUiThread(new Runnable() {
                     @Override
