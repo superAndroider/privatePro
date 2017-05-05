@@ -57,8 +57,8 @@
     <string name="cancel">取消</string>
     <string name="net_wrong">网络异常</string>
 
-    <string name="download_file">下载文件</string>
-    <string name="delete_file">删除文件</string>
+    <string name="download_file">离线下载到本地手机</string>
+    <string name="delete_file">删除离线文件</string>
 
 
     <!--照片-->

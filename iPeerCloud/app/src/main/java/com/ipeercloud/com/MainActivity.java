@@ -102,10 +102,10 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
         GsDataManager.getInstance().recoverData();
         initView();
         initFragment();
-        String callString = GsSocketManager.getInstance().helloGoonas();
+        //String callString = GsSocketManager.getInstance().helloGoonas();
         DataSource dataSource = new LocalDataSource(this);
         dataSource.provideMediaItems(this);//select all images from local database
-        getPhotos();
+        //getPhotos();
         testHttpd();
     }
 

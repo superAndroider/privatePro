@@ -52,6 +52,8 @@
     <string name="enter_uuid">By Manual Enter Drive UUID</string>
     <string name="cancel">Cancel</string>
 
+    <string name="download_file">Make Available Offline</string>
+    <string name="delete_file">Remove Offline</string>
 
     <!--设置-->
     <string name="sort">sort</string>

@@ -28,6 +28,7 @@ import com.ipeercloud.com.widget.GsFullPop;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -158,6 +159,11 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     public void onClick(View v) {
                         pop.dismiss();
                         if (hasDown) {
+                            File file = new File(GsFile.getPath(fileName));
+                            boolean ret = file.delete();
+                            mList.get(position).loadingProgress = -1;
+                            gsholder.progressBar.setVisibility(View.INVISIBLE);
+
                             //删除
                         } else {
                             downLoadFile(fileName);
@@ -190,12 +196,12 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     public void onResult(GsSimpleResponse response) {
                         GsLog.d("下载的结果  " + response.result);
                         if (response.result) {
-                            Toast.makeText(context, "文件" + fileName + "下载成功", Toast.LENGTH_LONG).show();
+                           // Toast.makeText(context, "文件" + fileName + "下载成功", Toast.LENGTH_LONG).show();
                             downSuccess(fileName);
                             // 下载完成后直接打开
-                            GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
+                            //GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
                         } else {
-                            Toast.makeText(context, "文件" + fileName + "下载失败", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(context, "文件" + fileName + "下载失败", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
