@@ -57,7 +57,9 @@ public class GsFileModule {
                 entity.FileSize = jb.optLong("FileSize");
                 entity.FileType = jb.optInt("FileName");
                 entity.lastModifyTime = jb.optLong("lastModifyTime");
-                fileList.add(entity);
+                if (TextUtils.isEmpty(entity.FileName) && !entity.FileName.contains("gcloudmd5")) {
+                    fileList.add(entity);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

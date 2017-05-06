@@ -22,13 +22,13 @@
             tools:src="@mipmap/pdf_icon" />
 
         <ImageView
-            android:visibility="invisible"
             android:id="@+id/iv_has_down"
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_marginLeft="14dp"
             android:layout_marginTop="14dp"
-            android:src="@drawable/icon_has_down" />
+            android:src="@drawable/icon_has_down"
+            android:visibility="invisible" />
     </FrameLayout>
 
 
@@ -37,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/item_inner_margin"
+        android:layout_toLeftOf="@id/iv_file_btn"
         android:layout_toRightOf="@id/icon_layout"
         android:layout_weight="1"
         android:orientation="vertical">
@@ -46,9 +47,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:maxLines="2"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textSize="@dimen/tv_size_middle"
-            tools:text="我是名字" />
+            tools:text="我是名第四季度是考虑到加上了点击老司机大婶了字" />
 
         <TextView
             android:id="@+id/tv_file_size"
@@ -56,8 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/item_inner_margin"
-            android:textSize="@dimen/tv_size_small"
             android:textColor="#B2B2B2"
+            android:textSize="@dimen/tv_size_small"
             tools:text="我是文件大小" />
 
     </LinearLayout>
