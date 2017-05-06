@@ -6,8 +6,6 @@ import com.ipeercloud.com.utils.GsLog;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 
 import fi.iki.elonen.NanoHTTPD;
 
@@ -18,7 +16,8 @@ import fi.iki.elonen.NanoHTTPD;
  */
 
 public class GsHttpd extends NanoHTTPD {
-    private static final int BUF_SIZE = 1024 * 1024;
+    public static  int bufSize = 1024 * 1024;
+    public static  final int BUF_SIZE = 1024 * 1024;
     private String fileName = "hkc.mp4";
     public static String sRemotePath;
     public GsHttpd(int port) {
@@ -27,35 +26,37 @@ public class GsHttpd extends NanoHTTPD {
 
     @Override
     public Response serve(IHTTPSession session) {
-//        String range = session.getHeaders().get("range");
-//        GsLog.d("请求range " + range);
-//        Response response = new Response(NanoHTTPD.Response.Status.PARTIAL_CONTENT, "text/html", getStream());
-//        response.addHeader("Content-Length", "" + BUF_SIZE);
-//        int start = (time - 1) * BUF_SIZE;
-//        response.addHeader("Content-Range", "bytes " + start + "-" + ((time) * BUF_SIZE - 1) + "/" + getSize());
-        GsLog.d("url "+session.getUri());
-        return new Response(Response.Status.OK,"text/html",new ByteArrayInputStream(getFromJni(sRemotePath)));
+        String range = session.getHeaders().get("range");
+        GsLog.d("请求range " + range);
+        int start = getStart(range);
+        byte[] buf = getFromJni(start,sRemotePath);
+        Response response = new Response(NanoHTTPD.Response.Status.PARTIAL_CONTENT, "text/html", new ByteArrayInputStream(buf));
+        response.addHeader("Content-Length", "" + BUF_SIZE);
+        response.addHeader("Content-Range", "bytes " + start + "-" + (start+BUF_SIZE)+ "/" + getSize());
+        return response;
     }
 
-    int index = -1;
-    static int time = 0;
 
-    private byte[] getFromJni(String remotePath) {
-        int size = 1024;
-        byte[] buf = new byte[size];
-        int[] leng = new int[]{};
+
+    private byte[] getFromJni(int start,String remotePath) {
+        byte[] buf = new byte[bufSize+2];
+        int[] leng = new int[5];
         GsLog.d("远端路径 "+remotePath);
-        leng[0] = size;//要读取的字节数要先保存到这里
-        int result = GsSocketManager.getInstance().gsReadFileBuffer(remotePath, 0, size, buf, leng);
+        leng[0] = bufSize;//要读取的字节数要先保存到这里
+        int result = GsSocketManager.getInstance().gsReadFileBuffer(remotePath, start, bufSize, buf, leng);
         if (result == 0) {
             GsLog.d("请求数据流成功  "+buf.length);
-
             return buf;
         }
         GsLog.d("请求数据失败");
         return null;
     }
-
+    private int getStart(String range){
+        int index = range.indexOf("-");
+        String num = range.substring(6,index);
+        GsLog.d("num "+num);
+        return Integer.parseInt(num);
+    }
     private long getSize() {
         File file = new File(GsFile.getDir(), fileName);
         if (!file.exists()) {
@@ -65,7 +66,7 @@ public class GsHttpd extends NanoHTTPD {
         return file.length();
     }
 
-    private InputStream getStream() {
+    /*private InputStream getStream() {
         File file = new File(GsFile.getDir(), fileName);
         if (!file.exists()) {
             GsLog.d("服务端文件不存在");
@@ -92,5 +93,5 @@ public class GsHttpd extends NanoHTTPD {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 }

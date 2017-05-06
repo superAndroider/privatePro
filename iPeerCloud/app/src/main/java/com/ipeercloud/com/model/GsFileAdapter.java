@@ -23,6 +23,7 @@ import com.ipeercloud.com.model.EventBusEvent.GsProgressEvent;
 import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsFile;
 import com.ipeercloud.com.utils.GsLog;
+import com.ipeercloud.com.view.activity.VideoViewActivity;
 import com.ipeercloud.com.widget.GsFullPop;
 
 import org.greenrobot.eventbus.EventBus;
@@ -138,8 +139,8 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     //点击条目，但是条目并没有下载
                     String path = mCurrentPath.toString() + "\\" + fileName;
                     GsHttpd.sRemotePath = path;
-//                    VideoViewActivity.startActivity(context,path);
-//                    GsCacheVideo.cacheVideo(context,mCurrentPath.toString()+"\\"+fileName);
+//                    GsHttpd.bufSize = (int)mList.get(position).FileSize;
+                    VideoViewActivity.startActivity(context,path);
                 } else {
                     GsLog.d("文件已经存在，直接打开");
                     GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
