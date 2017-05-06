@@ -17,4 +17,8 @@
     <!--设置页  相机同步-->
     <color name="color_gray">#CCCCCC</color>
 
+    <color name="color_unpressed_bg">#00ffffff</color>
+    <!--tab按下的背景色-->
+    <color name="color_pressed_bg">#30ff9933</color>
+
 </resources>
