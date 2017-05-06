@@ -158,6 +158,9 @@ public class GsFileHelper {
             case GsFileType.TYPE_PDF:
                 intent = getTextFileIntent(path);
                 startActivity(context, intent);
+            case GsFileType.TYPE_XLS:
+                intent = getExcelFileIntent(path);
+                startActivity(context, intent);
                 break;
 
         }
