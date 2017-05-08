@@ -23,7 +23,6 @@ import com.ipeercloud.com.model.EventBusEvent.GsProgressEvent;
 import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsFile;
 import com.ipeercloud.com.utils.GsLog;
-import com.ipeercloud.com.view.activity.VideoViewActivity;
 import com.ipeercloud.com.widget.GsFullPop;
 import com.ipeercloud.com.widget.GsProgressDialog;
 
@@ -149,7 +148,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     String path = mCurrentPath.toString() + "\\" + fileName;
                     GsHttpd.sRemotePath = path;
 //                    GsHttpd.bufSize = (int)mList.get(position).FileSize;
-                    VideoViewActivity.startActivity(context, path);
+//                    VideoViewActivity.startActivity(context, path);
                     } else {
                         // 开始缓存
                         downLoadFile(fileName, true);
