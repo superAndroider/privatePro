@@ -32,7 +32,7 @@ public class GsHttpd extends NanoHTTPD {
         byte[] buf = getFromJni(start,sRemotePath);
         Response response = new Response(NanoHTTPD.Response.Status.PARTIAL_CONTENT, "text/html", new ByteArrayInputStream(buf));
         response.addHeader("Content-Length", "" + BUF_SIZE);
-        response.addHeader("Content-Range", "bytes " + start + "-" + (start+BUF_SIZE)+ "/" + getSize());
+        response.addHeader("Content-Range", "bytes " + start + "-" + (start+BUF_SIZE)+ "/" + bufSize);
         return response;
     }
 

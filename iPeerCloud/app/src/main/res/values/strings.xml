@@ -87,5 +87,6 @@
     <string name="wifi_password">WIFI 密码</string>
     <string name="wifi_password_hint">请输入WIFI密码</string>
 
-
+    <string name="gs_loading">载入中</string>
+    <string name="gs_uploading">上传中</string>
 </resources>

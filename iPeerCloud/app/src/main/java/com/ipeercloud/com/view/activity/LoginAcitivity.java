@@ -53,8 +53,8 @@ public class LoginAcitivity extends BaseAcitivity {
     }
 
     private void initView() {
-        //edit_email.setText("2411309415@qq.com");
-        //edit_password.setText("181818");
+        edit_email.setText("2411309415@qq.com");
+        edit_password.setText("181818");
 
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null) {

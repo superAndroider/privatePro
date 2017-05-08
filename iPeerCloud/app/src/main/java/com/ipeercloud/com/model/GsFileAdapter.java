@@ -25,6 +25,7 @@ import com.ipeercloud.com.utils.GsFile;
 import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.view.activity.VideoViewActivity;
 import com.ipeercloud.com.widget.GsFullPop;
+import com.ipeercloud.com.widget.GsProgressDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -47,12 +48,18 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final String DERECTORY_TYPE = "files";
     private StringBuilder mCurrentPath = new StringBuilder("\\");
     private StringBuilder mNewPath = new StringBuilder();
+    private GsProgressDialog mProgressDialog;
+    private String mCurrentCachePath;
     //0 表示最近 1 表示视频 2表示文件
     private int mType;
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            notifyDataSetChanged();
+            if (msg.what == 1) {
+                mProgressDialog.setProgress(msg.arg1);
+            } else if (msg.what == 2) {
+                notifyDataSetChanged();
+            }
         }
     };
     private View.OnClickListener mListener;
@@ -61,6 +68,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.mList = list;
         this.context = context;
         this.mListener = listener;
+        mProgressDialog = new GsProgressDialog(context);
     }
 
     public void setData(List<GsFileModule.FileEntity> list) {
@@ -136,11 +144,17 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             @Override
             public void onClick(View v) {
                 if (!GsFile.isContainsFile(fileName)) {
-                    //点击条目，但是条目并没有下载
+                    if (isVideo(fileName)) {
+                        //点击条目，但是条目并没有下载
                     String path = mCurrentPath.toString() + "\\" + fileName;
                     GsHttpd.sRemotePath = path;
 //                    GsHttpd.bufSize = (int)mList.get(position).FileSize;
-                    VideoViewActivity.startActivity(context,path);
+                    VideoViewActivity.startActivity(context, path);
+                    } else {
+                        // 开始缓存
+                        downLoadFile(fileName, true);
+                    }
+
                 } else {
                     GsLog.d("文件已经存在，直接打开");
                     GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
@@ -167,7 +181,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             gsholder.progressBar.setVisibility(View.INVISIBLE);
                             notifyDataSetChanged();
                         } else {
-                            downLoadFile(fileName);
+                            downLoadFile(fileName, false);
                             gsholder.progressBar.setVisibility(View.VISIBLE);
                             mList.get(position).loadingProgress = 0;
                         }
@@ -180,25 +194,56 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+    private boolean isVideo(String fileName) {
+        if (TextUtils.isEmpty(fileName)) {
+            return false;
+        }
+        String type = GsFileHelper.getFileNameType(fileName);
+        if (TextUtils.isEmpty(type)) {
+            return false;
+        }
+        if (type.equals(GsFileType.TYPE_MP4) || type.equals(GsFileType.TYPE_MP3)) {
+            return true;
+        }
+        return false;
+    }
+
     private boolean isDir(String name) {
         return GsFileType.TYPE_DIRECTORY.equals(GsFileHelper.getFileNameType(name));
     }
 
-    private void downLoadFile(final String fileName) {
+    private void downLoadFile(final String fileName, final boolean isCache) {
+
         String remotePath;
         if (mCurrentPath.equals("\\")) {
             remotePath = mCurrentPath + fileName;
         } else {
             remotePath = mCurrentPath + "\\" + fileName;
         }
-        GsJniManager.getInstance().downFile(GsFile.getPath(fileName),
+        String localPath;
+        if (isCache) {
+            mProgressDialog.show();
+            mCurrentCachePath = remotePath;
+            localPath = GsFile.getCachePath(fileName);
+        } else {
+            localPath = GsFile.getPath(fileName);
+        }
+
+        GsJniManager.getInstance().downFile(localPath,
                 remotePath, new GsCallBack<GsSimpleResponse>() {
                     @Override
                     public void onResult(GsSimpleResponse response) {
                         GsLog.d("下载的结果  " + response.result);
                         if (response.result) {
-                           // Toast.makeText(context, "文件" + fileName + "下载成功", Toast.LENGTH_LONG).show();
-                            downSuccess(fileName);
+                            // Toast.makeText(context, "文件" + fileName + "下载成功", Toast.LENGTH_LONG).show();
+                            if (isCache) {
+                                //关闭对话框
+                                mProgressDialog.dismiss();
+                                //缓存的下载成功直接打开
+                                GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
+                            } else {
+                                downSuccess(fileName);
+                            }
                             // 下载完成后直接打开
                             //GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
                         } else {
@@ -376,12 +421,24 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (TextUtils.isEmpty(fileName)) {
             return;
         }
+        if (event.remotePath.equals(mCurrentCachePath)) {
+            GsLog.d("更新缓存文件对话框");
+            // 此文件只是缓存文件
+            Message message = Message.obtain();
+            message.what = 1;
+            message.arg1 = event.progress;
+            mHandler.sendMessage(message);
+            return;
+        }
         int size = mList.size();
         for (int i = 0; i < size; i++) {
             if (fileName.equals(mList.get(i).FileName)) {
                 final int index = i;
                 mList.get(i).loadingProgress = event.progress;
-                mHandler.sendEmptyMessage(index);
+                Message message = Message.obtain();
+                message.what = 2;
+                message.arg1 = event.progress;
+                mHandler.sendMessage(message);
                 return;
             }
         }

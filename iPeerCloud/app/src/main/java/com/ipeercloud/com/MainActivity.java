@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -21,6 +22,7 @@ import com.ipeercloud.com.controler.GsFileHelper;
 import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.controler.GsSocketManager;
 import com.ipeercloud.com.httpd.GsHttpd;
+import com.ipeercloud.com.model.EventBusEvent.GsProgressEvent;
 import com.ipeercloud.com.model.GsCallBack;
 import com.ipeercloud.com.model.GsFileModule;
 import com.ipeercloud.com.model.GsSimpleResponse;
@@ -37,9 +39,12 @@ import com.ipeercloud.com.view.fragment.MediasFragment;
 import com.ipeercloud.com.view.fragment.PhotosFragment;
 import com.ipeercloud.com.view.fragment.SettingsFragment;
 import com.ipeercloud.com.view.service.SyncDownLoadService;
-import com.ipeercloud.com.view.service.SyncUploadService;
+import com.ipeercloud.com.widget.GsProgressDialog;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -85,11 +90,16 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
     private int index = 0;                                      // 切换标示位
     private int currentTabIndex = 0;                            // 当前位
 
+    private GsProgressDialog mProgressDialog;
+
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
-            super.handleMessage(msg);
-            isExit = false;
+            if (msg.what == 1) {
+                mProgressDialog.setProgress(msg.arg1);
+            } else {
+                isExit = false;
+            }
         }
     };
 
@@ -107,6 +117,8 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
         dataSource.provideMediaItems(this);//select all images from local database
         //getPhotos();
         testHttpd();
+        EventBus.getDefault().register(this);
+        isOnLine();
     }
 
     private void initFragment() {
@@ -138,6 +150,8 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
                 goToOnClick();
             }
         });
+        mProgressDialog = new GsProgressDialog(this,getString(R.string.gs_uploading));
+
     }
 
     @Override
@@ -192,13 +206,18 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
         upLoadFile(localPath, fileName);
     }
 
+    private String mUpLoadPath = null;
+
     /**
      * 将其他app发送过来的文件上传到远端
      */
     private void upLoadFile(String localpath, final String fileName) {
-        GsJniManager.getInstance().upLoadOneFile(localpath, "\\" + fileName, new GsCallBack<GsSimpleResponse>() {
+        mUpLoadPath = "\\" + fileName;
+        mProgressDialog.show();
+        GsJniManager.getInstance().upLoadOneFile(localpath, mUpLoadPath, new GsCallBack<GsSimpleResponse>() {
             @Override
             public void onResult(GsSimpleResponse response) {
+                mProgressDialog.dismiss();
                 if (response.result) {
                     Toast.makeText(MainActivity.this, fileName + "上传成功", Toast.LENGTH_LONG).show();
                 } else {
@@ -206,6 +225,30 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
                 }
             }
         });
+    }
+
+    @Subscribe
+    public void updateProgress(GsProgressEvent event) {
+        if (event == null || TextUtils.isEmpty(event.remotePath)) {
+            return;
+        }
+        String remoteFolderName = GsFileHelper.getFolderNameFromRemotePath(event.remotePath);
+        if (TextUtils.isEmpty(remoteFolderName)) {
+            return;
+        }
+        String fileName = GsFileHelper.getFileNameFromRemotePath(event.remotePath);
+        if (TextUtils.isEmpty(fileName)) {
+            return;
+        }
+        if (event.remotePath.equals(mUpLoadPath)) {
+            GsLog.d("更新缓存文件对话框");
+            // 此文件只是缓存文件
+            Message message = Message.obtain();
+            message.what = 1;
+            message.arg1 = event.progress;
+            mHandler.sendMessage(message);
+        }
+
     }
 
     @Override
@@ -326,10 +369,11 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
         }
     }
 
-   private void testVideo(){
-       Intent intent = new Intent(MainActivity.this, GsMediaPlayerActivity.class);
-       startActivity(intent);
-   }
+    private void testVideo() {
+        Intent intent = new Intent(MainActivity.this, GsMediaPlayerActivity.class);
+        startActivity(intent);
+    }
+
     private void goToOnClick() {
 
 //        boolean login = GsSocketManager.getInstance().gsLogin("sz.goonas.com", "2411309415@qq.com", "1818");
@@ -420,7 +464,8 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
         startService(intent);
 
     }
-    private void testHttpd(){
+
+    private void testHttpd() {
         GsHttpd httpServer = new GsHttpd(80080);
         try {
             httpServer.start();
@@ -430,7 +475,7 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
         }
     }
 
-    private void testVitamio(){
+    private void testVitamio() {
         Intent intent = new Intent(MainActivity.this, VideoViewActivity.class);
         startActivity(intent);
     }

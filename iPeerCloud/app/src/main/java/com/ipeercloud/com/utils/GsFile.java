@@ -12,7 +12,8 @@ import java.io.File;
  */
 
 public class GsFile {
-    public static final String DIR_NAME = "hkctest";
+    public static final String DIR_NAME = "iPeerCloud";
+    public static final String DIR_CACHE = "ipeercache";
 
     /**
      * 创建根目录下的文件夹
@@ -28,7 +29,21 @@ public class GsFile {
         }
         return dir;
     }
-
+    public static String getCachePath(String fileName) {
+        File root = Environment.getExternalStorageDirectory();
+        if (!root.exists()) {
+            root.mkdir();
+        }
+        if (root == null) {
+            return null;
+        }
+        File dir = new File(root, DIR_CACHE);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        File file = new File(dir, fileName);
+        return file.getPath();
+    }
     public static String getPath(String fileName) {
         File root = Environment.getExternalStorageDirectory();
         if (!root.exists()) {

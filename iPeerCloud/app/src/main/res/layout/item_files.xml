@@ -31,6 +31,14 @@
             android:visibility="invisible" />
     </FrameLayout>
 
+    <ImageView
+        android:id="@+id/iv_file_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:src="@drawable/btn_pop" />
 
     <LinearLayout
         android:id="@+id/ll"
@@ -64,14 +72,6 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/iv_file_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="center"
-        android:padding="10dp"
-        android:src="@drawable/btn_pop" />
 
     <ProgressBar
         android:id="@+id/progressBar"
