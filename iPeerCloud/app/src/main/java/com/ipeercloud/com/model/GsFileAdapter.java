@@ -67,7 +67,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.mList = list;
         this.context = context;
         this.mListener = listener;
-        mProgressDialog = new GsProgressDialog(context);
+        mProgressDialog = new GsProgressDialog(context,context.getString(R.string.gs_loading));
     }
 
     public void setData(List<GsFileModule.FileEntity> list) {

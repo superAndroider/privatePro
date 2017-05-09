@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/tab_pressed_seletor"
     android:layout_marginLeft="@dimen/item_pading"
     android:layout_marginRight="@dimen/item_pading"
     android:paddingBottom="@dimen/item_pading"

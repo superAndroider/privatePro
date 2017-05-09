@@ -5,7 +5,9 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ipeercloud.com.controler.GsFileHelper;
+import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.model.GsFileModule;
+import com.ipeercloud.com.utils.GsConfig;
 import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.utils.GsSp;
 
@@ -153,6 +155,7 @@ public class GsDataManager {
      * 退出登录，清除用户名和密码
      */
     public void loginOut() {
+        GsJniManager.getInstance().loginOut(GsConfig.serverip,GsSp.getInstance().getString("email"),GsSp.getInstance().getString("passWord"));
         GsSp.getInstance().putString("email", null);
         GsSp.getInstance().putString("passWord", null);
     }

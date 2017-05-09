@@ -25,7 +25,6 @@
 
         <!-- recents -->
         <LinearLayout
-            android:background="@drawable/tab_pressed_seletor"
             android:onClick="onTabSelect"
             android:id="@+id/rl_home"
             android:layout_width="0dp"
@@ -56,7 +55,6 @@
 
         <!-- photos -->
         <LinearLayout
-            android:background="@drawable/tab_pressed_seletor"
             android:onClick="onTabSelect"
             android:id="@+id/rl_photos"
             android:layout_width="0dp"
@@ -87,7 +85,6 @@
 
         <!-- medias -->
         <LinearLayout
-            android:background="@drawable/tab_pressed_seletor"
             android:onClick="onTabSelect"
             android:id="@+id/rl_medias"
             android:layout_width="0dp"
@@ -118,7 +115,6 @@
 
         <!-- files -->
         <LinearLayout
-            android:background="@drawable/tab_pressed_seletor"
             android:onClick="onTabSelect"
             android:id="@+id/rl_files"
             android:layout_width="0dp"
@@ -149,7 +145,6 @@
 
         <!-- settings -->
         <LinearLayout
-            android:background="@drawable/tab_pressed_seletor"
             android:onClick="onTabSelect"
             android:id="@+id/rl_settings"
             android:layout_width="0dp"

@@ -444,6 +444,14 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
                 GsLog.d("是否链接 " + response.result);
             }
         });
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int reulst = GsSocketManager.getInstance().gsReturnConnectedMode();
+                GsLog.d("链接莫斯 "+reulst);
+            }
+        }).start();
+
 
     }
 

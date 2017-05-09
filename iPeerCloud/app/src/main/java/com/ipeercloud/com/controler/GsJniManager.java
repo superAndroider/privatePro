@@ -187,6 +187,7 @@ public class GsJniManager {
      * @param isTabClick 是不是点击一个tab发起的请求
      */
     public void getPathFile(final String path, final boolean isTabClick, final GsCallBack callback) {
+        GsLog.d("请求路径： " + path);
         GsThreadPool.getInstance().execute(new Runnable() {
             @Override
             public void run() {
@@ -240,14 +241,14 @@ public class GsJniManager {
      * 从远端获取某个文件夹下面的文件后需要将本地没有的补上，本地有的不再变化，防止本地文件下载状态丢失
      */
     private void updateList(List<GsFileModule.FileEntity> localList, List<GsFileModule.FileEntity> remoteList) {
-        if (remoteList == null ||remoteList.size() == 0) {
+        if (remoteList == null || remoteList.size() == 0) {
             return;
         }
         if (localList.size() == 0) {
             //localList.addAll(remoteList);
             for (int k = 0; k < remoteList.size(); k++) {
                 //GsLog.d("index="+remoteList.get(k).FileName.indexOf("gcloudmd5"));
-                if (remoteList.get(k).FileName.indexOf("gcloudmd5") == -1 ) {
+                if (remoteList.get(k).FileName.indexOf("gcloudmd5") == -1) {
                     localList.add(remoteList.get(k));
                 }
             }
@@ -264,7 +265,7 @@ public class GsJniManager {
                 }
             }
             if (!find) {
-                if (remoteList.get(i).FileName.indexOf("gcloudmd5") == -1 ){
+                if (remoteList.get(i).FileName.indexOf("gcloudmd5") == -1) {
                     localList.add(remoteList.get(i));
                 }
             }
@@ -276,7 +277,7 @@ public class GsJniManager {
             @Override
             public void run() {
                 final boolean result = GsSocketManager.getInstance().gsPutFile(localPath, remotePath);
-                GsLog.d("上传 = "+remotePath);
+                GsLog.d("上传 = " + remotePath);
                 if (callBack == null)
                     return;
                 mHandler.post(new Runnable() {
@@ -297,7 +298,7 @@ public class GsJniManager {
         mUpLoadRunnables.add(new Runnable() {
             @Override
             public void run() {
-                GsLog.d("上传文件 =="+localPath);
+                GsLog.d("上传文件 ==" + localPath);
                 final boolean result = GsSocketManager.getInstance().gsPutFile(localPath, remotePath);
                 uploadFinish();
                 if (callback == null) return;
@@ -324,7 +325,7 @@ public class GsJniManager {
         }
     }
 
-    public void addWIFI(final String wifiName, final String password,final GsCallBack<GsSimpleResponse> callBack) {
+    public void addWIFI(final String wifiName, final String password, final GsCallBack<GsSimpleResponse> callBack) {
         GsThreadPool.getInstance().execute(new Runnable() {
             @Override
             public void run() {
@@ -339,6 +340,15 @@ public class GsJniManager {
                         callBack.onResult(new GsSimpleResponse(result));
                     }
                 });
+            }
+        });
+    }
+
+    public void loginOut(final String server, final String userName, final String password) {
+        GsThreadPool.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                final boolean result = GsSocketManager.getInstance().gsUserRegister(server, userName, password);
             }
         });
     }

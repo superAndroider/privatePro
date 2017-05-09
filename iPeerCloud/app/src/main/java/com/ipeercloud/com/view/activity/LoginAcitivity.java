@@ -21,6 +21,7 @@ import com.ipeercloud.com.model.GsCallBack;
 import com.ipeercloud.com.model.GsSimpleResponse;
 import com.ipeercloud.com.utils.Contants;
 import com.ipeercloud.com.utils.GsConfig;
+import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.utils.GsSp;
 import com.ipeercloud.com.utils.SharedPreferencesHelper;
 import com.lidroid.xutils.ViewUtils;
@@ -160,7 +161,8 @@ public class LoginAcitivity extends BaseAcitivity {
                     boolean isOnline = (boolean) map.get("isOnline");
                     final String emailStr = (String) map.get("emailStr");
                     final String passwordStr = (String) map.get("passwordStr");
-
+                    GsLog.d("密码  "+passwordStr);
+                    GsLog.d("是否在线 "+isOnline);
                     if (isOnline) {
                         cancelLoadingDialog();
                         intent = new Intent(LoginAcitivity.this, MainActivity.class);

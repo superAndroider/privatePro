@@ -1,7 +1,5 @@
 package com.ipeercloud.com.controler;
 
-import com.ipeercloud.com.utils.GsLog;
-
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +28,7 @@ public class GsThreadPool {
     }
 
     public void execute(Runnable runnable){
-        GsLog.d("线程信息：  "+poolExecutor.toString());
+//        GsLog.d("线程信息：  "+poolExecutor.toString());
         poolExecutor.execute(runnable);
     }
 

@@ -42,5 +42,6 @@ public class GsProgressDialog extends AlertDialog {
     }
     public void setProgress(int progress) {
         mPb.setProgress(progress);
+        mMessageTv.setText(message+progress+"%");
     }
 }
