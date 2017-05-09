@@ -84,7 +84,7 @@
         <activity
             android:name="com.ipeercloud.com.view.activity.LinkGoonasAcitivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.ipeercloud.com.view.activity.VideoViewActivity" />
+        <activity android:name="com.ipeercloud.com.view.activity.VideoViewActivity" android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.GsMediaPlayerActivity"
             android:screenOrientation="landscape" />
@@ -92,7 +92,7 @@
         <activity android:name=".ui.SelectActivity">
 
         </activity>
-
+        <activity android:name=".view.activity.TempActivity"/>
         <activity android:name=".view.activity.CameraSyncActivity"></activity>
         <activity android:name=".view.activity.SendEmailActivity"></activity>
         <activity android:name=".view.activity.AddWifiActivity"></activity>

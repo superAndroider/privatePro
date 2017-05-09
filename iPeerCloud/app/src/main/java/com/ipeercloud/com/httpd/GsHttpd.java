@@ -66,32 +66,4 @@ public class GsHttpd extends NanoHTTPD {
         return file.length();
     }
 
-    /*private InputStream getStream() {
-        File file = new File(GsFile.getDir(), fileName);
-        if (!file.exists()) {
-            GsLog.d("服务端文件不存在");
-            return null;
-        }
-        try {
-            GsLog.d("文件的大小  " + file.length());
-            FileInputStream fis = new FileInputStream(file);
-            byte[] buf = new byte[1024 * 1024];
-            int offset = BUF_SIZE * time;
-            if (offset != 0) {
-                offset = offset + 1;
-            }
-            //读掉无效数据
-            byte[] gcBuf = new byte[offset];
-            fis.read(gcBuf);
-            //读有用数据
-            fis.read(buf, 0, BUF_SIZE);
-            ByteArrayInputStream bis = new ByteArrayInputStream(buf);
-            time++;
-            return bis;
-        } catch (Exception e) {
-            GsLog.d("出现了异常");
-            e.printStackTrace();
-        }
-        return null;
-    }*/
 }

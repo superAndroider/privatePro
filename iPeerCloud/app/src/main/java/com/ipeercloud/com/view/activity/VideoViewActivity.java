@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,11 +43,12 @@ public class VideoViewActivity extends Activity implements OnInfoListener, OnBuf
    * TODO: Set the path variable to a streaming video URL or a local media file
    * path.
    */
-  private String path="http://localhost:8080/aa.php";
+  private String path="http://localhost:8080/";
   private Uri uri;
   private VideoView mVideoView;
   private ProgressBar pb;
   private TextView downloadRateView, loadRateView;
+  private ViewGroup mViewGp;
 
   @Override
   public void onCreate(Bundle icicle) {
@@ -62,7 +64,7 @@ public class VideoViewActivity extends Activity implements OnInfoListener, OnBuf
 
     // 获取path
     Intent intent = getIntent();
-//    path = path+"?"+"uri="+intent.getStringExtra("path");
+    path = path+intent.getStringExtra("path");
     if (TextUtils.isEmpty(path)) {
       // Tell the user to provide a media file URL/path.
       Toast.makeText(
@@ -91,9 +93,9 @@ public class VideoViewActivity extends Activity implements OnInfoListener, OnBuf
     }
 
   }
-  public static void startActivity(Context context,String path){
+  public static void startActivity(Context context,String fileName){
     Intent intent = new Intent(context,VideoViewActivity.class);
-    intent.putExtra("path",path);
+    intent.putExtra("path",fileName);
     context.startActivity(intent);
   }
   @Override
@@ -121,6 +123,12 @@ public class VideoViewActivity extends Activity implements OnInfoListener, OnBuf
       break;
     }
     return true;
+  }
+
+  @Override
+  protected void onDestroy() {
+    setResult(100);
+    super.onDestroy();
   }
 
   @Override

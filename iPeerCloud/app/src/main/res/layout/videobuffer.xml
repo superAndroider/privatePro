@@ -2,13 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_pop_btn_bg_pressed"
     android:orientation="vertical" >
 
     <io.vov.vitamio.widget.CenterLayout
+        android:background="@color/gray"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
-
         <io.vov.vitamio.widget.VideoView
             android:id="@+id/buffer"
             android:layout_width="match_parent"
@@ -18,12 +19,14 @@
     </io.vov.vitamio.widget.CenterLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
+        android:gravity="center"
         android:orientation="vertical" >
 
         <ProgressBar
+            android:layout_gravity="center"
             android:id="@+id/probar"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"

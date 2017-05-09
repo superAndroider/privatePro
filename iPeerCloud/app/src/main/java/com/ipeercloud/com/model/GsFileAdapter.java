@@ -23,6 +23,7 @@ import com.ipeercloud.com.model.EventBusEvent.GsProgressEvent;
 import com.ipeercloud.com.store.GsDataManager;
 import com.ipeercloud.com.utils.GsFile;
 import com.ipeercloud.com.utils.GsLog;
+import com.ipeercloud.com.view.activity.VideoViewActivity;
 import com.ipeercloud.com.widget.GsFullPop;
 import com.ipeercloud.com.widget.GsProgressDialog;
 
@@ -151,7 +152,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         String path = mCurrentPath.toString() + "\\" + fileName;
                         GsHttpd.sRemotePath = path;
 //                    GsHttpd.bufSize = (int)mList.get(position).FileSize;
-//                    VideoViewActivity.startActivity(context, path);
+                    VideoViewActivity.startActivity(context, fileName);
                     } else {
                         // 开始缓存
                         downLoadFile(fileName, true);
@@ -204,7 +205,12 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (TextUtils.isEmpty(type)) {
             return false;
         }
-        if (type.equals(GsFileType.TYPE_MP4) || type.equals(GsFileType.TYPE_MP3)) {
+        if (type.equals(GsFileType.TYPE_MP4)
+                || type.equals(GsFileType.TYPE_MP3)
+                || type.equals(GsFileType.TYPE_AVI)
+                || type.equals(GsFileType.TYPE_RM)
+                || type.equals(GsFileType.TYPE_RMVB)
+                || type.equals(GsFileType.TYPE_3GP)) {
             return true;
         }
         return false;
@@ -237,7 +243,6 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     public void onResult(GsSimpleResponse response) {
                         GsLog.d("下载的结果  " + response.result);
                         if (response.result) {
-                            // Toast.makeText(context, "文件" + fileName + "下载成功", Toast.LENGTH_LONG).show();
                             if (isCache) {
                                 //关闭对话框
                                 mProgressDialog.dismiss();
@@ -246,10 +251,8 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             } else {
                                 downSuccess(fileName);
                             }
-                            // 下载完成后直接打开
-                            //GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
                         } else {
-                            //Toast.makeText(context, "文件" + fileName + "下载失败", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "文件" + fileName + "下载失败", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -423,7 +426,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (TextUtils.isEmpty(remoteFolderName)) {
             return;
         }
-        if (!remoteFolderName.contains(mCurrentPath.toString())) {
+        if (!remoteFolderName.contains(rootPath)) {
             // 要更新下载进度的文件不在本adapter中
             return;
         }
@@ -432,7 +435,6 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return;
         }
         if (event.remotePath.equals(mCurrentCachePath)) {
-            GsLog.d("更新缓存文件对话框");
             // 此文件只是缓存文件
             Message message = Message.obtain();
             message.what = 1;
