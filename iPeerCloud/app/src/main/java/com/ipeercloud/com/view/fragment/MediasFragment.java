@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ipeercloud.com.R;
+import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.controler.GsSocketManager;
 import com.ipeercloud.com.model.GsFileAdapter;
 import com.ipeercloud.com.store.GsDataManager;
@@ -55,7 +56,7 @@ public class MediasFragment extends BaseFragment {
             public void onClick(View v) {
                 mBtnBack.setImageResource(R.drawable.back);
             }
-        });
+        }, GsJniManager.MEDIA_PARAM);
 
         int connMode = GsSocketManager.getInstance().gsReturnConnectedMode();//1->直连;2->中转;3->局域网
         if ( connMode == 1 ){

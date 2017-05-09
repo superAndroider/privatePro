@@ -21,4 +21,8 @@ public class GsFileType {
     public static final String TYPE_DOCX = "docx";
     public static final String TYPE_PPT = "ppt";
     public static final String TYPE_XLS = "xls";
+    public static final String TYPE_3GP = "3gp";
+    public static final String TYPE_RM = "rm";
+    public static final String TYPE_RMVB = "rmvb";
+    public static final String TYPE_AVI = "avi";
 }

@@ -101,6 +101,17 @@ public class GsDataManager {
     }
 
     /**
+     * 清除缓存
+     */
+    public void clearCache() {
+        GsSp.getInstance().putString("files", "");
+        GsSp.getInstance().putString("photos", "");
+        GsSp.getInstance().putString("recentFile", "");
+        GsSp.getInstance().putString("medias", "");
+        GsSp.getInstance().putFileMap("");
+    }
+
+    /**
      * 清除最近列表
      */
     public void clearRecentFiles() {
@@ -155,8 +166,11 @@ public class GsDataManager {
      * 退出登录，清除用户名和密码
      */
     public void loginOut() {
-        GsJniManager.getInstance().loginOut(GsConfig.serverip,GsSp.getInstance().getString("email"),GsSp.getInstance().getString("passWord"));
+        GsJniManager.getInstance().loginOut(GsConfig.serverip, GsSp.getInstance().getString("email"), GsSp.getInstance().getString("passWord"));
         GsSp.getInstance().putString("email", null);
         GsSp.getInstance().putString("passWord", null);
+        //清除缓存
+        clearCache();
+        clearRecentFiles();
     }
 }

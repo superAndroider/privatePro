@@ -37,6 +37,14 @@ public class GsProgressDialog extends AlertDialog {
         this.setCancelable(false);
 
     }
+
+    @Override
+    public void show() {
+//        mPb.setProgress(0);
+//        mMessageTv.setText(message+0+"%");
+        super.show();
+    }
+
     public void setText(String s){
         mMessageTv.setText(s);
     }

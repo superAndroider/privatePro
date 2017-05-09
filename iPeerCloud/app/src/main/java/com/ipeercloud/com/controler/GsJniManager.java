@@ -151,6 +151,7 @@ public class GsJniManager {
         mDownLoadRunnables.add(new Runnable() {
             @Override
             public void run() {
+                GsLog.d("开始下载  "+localPath+"    远端路径："+remotePath);
                 final int result = GsSocketManager.getInstance().gsGetFile(remotePath, localPath);
                 downFinish();
                 if (callback == null) return;

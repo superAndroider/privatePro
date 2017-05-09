@@ -6,6 +6,7 @@
     android:paddingRight="40dp"
     android:orientation="vertical">
     <ProgressBar
+        android:layout_marginTop="10dp"
         android:id="@+id/dialog_pb"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="match_parent"

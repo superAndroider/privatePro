@@ -66,7 +66,7 @@ public class HomeFragment extends BaseFragment {
             public void onClick(View v) {
                 mBtnBack.setImageResource(R.drawable.back);
             }
-        });
+        },"");
         mRecyclerView.setAdapter(mAdapter);
 
         int connMode = GsSocketManager.getInstance().gsReturnConnectedMode();//1->直连;2->中转;3->局域网

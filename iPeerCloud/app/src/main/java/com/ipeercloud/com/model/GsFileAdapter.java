@@ -43,9 +43,10 @@ import static android.R.attr.path;
 
 public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements GsLifeCycle {
     private List<GsFileModule.FileEntity> mList;
+    private String rootPath;
     private Context context;
     private static final String DERECTORY_TYPE = "files";
-    private StringBuilder mCurrentPath = new StringBuilder("\\");
+    private StringBuilder mCurrentPath;
     private StringBuilder mNewPath = new StringBuilder();
     private GsProgressDialog mProgressDialog;
     private String mCurrentCachePath;
@@ -63,11 +64,13 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     };
     private View.OnClickListener mListener;
 
-    public GsFileAdapter(List<GsFileModule.FileEntity> list, Context context, View.OnClickListener listener) {
+    public GsFileAdapter(List<GsFileModule.FileEntity> list, Context context, View.OnClickListener listener, String rootPath) {
         this.mList = list;
         this.context = context;
         this.mListener = listener;
-        mProgressDialog = new GsProgressDialog(context,context.getString(R.string.gs_loading));
+        this.rootPath = rootPath;
+        mCurrentPath = new StringBuilder(rootPath);
+        mProgressDialog = new GsProgressDialog(context, context.getString(R.string.gs_loading));
     }
 
     public void setData(List<GsFileModule.FileEntity> list) {
@@ -145,8 +148,8 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (!GsFile.isContainsFile(fileName)) {
                     if (isVideo(fileName)) {
                         //点击条目，但是条目并没有下载
-                    String path = mCurrentPath.toString() + "\\" + fileName;
-                    GsHttpd.sRemotePath = path;
+                        String path = mCurrentPath.toString() + "\\" + fileName;
+                        GsHttpd.sRemotePath = path;
 //                    GsHttpd.bufSize = (int)mList.get(position).FileSize;
 //                    VideoViewActivity.startActivity(context, path);
                     } else {
@@ -219,7 +222,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             remotePath = mCurrentPath + "\\" + fileName;
         }
-        String localPath;
+        final String localPath;
         if (isCache) {
             mProgressDialog.show();
             mCurrentCachePath = remotePath;
@@ -239,7 +242,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 //关闭对话框
                                 mProgressDialog.dismiss();
                                 //缓存的下载成功直接打开
-                                GsFileHelper.startActivity(fileName, GsFile.getPath(fileName), context);
+                                GsFileHelper.startActivity(fileName, localPath, context);
                             } else {
                                 downSuccess(fileName);
                             }
@@ -290,6 +293,10 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 id = R.drawable.music;
                 break;
             case GsFileType.TYPE_MP4:
+            case GsFileType.TYPE_3GP:
+            case GsFileType.TYPE_AVI:
+            case GsFileType.TYPE_RM:
+            case GsFileType.TYPE_RMVB:
                 id = R.drawable.media_no_down;
                 break;
             case GsFileType.TYPE_TEXT:
@@ -345,7 +352,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     public boolean onBackPressed() {
-        if (mCurrentPath.equals("\\")) {
+        if (mCurrentPath.toString().equals(rootPath)) {
             return false;
         }
 
@@ -355,7 +362,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         mCurrentPath.delete(index, mCurrentPath.length());
-        if (mCurrentPath.toString().equals("\\")) {
+        if (mCurrentPath.toString().equals(rootPath)) {
             updateData(mCurrentPath.toString());
             return false;
         }
@@ -364,15 +371,19 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public void resetData() {
-        mCurrentPath = new StringBuilder("\\");
+        mCurrentPath = new StringBuilder(rootPath);
     }
 
     /**
      * 更新数据
      */
     private void updateData(String path) {
-        if ("\\".equals(path)) {
-            mList = GsDataManager.getInstance().files.fileList;
+        if (rootPath.equals(path)) {
+            if (rootPath.equals(GsJniManager.FILE_PARAM)) {
+                mList = GsDataManager.getInstance().files.fileList;
+            } else {
+                mList = GsDataManager.getInstance().medias.fileList;
+            }
             notifyDataSetChanged();
             return;
         }
@@ -386,7 +397,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * 更新数据
      */
     private void updateData() {
-        if ("\\".equals(path)) {
+        if (rootPath.equals(path)) {
             mList = GsDataManager.getInstance().files.fileList;
             notifyDataSetChanged();
             return;

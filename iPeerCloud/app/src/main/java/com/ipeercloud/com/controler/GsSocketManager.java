@@ -59,7 +59,7 @@ public class GsSocketManager {
         GsLog.d("进度回调"+finishLength+":"+totalLength);
         int progress = (int) ((finishLength / (float) totalLength) * 100);
         EventBus.getDefault().post(new GsProgressEvent(progress, remotePath));
-        GsDataManager.getInstance().updateDownLoadProgress(progress, remotePath);
+//        GsDataManager.getInstance().updateDownLoadProgress(progress, remotePath);
     }
 
 
