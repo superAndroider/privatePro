@@ -152,6 +152,9 @@ public class GsFileHelper {
             case GsFileType.TYPE_BMP:
             case GsFileType.TYPE_PNG:
             case GsFileType.TYPE_JPG:
+            case GsFileType.TYPE_BMP_S:
+            case GsFileType.TYPE_PNG_S:
+            case GsFileType.TYPE_JPG_S:
                 intent = getImageFileIntent(path);
                 startActivity(context, intent);
                 break;
@@ -168,6 +171,8 @@ public class GsFileHelper {
                 intent = getVideoFileIntent(path);
                 startActivity(context, intent);
             case GsFileType.TYPE_MP3:
+            case GsFileType.TYPE_MP3_S:
+            case GsFileType.TYPE_WMA:
                 intent = getAudioFileIntent(path);
                 startActivity(context, intent);
                 break;

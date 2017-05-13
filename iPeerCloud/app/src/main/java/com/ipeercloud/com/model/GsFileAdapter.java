@@ -207,6 +207,8 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         if (type.equals(GsFileType.TYPE_MP4)
                 || type.equals(GsFileType.TYPE_MP3)
+                || type.equals(GsFileType.TYPE_MP3_S)
+                || type.equals(GsFileType.TYPE_WMA)
                 || type.equals(GsFileType.TYPE_AVI)
                 || type.equals(GsFileType.TYPE_RM)
                 || type.equals(GsFileType.TYPE_RMVB)
@@ -285,14 +287,18 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch (GsFileHelper.getFileNameType(fileName)) {
             case GsFileType.TYPE_BMP:
             case GsFileType.TYPE_JPG:
-            case GsFileType.TYPE_JPG_S:
             case GsFileType.TYPE_PNG:
+            case GsFileType.TYPE_BMP_S:
+            case GsFileType.TYPE_JPG_S:
+            case GsFileType.TYPE_PNG_S:
                 id = R.drawable.photo_no_down;
                 break;
             case GsFileType.TYPE_PDF:
                 id = R.drawable.pdf_icon;
                 break;
             case GsFileType.TYPE_MP3:
+            case GsFileType.TYPE_MP3_S:
+            case GsFileType.TYPE_WMA:
                 id = R.drawable.music;
                 break;
             case GsFileType.TYPE_MP4:

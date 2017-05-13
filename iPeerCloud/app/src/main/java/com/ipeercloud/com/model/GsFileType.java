@@ -11,9 +11,13 @@ public class GsFileType {
     public static final String TYPE_PDF = "pdf";
     public static final String TYPE_PNG = "png";
     public static final String TYPE_JPG = "jpg";
+    public static final String TYPE_PDF_S = "PDG";
+    public static final String TYPE_PNG_S= "PNG";
     public static final String TYPE_JPG_S = "JPG";
     public static final String TYPE_BMP = "bmp";
+    public static final String TYPE_BMP_S = "BMP";
     public static final String TYPE_MP3 = "mp3";
+    public static final String TYPE_MP3_S = "MP3";
     public static final String TYPE_MP4 = "mp4";
     public static final String TYPE_TEXT = "text";
     public static final String TYPE_TXT = "txt";
@@ -25,4 +29,5 @@ public class GsFileType {
     public static final String TYPE_RM = "rm";
     public static final String TYPE_RMVB = "rmvb";
     public static final String TYPE_AVI = "avi";
+    public static final String TYPE_WMA = "wma";
 }
