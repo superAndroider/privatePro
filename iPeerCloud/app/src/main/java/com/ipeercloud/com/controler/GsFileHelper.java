@@ -161,6 +161,12 @@ public class GsFileHelper {
             case GsFileType.TYPE_XLS:
                 intent = getExcelFileIntent(path);
                 startActivity(context, intent);
+            case GsFileType.TYPE_MP4:
+            case GsFileType.TYPE_3GP:
+            case GsFileType.TYPE_RM:
+            case GsFileType.TYPE_RMVB:
+                intent = getVideoFileIntent(path);
+                startActivity(context, intent);
                 break;
 
         }

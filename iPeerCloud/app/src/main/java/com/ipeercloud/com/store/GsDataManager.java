@@ -8,7 +8,6 @@ import com.ipeercloud.com.controler.GsFileHelper;
 import com.ipeercloud.com.controler.GsJniManager;
 import com.ipeercloud.com.model.GsFileModule;
 import com.ipeercloud.com.utils.GsConfig;
-import com.ipeercloud.com.utils.GsLog;
 import com.ipeercloud.com.utils.GsSp;
 
 import java.util.HashMap;
@@ -93,7 +92,6 @@ public class GsDataManager {
             medias = gson.fromJson(jsonString, GsFileModule.class);
         }
         jsonString = GsSp.getInstance().getFileMap();
-        GsLog.d("拿出数据 " + jsonString);
         if (!TextUtils.isEmpty(jsonString)) {
             fileMaps = gson.fromJson(jsonString, new TypeToken<Map<String, GsFileModule>>() {
             }.getType());

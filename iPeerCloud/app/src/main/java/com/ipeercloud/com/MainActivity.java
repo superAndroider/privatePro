@@ -132,7 +132,8 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
         fragments = new BaseFragment[]{homeFragment, photosFragment, mediasFragment, filesFragment, settingsFragment};
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, homeFragment)
+        GsLog.d("是空的吗 "+fragmentTransaction.isEmpty());
+        fragmentTransaction.replace(R.id.fragment_container, homeFragment)
               /*  .add(R.id.fragment_container, monitorFragment).hide(monitorFragment)
                 .add(R.id.fragment_container, photosFragment).hide(photosFragment)
                 .add(R.id.fragment_container, mediasFragment).hide(mediasFragment)
@@ -214,7 +215,7 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
      * 将其他app发送过来的文件上传到远端
      */
     private void upLoadFile(String localpath, final String fileName) {
-        mUpLoadPath = "\\" + fileName;
+        mUpLoadPath = "\\shareIn\\" + fileName;
         mProgressDialog.show();
         GsJniManager.getInstance().upLoadOneFile(localpath, mUpLoadPath, new GsCallBack<GsSimpleResponse>() {
             @Override
@@ -312,7 +313,7 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
             FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
             trx.hide(fragments[currentTabIndex]);
             if (!fragments[index].isAdded()) {
-                trx.add(R.id.fragment_container, fragments[index]);
+                trx.replace(R.id.fragment_container, fragments[index]);
             }
             trx.show(fragments[index]).commitAllowingStateLoss();
         }

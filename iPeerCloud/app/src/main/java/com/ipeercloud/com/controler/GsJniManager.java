@@ -198,7 +198,7 @@ public class GsJniManager {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                GsLog.d("json数据： " + result);
+                //GsLog.d("json数据： " + result);
                 if (result == null) {
                     return;
                 }
