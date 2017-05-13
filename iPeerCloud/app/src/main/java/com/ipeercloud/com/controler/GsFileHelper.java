@@ -167,6 +167,9 @@ public class GsFileHelper {
             case GsFileType.TYPE_RMVB:
                 intent = getVideoFileIntent(path);
                 startActivity(context, intent);
+            case GsFileType.TYPE_MP3:
+                intent = getAudioFileIntent(path);
+                startActivity(context, intent);
                 break;
 
         }

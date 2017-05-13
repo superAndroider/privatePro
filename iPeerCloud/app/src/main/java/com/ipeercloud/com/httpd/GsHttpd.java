@@ -16,8 +16,8 @@ import fi.iki.elonen.NanoHTTPD;
  */
 
 public class GsHttpd extends NanoHTTPD {
+    public static  int fileSize = 0;
     public static  int bufSize = 1024 * 1024;
-    public static  final int BUF_SIZE = 1024 * 1024;
     private String fileName = "hkc.mp4";
     public static String sRemotePath;
     public GsHttpd(int port) {
@@ -31,8 +31,8 @@ public class GsHttpd extends NanoHTTPD {
         int start = getStart(range);
         byte[] buf = getFromJni(start,sRemotePath);
         Response response = new Response(NanoHTTPD.Response.Status.PARTIAL_CONTENT, "text/html", new ByteArrayInputStream(buf));
-        response.addHeader("Content-Length", "" + BUF_SIZE);
-        response.addHeader("Content-Range", "bytes " + start + "-" + (start+BUF_SIZE)+ "/" + bufSize);
+        response.addHeader("Content-Length", "" + bufSize);
+        response.addHeader("Content-Range", "bytes " + start + "-" + (start+bufSize)+ "/" + fileSize);
         return response;
     }
 

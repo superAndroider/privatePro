@@ -118,8 +118,7 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
         //getPhotos();
         testHttpd();
         EventBus.getDefault().register(this);
-        isOnLine();
-        GsLog.d("onCreate");
+       // GsLog.d("onCreate");
     }
 
     private void initFragment() {
@@ -159,13 +158,13 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        GsLog.d("onNewIntent");
+       // GsLog.d("onNewIntent");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        GsLog.d("onResume");
+        //GsLog.d("onResume");
         parseIntent();
 
 
@@ -257,26 +256,26 @@ public class MainActivity extends BaseAcitivity implements OnImagesLoadedListene
     @Override
     protected void onStart() {
         super.onStart();
-        GsLog.d("onStart");
+       // GsLog.d("onStart");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        GsLog.d("onStop");
+       // GsLog.d("onStop");
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        GsLog.d("onDestroy");
+       // GsLog.d("onDestroy");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        GsLog.d("onPause");
+       // GsLog.d("onPause");
         GsDataManager.getInstance().saveDataLocal();
     }
 

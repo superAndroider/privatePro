@@ -37,6 +37,8 @@ import io.vov.vitamio.Vitamio;
 import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
 
+import static io.vov.vitamio.MediaPlayer.VIDEOQUALITY_HIGH;
+
 public class VideoViewActivity extends Activity implements OnInfoListener, OnBufferingUpdateListener {
 
   /**
@@ -81,6 +83,7 @@ public class VideoViewActivity extends Activity implements OnInfoListener, OnBuf
       mVideoView.setVideoURI(uri);
       mVideoView.setMediaController(new MediaController(this));
       mVideoView.requestFocus();
+      mVideoView.setVideoQuality(VIDEOQUALITY_HIGH);
       mVideoView.setOnInfoListener(this);
       mVideoView.setOnBufferingUpdateListener(this);
       mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {

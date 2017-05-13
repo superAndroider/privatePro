@@ -151,7 +151,7 @@ public class GsFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         //点击条目，但是条目并没有下载
                         String path = mCurrentPath.toString() + "\\" + fileName;
                         GsHttpd.sRemotePath = path;
-//                    GsHttpd.bufSize = (int)mList.get(position).FileSize;
+                    GsHttpd.fileSize = (int)mList.get(position).FileSize;
                     VideoViewActivity.startActivity(context, fileName);
                     } else {
                         // 开始缓存
